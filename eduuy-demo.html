@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light">
+<title>EduUY — Demo Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  color-scheme:only light;
+  /* Core institutional palette (Uruguay) — deepened & refined */
+  --navy:#15315B;--navy-2:#1E4178;--blue:#2E5FA3;--lb:#4A90D9;
+  --gold:#E2A92F;--gold2:#F2A41C;
+  --page:#E4EAF4;--bg:#EFF3FA;--white:#fff;--text:#0F2140;--muted:#637493;--border:#DBE3F2;--border-2:#E8EEF8;
+  --green:#138A46;--red:#C73B2E;--orange:#E6822A;--purple:#7C3AED;
+  --crea:#00875A;--crea2:#006644;
+  --r:14px;--rs:10px;--rl:20px;
+  --sh-xs:0 1px 2px rgba(15,33,64,.06);
+  --sh-sm:0 1px 3px rgba(15,33,64,.07),0 1px 2px rgba(15,33,64,.04);
+  --sh:0 4px 14px rgba(15,33,64,.07),0 1px 3px rgba(15,33,64,.05);
+  --sh-md:0 10px 28px rgba(15,33,64,.10),0 3px 8px rgba(15,33,64,.06);
+  --sh-lg:0 22px 60px rgba(15,33,64,.18);
+  --sh-app:0 40px 90px rgba(11,26,52,.28),0 8px 24px rgba(11,26,52,.14);
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--page);color:var(--text);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+#APP{max-width:1080px;margin:0 auto;background:var(--bg);position:relative;}
+@media (min-width:1080px){
+  body{padding:30px 22px;background:radial-gradient(1200px 700px at 50% -15%,#EBF0FA,#D9E1F1 65%);}
+  #APP{border-radius:24px;overflow:hidden;box-shadow:var(--sh-app);}
+}
+.hidden{display:none!important;}
+.mode-bar{background:linear-gradient(180deg,#0C1B36,#0E2143);display:flex;padding:.5rem .8rem 0;gap:.25rem;overflow-x:auto;}
+.mode-bar::-webkit-scrollbar{display:none;}
+.mode-tab{padding:.52rem 1rem;font-size:.76rem;font-weight:700;color:rgba(255,255,255,.5);cursor:pointer;border-bottom:3px solid transparent;border-radius:8px 8px 0 0;white-space:nowrap;transition:all .2s;flex-shrink:0;}
+.mode-tab:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.05);}
+.mode-tab.active{color:#fff;background:rgba(255,255,255,.1);border-bottom-color:var(--gold);}
+.mode-tab.cm.active{border-bottom-color:#00D084;}
+.topbar{padding:.7rem 1.15rem;display:flex;align-items:center;justify-content:space-between;}
+.tb-navy{background:linear-gradient(180deg,var(--navy-2),var(--navy));}
+.tb-crea{background:linear-gradient(180deg,#00875A,var(--crea2));}
+.brand{font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;letter-spacing:-.3px;}
+.brand em{color:var(--gold);font-style:normal;}
+.rb{font-size:.66rem;font-weight:800;letter-spacing:.04em;padding:3px 10px;border-radius:20px;}
+.rb-a{background:var(--gold);color:var(--navy);}
+.rb-p{background:#E3EEFF;color:var(--navy);}
+.rb-s{background:#E3F8EA;color:var(--green);}
+.rb-c{background:#00D084;color:#003320;}
+.tbu{color:rgba(255,255,255,.82);font-size:.8rem;font-weight:600;}
+.tbbtn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;padding:4px 11px;border-radius:8px;cursor:pointer;font-size:.72rem;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;}
+.tbbtn:hover{background:rgba(255,255,255,.24);}
+.nav-tabs{background:var(--white);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:0 .7rem;box-shadow:var(--sh-xs);position:relative;z-index:2;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{padding:.62rem .9rem;font-size:.76rem;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;flex-shrink:0;transition:all .2s;}
+.nav-tab:hover{color:var(--blue);}
+.nav-tab.active{color:var(--navy);border-bottom-color:var(--gold);}
+.nav-tab.active.ca{border-bottom-color:var(--crea)!important;color:var(--crea)!important;}
+.ndot{display:inline-block;width:6px;height:6px;background:var(--red);border-radius:50%;margin-left:3px;vertical-align:middle;box-shadow:0 0 0 3px rgba(199,59,46,.15);}
+.content{padding:1.1rem;max-height:none;overflow-y:visible;}
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.card{background:var(--white);border-radius:var(--r);border:1px solid var(--border-2);padding:1.1rem;margin-bottom:.9rem;box-shadow:var(--sh);}
+.ct{font-family:'Sora',sans-serif;font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:.85rem;letter-spacing:-.2px;}
+.ct.cc{color:var(--crea);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;}
+.sb{background:var(--white);border:1px solid var(--border-2);border-radius:var(--rs);padding:.95rem .8rem;text-align:center;box-shadow:var(--sh-sm);}
+.sn{font-family:'Sora',sans-serif;font-size:1.65rem;font-weight:800;color:var(--navy);letter-spacing:-.6px;line-height:1.1;}
+.sl{font-size:.7rem;color:var(--muted);margin-top:5px;font-weight:600;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.01em;}
+.bg{background:#E3F8EA;color:#1A6B3A;} .bb{background:#E3EEFF;color:#1B3A6B;}
+.br{background:#FFE8E8;color:#8B1A1A;} .bo{background:#FFF3D0;color:#7A5000;}
+.bc{background:#E3F8EE;color:#006644;} .bpu{background:#F0E8FF;color:#5B21B6;}
+.alert{padding:.72rem .95rem;border-radius:var(--rs);font-size:.78rem;margin-bottom:.8rem;line-height:1.55;box-shadow:var(--sh-xs);}
+.ai{background:#EAF1FF;color:#1B3A6B;border-left:3px solid var(--blue);}
+.as{background:#E6F8EC;color:#1A6B3A;border-left:3px solid var(--green);}
+.ac{background:#E3F8EE;color:#006644;border-left:3px solid var(--crea);}
+.aw{background:#FFF6DA;color:#7A5000;border-left:3px solid var(--gold);}
+.ad{background:#FFEAEA;color:#8B1A1A;border-left:3px solid var(--red);}
+table{width:100%;border-collapse:collapse;font-size:.8rem;}
+th{background:var(--bg);color:var(--muted);font-weight:800;padding:.55rem .7rem;text-align:left;font-size:.66rem;text-transform:uppercase;letter-spacing:.05em;}
+th:first-child{border-radius:8px 0 0 8px;} th:last-child{border-radius:0 8px 8px 0;}
+td{padding:.62rem .7rem;border-bottom:1px solid var(--border-2);color:var(--text);}
+tr:last-child td{border-bottom:none;}
+table tr:hover td{background:#F7F9FE;}
+.fg{margin-bottom:.85rem;}
+label{font-size:.78rem;font-weight:700;color:var(--navy);display:block;margin-bottom:.35rem;}
+input[type=text],input[type=email],input[type=password],input[type=date],input[type=number],select,textarea{width:100%;padding:.56rem .8rem;border:1.5px solid var(--border);border-radius:var(--rs);font-size:.83rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);background:var(--white);transition:border-color .15s,box-shadow .15s;}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--lb);box-shadow:0 0 0 3px rgba(74,144,217,.16);}
+.btn{padding:.56rem 1.05rem;border-radius:var(--rs);font-weight:700;font-size:.82rem;cursor:pointer;border:none;font-family:'Plus Jakarta Sans',sans-serif;transition:all .16s;box-shadow:var(--sh-xs);}
+.bp{background:linear-gradient(180deg,var(--navy-2),var(--navy));color:#fff;}
+.bp:hover{background:linear-gradient(180deg,var(--blue),var(--navy-2));transform:translateY(-1px);box-shadow:var(--sh-md);}
+.bp:active{transform:translateY(0);}
+.bou{background:var(--white);border:1.5px solid var(--border);color:var(--navy);box-shadow:none;}
+.bou:hover{border-color:var(--lb);color:var(--blue);}
+.bsm{padding:.36rem .8rem;font-size:.76rem;}
+.bfull{width:100%;padding:.7rem;}
+.sch{display:grid;grid-template-columns:50px repeat(5,1fr);gap:4px;}
+.shh{background:linear-gradient(180deg,var(--navy-2),var(--navy));color:#fff;padding:.42rem;text-align:center;border-radius:6px;font-size:.68rem;font-weight:700;}
+.sht{background:var(--bg);color:var(--muted);padding:.35rem;text-align:center;border-radius:6px;font-size:.68rem;font-weight:600;display:flex;align-items:center;justify-content:center;}
+.shc{border-radius:6px;padding:.38rem .2rem;text-align:center;font-size:.63rem;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;box-shadow:var(--sh-xs);}
+.mat{background:#E3EEFF;color:#1B3A6B;} .sci{background:#E8F8ED;color:#1A6B3A;}
+.hist{background:#FFF3D0;color:#7A5000;} .ing{background:#FFE8F8;color:#6B1A4B;}
+.ef{background:#E8F0FF;color:#1A3A6B;} .lit{background:#F5EAE0;color:#6B3A1A;}
+.chat-wrap{display:flex;flex-direction:column;height:280px;}
+.chat-msgs{flex:1;overflow-y:auto;padding:.75rem;background:var(--bg);border-radius:var(--rs);margin-bottom:.65rem;}
+.msg{max-width:82%;margin-bottom:.65rem;}
+.msg-b{background:var(--white);border:1px solid var(--border-2);border-radius:4px 12px 12px 12px;padding:.58rem .9rem;font-size:.8rem;line-height:1.55;box-shadow:var(--sh-xs);}
+.msg-u{background:linear-gradient(180deg,var(--navy-2),var(--navy));color:#fff;border-radius:12px 4px 12px 12px;padding:.58rem .9rem;font-size:.8rem;line-height:1.55;margin-left:auto;box-shadow:var(--sh-xs);}
+.msg-s{font-size:.68rem;color:var(--muted);margin-bottom:3px;font-weight:600;}
+.chat-row{display:flex;gap:.5rem;}
+.cinp{flex:1;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:var(--rs);font-size:.8rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--text);transition:border-color .15s,box-shadow .15s;}
+.cinp:focus{outline:none;border-color:var(--lb);box-shadow:0 0 0 3px rgba(74,144,217,.16);}
+.sbtn{background:linear-gradient(180deg,var(--navy-2),var(--navy));color:#fff;border:none;border-radius:var(--rs);padding:.55rem .95rem;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all .16s;}
+.sbtn:hover{transform:translateY(-1px);box-shadow:var(--sh-sm);}
+.lang-sel{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem;}
+.lbtn{display:flex;align-items:center;gap:.35rem;padding:.42rem .8rem;border-radius:20px;border:2px solid var(--border);background:var(--white);cursor:pointer;font-size:.76rem;font-weight:700;color:var(--muted);transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;}
+.lbtn:hover{border-color:var(--lb);transform:translateY(-1px);}
+.sel-en{border-color:#1B3A6B!important;background:#E3EEFF!important;color:#1B3A6B!important;}
+.sel-pt{border-color:#1A8C42!important;background:#E3F8EA!important;color:#1A6B3A!important;}
+.sel-fr{border-color:#7C3AED!important;background:#F0E8FF!important;color:#5B21B6!important;}
+.sel-it{border-color:#C0392B!important;background:#FFE8E8!important;color:#8B1A1A!important;}
+.sel-es{border-color:#E8B84B!important;background:#FFF3D0!important;color:#7A5000!important;}
+.game-box{background:linear-gradient(160deg,#F4F7FD,var(--bg));border:1px solid var(--border-2);border-radius:var(--r);padding:1.1rem;box-shadow:var(--sh-sm);}
+.prow{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem;}
+.pbar{flex:1;background:var(--border);border-radius:20px;height:7px;overflow:hidden;}
+.pfill{height:7px;border-radius:20px;transition:width .4s;}
+.pf-en{background:linear-gradient(to right,var(--blue),var(--gold));}
+.pf-pt{background:linear-gradient(to right,var(--green),var(--gold));}
+.pf-fr{background:linear-gradient(to right,var(--purple),var(--gold));}
+.pf-it{background:linear-gradient(to right,var(--red),var(--gold));}
+.pf-es{background:linear-gradient(to right,var(--orange),var(--gold));}
+.gword{font-family:'Sora',sans-serif;font-size:2rem;font-weight:800;color:var(--navy);text-align:center;margin:.8rem 0 .4rem;letter-spacing:-.5px;}
+.ghint{text-align:center;color:var(--muted);font-size:.76rem;margin-bottom:.95rem;font-weight:600;}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;}
+.obt{padding:.75rem;border:2px solid var(--border);border-radius:var(--rs);background:var(--white);cursor:pointer;font-weight:700;font-size:.83rem;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s;color:var(--text);box-shadow:var(--sh-xs);}
+.obt:hover{border-color:var(--lb);background:#EEF5FF;transform:translateY(-1px);}
+.obt.correct{border-color:var(--green);background:#E8F8ED;color:#1A6B3A;}
+.obt.wrong{border-color:var(--red);background:#FFE8E8;color:#8B1A1A;}
+.lvbadge{font-size:.65rem;font-weight:800;padding:2px 8px;border-radius:20px;}
+.a1{background:#E3F8EA;color:#1A6B3A;} .a2{background:#E3EEFF;color:#1B3A6B;}
+.b1{background:#FFF3D0;color:#7A5000;} .b2{background:#F0E8FF;color:#5B21B6;}
+.ptsbadge{background:rgba(226,169,47,.15);color:var(--gold2);font-size:.74rem;font-weight:800;padding:3px 11px;border-radius:20px;}
+.crea-hd{background:linear-gradient(180deg,#00875A,var(--crea));padding:.7rem 1rem;display:flex;align-items:center;justify-content:space-between;border-radius:var(--r) var(--r) 0 0;}
+.crea-bd{background:var(--white);border:1px solid #00875A25;border-top:none;border-radius:0 0 var(--r) var(--r);padding:.9rem;box-shadow:var(--sh-sm);}
+.cres{display:flex;align-items:center;gap:.65rem;padding:.55rem 0;border-bottom:1px solid var(--border-2);}
+.cres:last-child{border-bottom:none;}
+.crico{width:38px;height:38px;border-radius:var(--rs);background:#E3F8EE;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.crtit{font-size:.82rem;font-weight:700;color:var(--text);}
+.crsub{font-size:.7rem;color:var(--muted);}
+.crbadge{font-size:.66rem;font-weight:700;background:#E3F8EE;color:var(--crea2);padding:2px 8px;border-radius:20px;margin-left:auto;flex-shrink:0;}
+.intbox{background:var(--white);border:1.5px dashed var(--border);border-radius:var(--rs);padding:.65rem;font-size:.75rem;color:var(--muted);text-align:center;}
+.intbox.conn{border-color:var(--crea);background:#E3F8EE;color:var(--crea2);font-weight:700;}
+.dot-a{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--crea);margin:0 2px;animation:blink 1.4s infinite both;}
+.dot-a:nth-child(2){animation-delay:.2s;}.dot-a:nth-child(3){animation-delay:.4s;}
+@keyframes blink{0%,80%,100%{opacity:0;}40%{opacity:1;}}
+.sub-row{display:flex;align-items:center;padding:.55rem .75rem;border-bottom:1px solid var(--border-2);gap:.65rem;}
+.sub-row:last-child{border-bottom:none;}
+.gc{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;}
+.gp{background:#E3F8EA;color:#1A6B3A;} .gm{background:#FFF3D0;color:#7A5000;} .gf{background:#FFE8E8;color:#8B1A1A;}
+.mood-row{display:flex;gap:.6rem;justify-content:center;margin:.8rem 0;}
+.mbt{width:48px;height:48px;border-radius:50%;border:2px solid var(--border);background:var(--white);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:var(--sh-xs);}
+.mbt:hover{transform:scale(1.12);border-color:var(--lb);}
+.mbt.ms{border-color:var(--navy);background:#E3EEFF;}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:4px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.bell-wrap{position:relative;cursor:pointer;display:flex;align-items:center;}
+.bell-badge{position:absolute;top:-4px;right:-4px;background:#e53e3e;color:#fff;font-size:.55rem;font-weight:800;width:15px;height:15px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px var(--navy);}
+.notif-panel{position:fixed;top:0;right:0;width:340px;height:100vh;background:var(--white);border-left:1px solid var(--border);z-index:1000;display:flex;flex-direction:column;box-shadow:-12px 0 40px rgba(11,26,52,.22);}
+.notif-header{padding:.95rem 1rem;background:linear-gradient(180deg,var(--navy-2),var(--navy));display:flex;align-items:center;justify-content:space-between;}
+.notif-list{flex:1;overflow-y:auto;padding:.5rem;}
+.notif-item{padding:.75rem .85rem;border-bottom:1px solid var(--border-2);display:flex;gap:.65rem;align-items:flex-start;border-radius:10px;transition:background .15s;}
+.notif-item.unread{background:#EEF3FF;}
+.notif-item:hover{background:#F4F7FE;}
+.notif-ico{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.notif-title{font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.notif-sub{font-size:.72rem;color:var(--muted);}
+.notif-time{font-size:.65rem;color:var(--muted);margin-top:3px;}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:linear-gradient(180deg,var(--navy-2),var(--navy));color:#fff;padding:.72rem 1.1rem;border-radius:12px;box-shadow:var(--sh-lg);font-size:.8rem;font-weight:700;z-index:1200;max-width:min(420px,calc(100vw - 2rem));text-align:center;}
+@media (max-width:700px){
+  .topbar{flex-wrap:wrap;gap:.45rem;}
+  .topbar>div:last-child{flex-wrap:wrap;justify-content:flex-end;}
+  .g2,.g3,.g4,.opts{grid-template-columns:1fr;}
+  .notif-panel{width:min(340px,100vw);}
+  .sch{min-width:540px;}
+}
+@keyframes blink2{0%,100%{opacity:1;}50%{opacity:.3;}}
+</style>
+</head>
+<body>
+<div id="APP">
+
+<div class="mode-bar">
+  <div class="mode-tab active" onclick="setMode('login',this)">🏠 Inicio</div>
+  <div class="mode-tab" onclick="setMode('director',this)">👔 Director</div>
+  <div class="mode-tab" onclick="setMode('admin',this)">🏫 Docente</div>
+  <div class="mode-tab" onclick="setMode('adscripto',this)">📋 Adscripto</div>
+  <div class="mode-tab" onclick="setMode('parent',this)">👨‍👩‍👧 Padre / Tutor</div>
+  <div class="mode-tab" onclick="setMode('student',this)">🎒 Estudiante</div>
+</div>
+<div id="offline-bar" class="hidden" style="background:#FFF3D0;border-bottom:1px solid #E8B84B;padding:.35rem 1rem;display:flex;align-items:center;gap:.5rem;font-size:.76rem;color:#7A5000;font-family:'Plus Jakarta Sans',sans-serif;">
+  <span style="width:8px;height:8px;background:#E8B84B;border-radius:50%;flex-shrink:0;animation:blink2 2s infinite;"></span>
+  <span>Sin conexión — EduUY sigue funcionando en modo offline. Los datos se sincronizarán automáticamente cuando vuelva el internet.</span>
+  <button onclick="simulateOnline()" style="margin-left:auto;background:#E8B84B;color:#7A5000;border:none;border-radius:6px;padding:2px 8px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Simular reconexión</button>
+</div>
+
+<div id="v-login"></div>
+
+<div id="v-director" class="hidden">
+  <div class="topbar tb-navy">
+    <div class="brand">Edu<em>UY</em></div>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <span class="rb" style="background:#E8B84B;color:#1B3A6B;">DIRECTOR</span>
+      <span class="tbu">Prof. Roberto Suárez</span>
+	      <div class="bell-wrap" onclick="toggleNotif('director')"><span style="font-size:1.2rem;">🔔</span><span class="bell-badge">3</span></div>
+      <button class="tbbtn" onclick="setMode('login',null)">Salir</button>
+    </div>
+  </div>
+  <div class="nav-tabs" id="dt">
+    <div class="nav-tab active" onclick="dTab('dashboard',this)">Dashboard</div>
+    <div class="nav-tab" onclick="dTab('liceo',this)">Mi liceo</div>
+    <div class="nav-tab" onclick="dTab('riesgo',this)">Alumnos en riesgo</div>
+    <div class="nav-tab" onclick="dTab('docentes',this)">Docentes</div>
+  </div>
+  <div class="content" id="dc"></div>
+</div>
+
+<div id="v-adscripto" class="hidden">
+  <div class="topbar tb-navy">
+    <div class="brand">Edu<em>UY</em></div>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <span class="rb" style="background:#7C3AED;color:#fff;">ADSCRIPTO</span>
+      <span class="tbu">Laura Fernández</span>
+      <div class="bell-wrap" onclick="toggleNotif('adscripto')"><span style="font-size:1.2rem;">🔔</span><span class="bell-badge">5</span></div>
+      <button class="tbbtn" onclick="setMode('login',null)">Salir</button>
+    </div>
+  </div>
+  <div class="nav-tabs" id="xt">
+    <div class="nav-tab active" onclick="xTab('dashboard',this)">Dashboard</div>
+    <div class="nav-tab" onclick="xTab('boletines',this)">Boletines <span class="ndot"></span></div>
+    <div class="nav-tab" onclick="xTab('justificaciones',this)">Justificaciones <span class="ndot"></span></div>
+    <div class="nav-tab" onclick="xTab('seguimiento',this)">Seguimiento</div>
+    <div class="nav-tab" onclick="xTab('inscripciones',this)">Inscripciones</div>
+    <div class="nav-tab" onclick="xTab('comunicaciones',this)">Comunicaciones</div>
+    <div class="nav-tab" onclick="xTab('chat',this)">Chat familias <span class="ndot"></span></div>
+    <div class="nav-tab" onclick="xTab('reportes',this)">Reportes anónimos <span class="ndot"></span></div>
+  </div>
+  <div class="content" id="xc"></div>
+</div>
+
+<div id="v-admin" class="hidden">
+  <div class="topbar tb-navy">
+    <div class="brand">Edu<em>UY</em></div>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <span class="rb rb-a">DOCENTE</span><span class="tbu">Prof. María González</span>
+      <div class="bell-wrap" onclick="toggleNotif('admin')"><span style="font-size:1.2rem;">🔔</span><span class="bell-badge">3</span></div>
+      <button class="tbbtn" onclick="setMode('login',null)">Salir</button>
+    </div>
+  </div>
+  <div class="nav-tabs" id="at">
+    <div class="nav-tab active" onclick="aTab('inicio',this)">Inicio</div>
+    <div class="nav-tab" onclick="aTab('asistencia',this)">Asistencia</div>
+    <div class="nav-tab" onclick="aTab('notas',this)">Notas</div>
+    <div class="nav-tab" onclick="aTab('tareas',this)">Tareas</div>
+    <div class="nav-tab" onclick="aTab('clases',this)">Clases 🎥</div>
+    <div class="nav-tab" onclick="aTab('horarios',this)">Horarios</div>
+    <div class="nav-tab" onclick="aTab('rendimiento',this)">Rendimiento</div>
+    <div class="nav-tab" onclick="aTab('docentes',this)">Red docentes</div>
+    <div class="nav-tab" onclick="aTab('chat',this)">Chat <span class="ndot"></span></div>
+  </div>
+  <div class="content" id="ac"></div>
+</div>
+
+<div id="v-parent" class="hidden">
+  <div class="topbar tb-navy">
+    <div class="brand">Edu<em>UY</em></div>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <span class="rb rb-p">TUTOR</span><span class="tbu">Carlos Rodríguez</span>
+	      <div class="bell-wrap" onclick="toggleNotif('parent')"><span style="font-size:1.2rem;">🔔</span><span class="bell-badge">4</span></div>
+      <button class="tbbtn" onclick="setMode('login',null)">Salir</button>
+    </div>
+  </div>
+  <div class="nav-tabs" id="pt">
+    <div class="nav-tab active" onclick="pTab('inicio',this)">Inicio</div>
+    <div class="nav-tab" onclick="pTab('boletin',this)">Boletín</div>
+    <div class="nav-tab" onclick="pTab('rendimiento',this)">Rendimiento</div>
+    <div class="nav-tab" onclick="pTab('asistencia',this)">Asistencia</div>
+    <div class="nav-tab" onclick="pTab('inscripcion',this)">Inscripción</div>
+    <div class="nav-tab" onclick="pTab('liceos',this)">Liceos</div>
+    <div class="nav-tab" onclick="pTab('chat',this)">Chat <span class="ndot"></span></div>
+  </div>
+  <div class="content" id="pc"></div>
+</div>
+
+<div id="v-student" class="hidden">
+  <div class="topbar tb-navy">
+    <div class="brand">Edu<em>UY</em></div>
+    <div style="display:flex;align-items:center;gap:.5rem;">
+      <span class="rb rb-s">ESTUDIANTE</span><span class="tbu">Valentina R.</span>
+      <div class="bell-wrap" onclick="toggleNotif('student')"><span style="font-size:1.2rem;">🔔</span><span class="bell-badge">2</span></div>
+      <button class="tbbtn" onclick="setMode('login',null)">Salir</button>
+    </div>
+  </div>
+  <div class="nav-tabs" id="st">
+    <div class="nav-tab active" onclick="sTab('inicio',this)">Inicio</div>
+    <div class="nav-tab" onclick="sTab('tareas',this)">Tareas</div>
+    <div class="nav-tab" onclick="sTab('horario',this)">Horario</div>
+    <div class="nav-tab" onclick="sTab('clases',this)">Clases 🎥</div>
+    <div class="nav-tab" onclick="sTab('idiomas',this)">Idiomas 🎮</div>
+    <div class="nav-tab" onclick="sTab('biblioteca',this)">Biblioteca</div>
+    <div class="nav-tab" onclick="sTab('orientacion',this)">Orientación</div>
+    <div class="nav-tab" onclick="sTab('bienestar',this)">Bienestar</div>
+    <div class="nav-tab" onclick="sTab('chatbot',this)">EduBot IA</div>
+  </div>
+  <div class="content" id="sc"></div>
+</div>
+
+</div>
+
+<!-- NOTIFICATION PANEL -->
+<div id="notif-panel" class="notif-panel hidden">
+  <div class="notif-header">
+    <span style="color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:.9rem;">🔔 Notificaciones</span>
+    <button onclick="toggleNotif()" style="background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:6px;padding:3px 10px;cursor:pointer;font-size:.75rem;font-family:'Plus Jakarta Sans',sans-serif;">Cerrar</button>
+  </div>
+  <div class="notif-list" id="notif-list"></div>
+</div>
+<div id="notif-overlay" class="hidden" onclick="toggleNotif()" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.3);z-index:999;"></div>
+<div id="toast" class="toast hidden"></div>
+
+<script>
+const VB={
+  en:{n:'Inglés',f:'🇬🇧',cl:'sel-en',pf:'pf-en',w:[
+    {q:'Cuaderno',a:'Notebook',o:['Notebook','Pencil','Eraser','Ruler'],l:'A1'},
+    {q:'Biblioteca',a:'Library',o:['School','Library','Classroom','Office'],l:'A1'},
+    {q:'Tarea',a:'Homework',o:['Homework','Exam','Test','Quiz'],l:'A2'},
+    {q:'Pizarrón',a:'Blackboard',o:['Blackboard','Window','Door','Table'],l:'B1'},
+    {q:'Mochila',a:'Backpack',o:['Backpack','Briefcase','Bag','Purse'],l:'A1'},
+    {q:'Consecuencia',a:'Consequence',o:['Consequence','Cause','Effect','Result'],l:'B2'},
+  ]},
+  pt:{n:'Portugués',f:'🇧🇷',cl:'sel-pt',pf:'pf-pt',w:[
+    {q:'Casa',a:'Casa',o:['Casa','Escola','Praça','Rua'],l:'A1'},
+    {q:'Cuaderno',a:'Caderno',o:['Caderno','Lápis','Borracha','Régua'],l:'A1'},
+    {q:'Escuela',a:'Escola',o:['Escola','Biblioteca','Parque','Museu'],l:'A2'},
+    {q:'Trabajo',a:'Trabalho',o:['Trabalho','Emprego','Cargo','Função'],l:'B1'},
+    {q:'Amigo',a:'Amigo',o:['Amigo','Inimigo','Colega','Vizinho'],l:'A1'},
+  ]},
+  fr:{n:'Francés',f:'🇫🇷',cl:'sel-fr',pf:'pf-fr',w:[
+    {q:'Libro',a:'Livre',o:['Livre','Cahier','Stylo','Crayon'],l:'A1'},
+    {q:'Escuela',a:'École',o:['École','Maison','Parc','Gare'],l:'A1'},
+    {q:'Trabajo',a:'Travail',o:['Travail','Emploi','Poste','Métier'],l:'A2'},
+    {q:'Conocimiento',a:'Connaissance',o:['Connaissance','Savoir','Maîtrise','Expertise'],l:'B1'},
+    {q:'Amigo',a:'Ami',o:['Ami','Ennemi','Voisin','Collègue'],l:'A1'},
+  ]},
+  it:{n:'Italiano',f:'🇮🇹',cl:'sel-it',pf:'pf-it',w:[
+    {q:'Casa',a:'Casa',o:['Casa','Scuola','Parco','Museo'],l:'A1'},
+    {q:'Libro',a:'Libro',o:['Libro','Quaderno','Penna','Matita'],l:'A1'},
+    {q:'Gracias',a:'Grazie',o:['Grazie','Prego','Ciao','Buongiorno'],l:'A1'},
+    {q:'Escuela',a:'Scuola',o:['Scuola','Ufficio','Negozio','Banca'],l:'A2'},
+  ]},
+	  es:{n:'Español',f:'🇪🇸',cl:'sel-es',pf:'pf-es',w:[
+    {q:'Bonjour (FR)',a:'Hola',o:['Hola','Adiós','Gracias','Por favor'],l:'A1'},
+    {q:'House (EN)',a:'Casa',o:['Casa','Mesa','Silla','Puerta'],l:'A1'},
+    {q:'Trabalho (PT)',a:'Trabajo',o:['Trabajo','Empleo','Cargo','Puesto'],l:'A2'},
+    {q:'Libro (IT)',a:'Libro',o:['Libro','Lápiz','Papel','Goma'],l:'A1'},
+  ]},
+};
+
+let G={lang:'en',idx:0,score:{en:0,pt:0,fr:0,it:0,es:0},ans:false,chatH:[],botLoad:false,mood:null,hijoSel:0,studentTab:'inicio',gameTimer:null,voc:null,notasTab:'registro'};
+let toastTimer=null;
+
+function setMode(m,el){
+  ['login','director','admin','adscripto','parent','student'].forEach(v=>
+    document.getElementById('v-'+v).classList.toggle('hidden',v!==m)
+  );
+  if(el){document.querySelectorAll('.mode-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+  if(m==='login')      renderLogin();
+  if(m==='director')   renderD('dashboard');
+  if(m==='admin')      renderA('inicio');
+  if(m==='adscripto')  renderX('dashboard');
+  if(m==='parent')     renderP('inicio');
+  if(m==='student')    renderS('inicio');
+
+}
+function quickLogin(r){
+  const tabs=document.querySelectorAll('.mode-tab');
+  const map={admin:2,adscripto:3,parent:4,student:5};
+  setMode(r,tabs[map[r]]||tabs[0]);
+}
+function aTab(t,el){tsw('at',el);renderA(t);}
+function dTab(t,el){tsw('dt',el);renderD(t);}
+function xTab(t,el){tsw('xt',el);renderX(t);}
+function pTab(t,el){tsw('pt',el);renderP(t);}
+function sTab(t,el){tsw('st',el);renderS(t);}
+function tsw(id,el,ca=false){
+  document.querySelectorAll('#'+id+' .nav-tab').forEach(t=>t.classList.remove('active','ca'));
+  el.classList.add('active');if(ca)el.classList.add('ca');
+}
+function demoAction(msg){
+  const toast=document.getElementById('toast');
+  if(!toast)return;
+  toast.textContent=msg;
+  toast.classList.remove('hidden');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>toast.classList.add('hidden'),2200);
+}
+function escapeHTML(v){
+  return String(v).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function nl2br(v){return escapeHTML(v).replace(/\n/g,'<br>');}
+
+function renderLogin(){
+  document.getElementById('v-login').innerHTML=`
+  <div style="background:linear-gradient(160deg,#0D1F3C,#1B3A6B,#2E5FA3);min-height:540px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-100px;right:-100px;width:350px;height:350px;border-radius:50%;background:rgba(74,144,217,.07);"></div>
+    <div style="position:absolute;bottom:-80px;left:-80px;width:280px;height:280px;border-radius:50%;background:rgba(232,184,75,.05);"></div>
+    <div style="font-family:'Sora',sans-serif;font-size:2.8rem;font-weight:800;color:#fff;letter-spacing:-2px;margin-bottom:.3rem;position:relative;">Edu<span style="color:#E8B84B;">UY</span></div>
+    <div style="color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:.5rem;">Plataforma Educativa Pública de Uruguay</div>
+    <div style="height:4px;background:linear-gradient(to right,#fff 33%,#1B3A6B 33% 66%,#E8B84B 66%);border-radius:2px;width:160px;margin-bottom:2.25rem;"></div>
+    <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:1.9rem;width:100%;max-width:440px;position:relative;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 28px 70px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.12);">
+      <div style="text-align:center;font-weight:700;color:rgba(255,255,255,.8);font-size:.88rem;margin-bottom:1.25rem;">Seleccioná tu tipo de acceso</div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:1.5rem;" id="role-cards"></div>
+      <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:1.25rem;">
+        <div class="fg">
+          <label style="color:rgba(255,255,255,.65);">Correo electrónico</label>
+          <input type="email" placeholder="tucorreo@mail.com" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;">
+        </div>
+        <div class="fg">
+          <label style="color:rgba(255,255,255,.65);">Contraseña</label>
+          <input type="password" placeholder="••••••••" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;">
+        </div>
+	        <button class="btn bfull" style="background:#E8B84B;color:#1B3A6B;font-size:.88rem;" onclick="quickLogin('student')">Ingresar →</button>
+	        <div style="display:flex;justify-content:space-between;margin-top:.85rem;">
+	          <span onclick="demoAction('Te enviaríamos un enlace de recuperación por correo.')" style="font-size:.75rem;color:rgba(255,255,255,.45);cursor:pointer;">¿Olvidaste tu contraseña?</span>
+	          <span onclick="demoAction('En la versión final, el registro se valida con ANEP/Ceibal.')" style="font-size:.75rem;color:#4A90D9;cursor:pointer;font-weight:700;">Registrarse</span>
+	        </div>
+      </div>
+    </div>
+    <div style="color:rgba(255,255,255,.3);font-size:.72rem;margin-top:1.5rem;">Sistema ANEP · Educación Secundaria · Uruguay</div>
+  </div>
+  <div style="background:linear-gradient(180deg,#F5F8FD,#FFFFFF);padding:2.25rem 1.5rem;">
+    <div style="text-align:center;margin-bottom:1.5rem;">
+      <div style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:.35rem;">Impacto EduUY — Piloto Fase 1</div>
+	      <div style="font-size:.82rem;color:var(--muted);">3 liceos · Montevideo · Marzo-Mayo 2026</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1.5rem;">
+      <div style="background:var(--white);border:1px solid var(--border-2);border-radius:var(--r);padding:1.1rem;text-align:center;box-shadow:var(--sh-sm);"><div style="font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:700;color:var(--navy);">2.847</div><div style="font-size:.75rem;color:var(--muted);margin-top:3px;">Usuarios activos</div></div>
+      <div style="background:var(--white);border:1px solid var(--border-2);border-radius:var(--r);padding:1.1rem;text-align:center;box-shadow:var(--sh-sm);"><div style="font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:700;color:var(--green);">94%</div><div style="font-size:.75rem;color:var(--muted);margin-top:3px;">Padres registrados</div></div>
+      <div style="background:var(--white);border:1px solid var(--border-2);border-radius:var(--r);padding:1.1rem;text-align:center;box-shadow:var(--sh-sm);"><div style="font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:700;color:var(--blue);">18.420</div><div style="font-size:.75rem;color:var(--muted);margin-top:3px;">Asistencias registradas</div></div>
+      <div style="background:var(--white);border:1px solid var(--border-2);border-radius:var(--r);padding:1.1rem;text-align:center;box-shadow:var(--sh-sm);"><div style="font-family:'Sora',sans-serif;font-size:1.8rem;font-weight:700;color:var(--gold2);">4.210</div><div style="font-size:.75rem;color:var(--muted);margin-top:3px;">Pts. idiomas ganados</div></div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border-2);border-radius:var(--r);padding:1.1rem;margin-bottom:1rem;box-shadow:var(--sh-sm);">
+      <div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.35rem;">📈 Evolución de adopción semanal</div>
+      <div style="font-size:.74rem;color:var(--muted);margin-bottom:.65rem;">Usuarios activos por semana desde el lanzamiento</div>
+      <div style="display:flex;align-items:flex-end;gap:5px;height:80px;">
+        ${[180,420,680,890,1100,1380,1720,2100,2450,2847].map((v,i)=>`
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <div style="width:100%;background:var(--blue);border-radius:3px 3px 0 0;height:${Math.round((v/2847)*80)}px;min-height:4px;"></div>
+          <div style="font-size:.6rem;color:var(--muted);margin-top:2px;">S${i+1}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div style="background:var(--white);border:1px solid var(--border-2);border-radius:var(--r);padding:1.1rem;box-shadow:var(--sh-sm);">
+      <div style="font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.65rem;">💬 Satisfacción de usuarios</div>
+      ${[['Docentes','8.4'],['Padres','9.1'],['Estudiantes','8.7'],['Directores','8.9']].map(([r,n])=>`
+      <div style="display:flex;align-items:center;gap:.65rem;margin-bottom:.4rem;">
+        <span style="font-size:.78rem;width:85px;">${r}</span>
+        <div style="flex:1;background:var(--border);border-radius:20px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:20px;background:var(--blue);width:${parseFloat(n)*10}%;"></div></div>
+        <span style="font-size:.75rem;font-weight:700;color:var(--green);">${n}/10</span>
+      </div>`).join('')}
+    </div>
+  </div>`;
+  const roles=[
+    ['🏫','Docente','Asistencia · Notas · Comunicación','admin'],
+    ['📋','Adscripto','Justificaciones · Inscripciones · Seguimiento','adscripto'],
+    ['👨‍👩‍👧','Padre / Tutor','Seguimiento familiar','parent'],
+    ['🎒','Estudiante','Tareas · Horarios · Juegos','student'],
+  ];
+  const container=document.getElementById('role-cards');
+  roles.forEach(([ic,n,s,r])=>{
+    const d=document.createElement('div');
+    d.style.cssText='background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);border-radius:15px;padding:1.15rem .75rem;text-align:center;cursor:pointer;transition:all .2s;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 6px 18px rgba(0,0,0,.18);';
+    d.innerHTML=`<div style="font-size:1.9rem;margin-bottom:.5rem;">${ic}</div><div style="font-size:.78rem;font-weight:700;color:#fff;">${n}</div><div style="font-size:.65rem;color:rgba(255,255,255,.5);margin-top:3px;">${s}</div>`;
+    d.onmouseover=()=>{d.style.borderColor='#E8B84B';d.style.background='rgba(255,255,255,.16)';d.style.transform='translateY(-2px)';};
+    d.onmouseout=()=>{d.style.borderColor='rgba(255,255,255,.18)';d.style.background='rgba(255,255,255,.08)';d.style.transform='translateY(0)';};
+    d.onclick=()=>quickLogin(r);
+    container.appendChild(d);
+  });
+}
+
+function renderA(t){
+  const c=document.getElementById('ac');
+  if(t==='inicio')c.innerHTML=`
+	    <div class="alert ai">📢 14 alumnos registraron asistencia en 1°A hoy. Boletín se presenta el viernes 29/05.</div>
+    <div class="g3" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn">28</div><div class="sl">Alumnos 1°A</div></div>
+      <div class="sb"><div class="sn">87%</div><div class="sl">Asistencia media</div></div>
+      <div class="sb"><div class="sn">6</div><div class="sl">Tareas activas</div></div>
+    </div>
+    <div class="card"><div class="ct">📋 Próximas clases</div>
+    <table><tr><th>Materia</th><th>Grupo</th><th>Día</th><th>Estado</th></tr>
+    <tr><td>Matemática</td><td>1°A</td><td>Lunes 08:00</td><td><span class="badge bg">Confirmada</span></td></tr>
+    <tr><td>Matemática</td><td>2°B</td><td>Martes 10:30</td><td><span class="badge bg">Confirmada</span></td></tr>
+    <tr><td>Matemática</td><td>1°A</td><td>Miércoles 08:00</td><td><span class="badge bo">Por confirmar</span></td></tr>
+    </table></div>
+    <div class="card"><div class="ct">⚠️ Avisar ausencia o tardanza</div>
+    <div class="g2">
+      <div class="fg"><label>Tipo de aviso</label><select><option>Voy a faltar</option><option>Llego tarde</option></select></div>
+	      <div class="fg"><label>Fecha</label><input type="date" value="2026-05-29"></div>
+    </div>
+    <div class="fg"><label>Motivo</label><input type="text" placeholder="Motivo del aviso..."></div>
+	    <button class="btn bp bsm" onclick="demoAction('Aviso enviado. Dirección, familias y grupos quedan notificados.')">Enviar aviso al sistema</button></div>`;
+
+	  else if(t==='asistencia')c.innerHTML=`<div class="card"><div class="ct">✅ Registrar asistencia — 1°A · Viernes 29/05</div>
+    <table><tr><th>Alumno</th><th>Presente</th><th>Tarde</th><th>Ausente</th></tr>
+    <tr><td>Valentina R.</td><td><input type="radio" name="a0" checked></td><td><input type="radio" name="a0"></td><td><input type="radio" name="a0"></td></tr>
+    <tr><td>Lucas M.</td><td><input type="radio" name="a1" checked></td><td><input type="radio" name="a1"></td><td><input type="radio" name="a1"></td></tr>
+    <tr><td>Sofía P.</td><td><input type="radio" name="a2" checked></td><td><input type="radio" name="a2"></td><td><input type="radio" name="a2"></td></tr>
+    <tr><td>Mateo G.</td><td><input type="radio" name="a3" checked></td><td><input type="radio" name="a3"></td><td><input type="radio" name="a3"></td></tr>
+    <tr><td>Isabella L.</td><td><input type="radio" name="a4"></td><td><input type="radio" name="a4"></td><td><input type="radio" name="a4" checked></td></tr>
+    </table>
+	    <div style="margin-top:.75rem;"><button class="btn bp bsm" onclick="demoAction('Asistencia guardada. Las familias reciben avisos en tiempo real.')">Guardar asistencia</button></div></div>`;
+
+  else if(t==='notas'){
+    if(!G.notasTab) G.notasTab='registro';
+    renderNotas(c);
+  }
+
+  else if(t==='tareas')c.innerHTML=`
+    <div class="card"><div class="ct">📌 Nueva tarea</div>
+    <div class="g2">
+      <div class="fg"><label>Materia</label><select><option>Matemática</option><option>Historia</option><option>Literatura</option></select></div>
+	      <div class="fg"><label>Fecha de entrega</label><input type="date" value="2026-06-05"></div>
+    </div>
+    <div class="fg"><label>Título</label><input type="text" placeholder="Ej: Ejercicios pág. 45-48"></div>
+    <div class="fg"><label>Descripción</label><textarea rows="2" placeholder="Detalle de la tarea..."></textarea></div>
+    <div class="fg">
+      <label>Adjuntar archivo (PDF, DOC, imagen)</label>
+      <div id="drop-zone" onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault();this.style.borderColor='var(--lb)';this.style.background='#EEF5FF';" ondragleave="this.style.borderColor='var(--border)';this.style.background='var(--bg)';" ondrop="handleFileDrop(event)" style="border:2px dashed var(--border);border-radius:var(--rs);padding:1rem;text-align:center;color:var(--muted);font-size:.82rem;cursor:pointer;background:var(--bg);transition:all .2s;">
+        <div style="font-size:1.5rem;margin-bottom:.3rem;">📎</div>
+        <div style="font-weight:700;color:var(--navy);margin-bottom:.2rem;">Tocá para seleccionar o arrastrá un archivo</div>
+        <div style="font-size:.72rem;">PDF, DOC, DOCX, JPG, PNG — máx. 10MB</div>
+      </div>
+      <input type="file" id="file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none;" onchange="handleFileSelect(this)">
+      <div id="file-preview" class="hidden" style="margin-top:.5rem;background:#E3EEFF;border-radius:var(--rs);padding:.6rem .85rem;display:flex;align-items:center;gap:.65rem;">
+        <span style="font-size:1.2rem;" id="file-ico">📄</span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:.8rem;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="file-name"></div>
+          <div style="font-size:.7rem;color:var(--muted);" id="file-size"></div>
+        </div>
+        <button onclick="clearFile()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;padding:0;">✕</button>
+      </div>
+    </div>
+	    <button class="btn bp bsm" onclick="publishTarea()">Publicar tarea</button></div>
+    <div class="card"><div class="ct">📂 Tareas publicadas</div>
+    <table><tr><th>Tarea</th><th>Materia</th><th>Vence</th><th>Entregadas</th></tr>
+	    <tr><td>Ejercicios cap. 5</td><td>Matemática</td><td>28/05</td><td><span class="badge bg">22/28</span></td></tr>
+	    <tr><td>Análisis Independencia</td><td>Historia</td><td>30/05</td><td><span class="badge bo">15/28</span></td></tr>
+	    <tr><td>Ensayo "El Quijote"</td><td>Literatura</td><td>27/05</td><td><span class="badge br">8/28</span></td></tr>
+    </table></div>`;
+
+  else if(t==='clases')c.innerHTML=`
+    <div class="card"><div class="ct">🔴 Clase en vivo ahora</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:var(--rs);padding:.85rem;margin-bottom:.75rem;">
+      <div>
+        <div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.3rem;">
+          <span style="background:#e53e3e;color:#fff;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:20px;">EN VIVO</span>
+          <span style="font-weight:700;font-size:.9rem;">Matemática — 1°A</span>
+        </div>
+        <div style="font-size:.74rem;color:var(--muted);">14 alumnos conectados · 32 min transcurridos</div>
+      </div>
+	      <button class="btn bp bsm" onclick="demoAction('Abriendo sala de clase en vivo para Matemática 1°A...')">Unirme →</button>
+    </div></div>
+    <div class="card"><div class="ct">📹 Subir clase grabada</div>
+    <div class="g2">
+      <div class="fg"><label>Materia</label><select><option>Matemática</option><option>Historia</option><option>Literatura</option></select></div>
+	      <div class="fg"><label>Fecha</label><input type="date" value="2026-05-27"></div>
+    </div>
+    <div class="fg"><label>Título / Tema</label><input type="text" placeholder="Ej: Ecuaciones de segundo grado"></div>
+    <div style="border:2px dashed var(--border);border-radius:var(--rs);padding:.85rem;text-align:center;color:var(--muted);font-size:.82rem;margin-bottom:.65rem;">📹 Subir video (MP4, MOV — máx. 2GB)</div>
+    <div class="fg"><label>Acceso para alumnos</label><select><option>Solo alumnos con falta justificada</option><option>Todos los alumnos del grupo</option></select></div>
+	    <button class="btn bp bsm" onclick="demoAction('Grabación publicada para alumnos autorizados.')">Publicar grabación</button></div>
+    <div class="card"><div class="ct">📂 Clases publicadas</div>
+    <table><tr><th>Tema</th><th>Materia</th><th>Fecha</th><th>Vistas</th></tr>
+	    <tr><td>Ecuaciones 2° grado</td><td>Matemática</td><td>27/05</td><td><span class="badge bb">8</span></td></tr>
+	    <tr><td>Independencia rioplatense</td><td>Historia</td><td>25/05</td><td><span class="badge bb">12</span></td></tr>
+    </table></div>`;
+
+  else if(t==='horarios')c.innerHTML=`<div class="card"><div class="ct">📅 Mi horario semanal</div>
+    <div class="sch">
+      <div class="shh"></div>
+      <div class="shh">Lun</div><div class="shh">Mar</div><div class="shh">Mié</div><div class="shh">Jue</div><div class="shh">Vie</div>
+      <div class="sht">08:00</div>
+      <div class="shc mat">Mat 1°A</div><div class="shc mat">Mat 2°B</div><div class="shc hist">Hist 1°A</div><div class="shc mat">Mat 3°C</div><div class="shc sci">Bio 2°A</div>
+      <div class="sht">10:30</div>
+      <div class="shc sci">Mat 2°A</div><div class="shc hist">Hist 3°A</div><div class="shc mat">Mat 1°A</div><div class="shc ing">Ing 2°B</div><div class="shc mat">Mat 1°B</div>
+      <div class="sht">13:00</div>
+      <div class="shc lit">Lit 1°A</div><div class="shc mat">Mat 3°B</div><div class="shc ing">Ing 1°A</div><div class="shc ef">Ed.F 2°A</div><div class="shc hist">Hist 1°A</div>
+    </div></div>`;
+
+  else if(t==='rendimiento'){
+    const bars=[65,72,68,81,75,84,79,88];
+    c.innerHTML=`<div class="card"><div class="ct">📊 Rendimiento del grupo — 1°A</div>
+    <div class="g3" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn" style="color:var(--green);">7.4</div><div class="sl">Promedio grupo</div></div>
+      <div class="sb"><div class="sn" style="color:var(--orange);">3</div><div class="sl">Alumnos en riesgo</div></div>
+      <div class="sb"><div class="sn">87%</div><div class="sl">Asistencia media</div></div>
+    </div>
+    <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;">Evolución mensual</div>
+    <div style="display:flex;align-items:flex-end;gap:6px;height:90px;padding:0 4px;margin-bottom:.85rem;">
+      ${bars.map((v,i)=>`<div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+        <div style="width:100%;background:${v>=75?'var(--blue)':'var(--orange)'};border-radius:4px 4px 0 0;height:${Math.round((v/100)*90)}px;min-height:5px;"></div>
+        <div style="font-size:.62rem;color:var(--muted);margin-top:3px;">${'EFMAMJJA'[i]}</div>
+      </div>`).join('')}
+    </div>
+	    <div class="alert ad">⚠️ 1 alumno con promedio menor a 5. Padres y orientador notificados.</div>
+    <table><tr><th>Alumno</th><th>Promedio</th><th>Asistencia</th><th>Estado</th></tr>
+    <tr><td>Valentina R.</td><td>8.2</td><td>92%</td><td><span class="badge bg">Bien</span></td></tr>
+    <tr><td>Lucas M.</td><td>6.1</td><td>85%</td><td><span class="badge bo">Atención</span></td></tr>
+    <tr><td>Isabella L.</td><td>4.3</td><td>60%</td><td><span class="badge br">Riesgo</span></td></tr>
+    </table></div>`;}
+
+  else if(t==='docentes')c.innerHTML=`
+    <div class="card"><div class="ct">👩‍🏫 Foro de docentes — Liceo N°1</div>
+    <div class="chat-wrap"><div class="chat-msgs" id="dchat">
+      <div class="msg"><div class="msg-s">Prof. Méndez (Historia)</div><div class="msg-b">¿Alguien tiene material extra sobre la Revolución Francesa para 3°?</div></div>
+      <div class="msg"><div class="msg-s">Prof. Castro (Literatura)</div><div class="msg-b">Sí, te comparto un PDF por acá.</div></div>
+      <div class="msg"><div class="msg-s">Prof. González</div><div class="msg-u">Yo también tengo ejercicios complementarios si les sirven.</div></div>
+    </div>
+    <div class="chat-row">
+      <input class="cinp" id="dinp" placeholder="Escribir en el foro..." onkeydown="if(event.key==='Enter')dSend()">
+      <button class="sbtn" onclick="dSend()">Enviar</button>
+    </div></div></div>
+    <div class="card"><div class="ct">📁 Banco de recursos compartidos</div>
+    <table><tr><th>Recurso</th><th>Materia</th><th>Subido por</th><th></th></tr>
+	    <tr><td>Examen modelo 1er trim.</td><td>Matemática</td><td>Prof. González</td><td><button class="btn bou bsm" onclick="demoAction('Abriendo recurso compartido del banco docente.')">Ver</button></td></tr>
+	    <tr><td>Guía de lectura "Ariel"</td><td>Literatura</td><td>Prof. Castro</td><td><button class="btn bou bsm" onclick="demoAction('Abriendo recurso compartido del banco docente.')">Ver</button></td></tr>
+    </table></div>`;
+
+  else if(t==='chat')c.innerHTML=`<div class="card"><div class="ct">💬 Chat con padres y tutores</div>
+    <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap;">
+      <span style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 9px;font-size:.74rem;color:var(--navy);">👨‍👩‍👧 Carlos R. (Valentina)</span>
+      <span style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 9px;font-size:.74rem;color:var(--navy);">👩 Ana M. (Lucas)</span>
+    </div>
+    <div class="chat-wrap"><div class="chat-msgs" id="achat">
+      <div class="msg"><div class="msg-s">Carlos R.</div><div class="msg-b">Buenas tardes, ¿cómo va Valentina en matemática?</div></div>
+      <div class="msg"><div class="msg-s">Prof. González</div><div class="msg-u">Hola Carlos, va muy bien. Aprobó el último parcial con 8.</div></div>
+      <div class="msg"><div class="msg-s">Carlos R.</div><div class="msg-b">¡Qué buenas noticias! Muchas gracias profesora.</div></div>
+    </div>
+    <div class="chat-row">
+      <input class="cinp" id="ainp" placeholder="Escribir mensaje..." onkeydown="if(event.key==='Enter')aSend()">
+      <button class="sbtn" onclick="aSend()">Enviar</button>
+    </div></div></div>`;
+}
+
+function renderP(t){
+  const c=document.getElementById('pc');
+  const HIJOS=[
+    {nombre:'Valentina R.', grado:'1°A', grades:[{s:'Matemática',n:8},{s:'Historia',n:7},{s:'Literatura',n:9},{s:'Inglés',n:6},{s:'Biología',n:8},{s:'Física',n:5}], asistencia:'92%', promedio:'7.8'},
+    {nombre:'Martín R.', grado:'3°B', grades:[{s:'Matemática',n:6},{s:'Historia',n:7},{s:'Literatura',n:5},{s:'Inglés',n:8},{s:'Biología',n:6},{s:'Física',n:7}], asistencia:'85%', promedio:'6.5'},
+  ];
+  if(!G.hijoSel) G.hijoSel=0;
+  const hijo=HIJOS[G.hijoSel];
+  const grades=hijo.grades;
+  const selectorHijos=`<div style="background:var(--white);border-radius:var(--r);border:1px solid var(--border);padding:.75rem;margin-bottom:.85rem;">
+    <div style="font-size:.75rem;font-weight:700;color:var(--muted);margin-bottom:.5rem;">VISUALIZANDO HIJO/A</div>
+    <div style="display:flex;gap:.5rem;">
+      ${HIJOS.map((h,i)=>`<button onclick="G.hijoSel=${i};renderP('${t}')" style="flex:1;padding:.5rem;border-radius:var(--rs);border:2px solid ${G.hijoSel===i?'var(--navy)':'var(--border)'};background:${G.hijoSel===i?'#E3EEFF':'var(--white)'};font-weight:700;font-size:.8rem;color:${G.hijoSel===i?'var(--navy)':'var(--muted)'};cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">
+        <div style="font-size:1.1rem;margin-bottom:2px;">👤</div>
+        <div>${h.nombre}</div>
+        <div style="font-size:.68rem;font-weight:400;">${h.grado}</div>
+      </button>`).join('')}
+    </div>
+  </div>`;
+  if(t==='inicio')c.innerHTML=selectorHijos+`
+	    <div class="alert aw">⚠️ Tarea de Historia vence el 30/05. ${hijo.nombre.split(' ')[0]} aún no entregó.</div>
+    <div class="alert as">✅ Boletín del primer trimestre disponible.</div>
+    <div class="g2" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn">${hijo.asistencia}</div><div class="sl">Asistencia de ${hijo.nombre.split(' ')[0]}</div></div>
+      <div class="sb"><div class="sn" style="color:var(--green);">${hijo.promedio}</div><div class="sl">Promedio general</div></div>
+    </div>
+    <div class="card"><div class="ct">📢 Avisos del liceo</div>
+    <table><tr><th>Aviso</th><th>Fecha</th></tr>
+	    <tr><td>Prof. Méndez llega tarde el viernes 29/05</td><td>29/05</td></tr>
+	    <tr><td>Jornada institucional Ceibal — transmisión para familias</td><td>28/05</td></tr>
+	    <tr><td>Entrega de libretas: viernes 29/05, 14:00hs</td><td>27/05</td></tr>
+    </table></div>`;
+
+  else if(t==='boletin'){
+    const rows=grades.map(g=>`<div class="sub-row">
+      <div style="flex:1;font-size:.85rem;font-weight:700;">${g.s}</div>
+      <div class="gc ${g.n>=7?'gp':g.n>=5?'gm':'gf'}">${g.n}</div>
+      <span class="badge ${g.n>=7?'bg':g.n>=5?'bo':'br'}">${g.n>=7?'Aprobada':g.n>=5?'En proceso':'Aplazada'}</span>
+    </div>`).join('');
+	    c.innerHTML=selectorHijos+`<div class="card"><div class="ct">📋 Boletín — ${hijo.nombre} · ${hijo.grado} · 1er Trimestre 2026</div>
+    <div style="border-radius:var(--rs);overflow:hidden;border:1px solid var(--border);">${rows}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.85rem;padding:.75rem;background:var(--bg);border-radius:var(--rs);">
+      <span style="font-weight:700;color:var(--navy);">Promedio general</span>
+	      <span style="font-size:1.3rem;font-weight:700;color:var(--green);">${hijo.promedio}</span>
+	    </div>
+	    <button class="btn bou bsm" onclick="demoAction('PDF del boletín preparado para descargar.')" style="margin-top:.75rem;">⬇ Descargar PDF</button></div>`;}
+
+  else if(t==='rendimiento'){
+	    const bars=G.hijoSel===0?[6.5,7.0,6.8,7.2,7.5,7.8,7.6,7.8]:[5.9,6.2,6.0,6.3,6.5,6.4,6.6,6.5];
+    c.innerHTML=selectorHijos+`<div class="card"><div class="ct">📊 Rendimiento de ${hijo.nombre.split(' ')[0]}</div>
+    <div class="g2" style="margin-bottom:.85rem;">
+	      <div class="sb"><div class="sn" style="color:var(--green);">${hijo.promedio}</div><div class="sl">Promedio general</div></div>
+	      <div class="sb"><div class="sn">${hijo.asistencia}</div><div class="sl">Asistencia</div></div>
+    </div>
+    <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;">Evolución del promedio mensual</div>
+    <div style="display:flex;align-items:flex-end;gap:5px;height:80px;margin-bottom:.85rem;">
+      ${bars.map((v,i)=>`<div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+        <div style="width:100%;background:${v>=7?'var(--blue)':'var(--orange)'};border-radius:3px 3px 0 0;height:${Math.round((v/10)*80)}px;min-height:5px;"></div>
+        <div style="font-size:.6rem;color:var(--muted);margin-top:2px;">${'EFMAMJJA'[i]}</div>
+      </div>`).join('')}
+    </div>
+    ${grades.map(g=>`<div style="display:flex;align-items:center;gap:.65rem;margin-bottom:.4rem;">
+      <div style="font-size:.78rem;width:88px;flex-shrink:0;">${g.s}</div>
+      <div class="pbar"><div class="pfill pf-en" style="width:${g.n*10}%;"></div></div>
+      <div style="font-size:.78rem;font-weight:700;color:${g.n>=7?'var(--green)':g.n>=5?'var(--orange)':'var(--red)'};width:18px;">${g.n}</div>
+    </div>`).join('')}
+    </div>`;}
+
+  else if(t==='asistencia'){
+    const dias=Array.from({length:30},(_,i)=>{
+      const st=i<2?'':i===5||i===12||i===19||i===20||i===26||i===27?'W':i===8?'T':i===15?'F':'P';
+      const bg=st==='P'?'#E3F8EA':st==='T'?'#FFF3D0':st==='F'?'#FFE8E8':'#F4F4F4';
+      const col=st==='P'?'#1A6B3A':st==='T'?'#7A5000':st==='F'?'#8B1A1A':'#aaa';
+      return`<div style="background:${bg};color:${col};border-radius:4px;text-align:center;padding:4px 2px;font-size:.7rem;font-weight:700;">${st||''}</div>`;
+    }).join('');
+	    c.innerHTML=selectorHijos+`<div class="card"><div class="ct">📅 Asistencia de ${hijo.nombre.split(' ')[0]} — Mayo 2026</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:.85rem;">
+      <div style="text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);">L</div>
+      <div style="text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);">M</div>
+      <div style="text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);">M</div>
+      <div style="text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);">J</div>
+      <div style="text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);">V</div>
+      <div style="text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);">S</div>
+      <div style="text-align:center;font-size:.7rem;font-weight:700;color:var(--muted);">D</div>
+      ${dias}
+    </div>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;">
+      <span class="badge bg">P = Presente</span>
+      <span class="badge bo">T = Tardanza</span>
+      <span class="badge br">F = Falta</span>
+    </div></div>`;}
+
+  else if(t==='inscripcion')c.innerHTML=`<div class="card"><div class="ct">📝 Inscripción al liceo 2026</div>
+    <div style="display:flex;margin-bottom:1.25rem;">
+      <div style="flex:1;text-align:center;padding:.38rem;font-size:.7rem;font-weight:700;background:var(--green);color:#fff;border-radius:var(--rs) 0 0 var(--rs);">1. Datos</div>
+      <div style="flex:1;text-align:center;padding:.38rem;font-size:.7rem;font-weight:700;background:var(--navy);color:#fff;">2. Documentos</div>
+      <div style="flex:1;text-align:center;padding:.38rem;font-size:.7rem;font-weight:700;background:var(--bg);color:var(--muted);">3. Liceo</div>
+      <div style="flex:1;text-align:center;padding:.38rem;font-size:.7rem;font-weight:700;background:var(--bg);color:var(--muted);border-radius:0 var(--rs) var(--rs) 0;">4. Confirmación</div>
+    </div>
+    <div class="alert ai" style="font-size:.78rem;">Subí los documentos requeridos para continuar con la inscripción.</div>
+    <div class="fg"><label>Cédula de identidad del estudiante</label>
+      <div style="border:2px dashed var(--border);border-radius:var(--rs);padding:.85rem;text-align:center;color:var(--muted);font-size:.82rem;">📎 Subir archivo (JPG, PDF — máx. 5MB)</div>
+    </div>
+    <div class="fg"><label>Comprobante de domicilio (UTE u OSE)</label>
+      <div style="border:2px dashed var(--border);border-radius:var(--rs);padding:.85rem;text-align:center;color:var(--muted);font-size:.82rem;">📎 Subir archivo (JPG, PDF — máx. 5MB)</div>
+    </div>
+    <div class="fg"><label>Boletín del año anterior</label>
+      <div style="border:2px dashed var(--border);border-radius:var(--rs);padding:.85rem;text-align:center;color:var(--muted);font-size:.82rem;">📎 Subir archivo (JPG, PDF — máx. 5MB)</div>
+    </div>
+	    <button class="btn bp bsm" onclick="demoAction('Documentos validados para continuar la inscripción.')">Continuar →</button></div>`;
+
+  else if(t==='liceos')c.innerHTML=`<div class="card"><div class="ct">🗺 Liceos cercanos a tu domicilio</div>
+    <div style="background:linear-gradient(135deg,#C8DAEA,#E8F0F8);border-radius:var(--r);height:160px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.5rem;border:1.5px dashed var(--border);margin-bottom:.85rem;">
+      <span style="font-size:2rem;">🗺</span>
+      <p style="color:var(--muted);font-size:.82rem;">Mapa de centros educativos</p>
+      <p style="font-size:.72rem;color:var(--muted);">(Google Maps en versión final)</p>
+    </div>
+    <table><tr><th>Liceo</th><th>Distancia</th><th>Cupos</th><th>Acción</th></tr>
+	    <tr><td>Liceo N°1 — Montevideo</td><td>1.2 km</td><td><span class="badge bg">12</span></td><td><button class="btn bp bsm" onclick="demoAction('Mostrando ficha del liceo y requisitos de inscripción.')">Ver</button></td></tr>
+	    <tr><td>Liceo N°5 — Punta Carretas</td><td>2.8 km</td><td><span class="badge bo">3</span></td><td><button class="btn bp bsm" onclick="demoAction('Mostrando ficha del liceo y requisitos de inscripción.')">Ver</button></td></tr>
+    <tr><td>Liceo N°18 — Pocitos</td><td>3.5 km</td><td><span class="badge br">0</span></td><td><button class="btn bou bsm" disabled>Sin cupos</button></td></tr>
+    </table></div>`;
+
+  else if(t==='chat')c.innerHTML=`<div class="card"><div class="ct">💬 Chat con docentes y dirección</div>
+    <div style="display:flex;gap:.5rem;margin-bottom:.75rem;flex-wrap:wrap;">
+      <span style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 9px;font-size:.74rem;color:var(--navy);">👩‍🏫 Prof. González (Mat.)</span>
+      <span style="background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:3px 9px;font-size:.74rem;color:var(--navy);">👨‍💼 Dir. Suárez</span>
+    </div>
+    <div class="chat-wrap"><div class="chat-msgs" id="pchat">
+      <div class="msg"><div class="msg-s">Prof. González</div><div class="msg-b">Buenos días Carlos, Valentina tuvo muy buena participación esta semana.</div></div>
+      <div class="msg"><div class="msg-s">Yo</div><div class="msg-u">¡Muchas gracias! Estamos muy contentos con su progreso.</div></div>
+    </div>
+    <div class="chat-row">
+      <input class="cinp" id="pinp" placeholder="Escribir mensaje..." onkeydown="if(event.key==='Enter')pSend()">
+      <button class="sbtn" onclick="pSend()">Enviar</button>
+    </div></div></div>`;
+}
+
+function renderS(t){
+  G.studentTab=t;
+  const c=document.getElementById('sc');
+  const tot=Object.values(G.score).reduce((a,b)=>a+b,0);
+  if(t==='inicio')c.innerHTML=`
+	    <div class="alert aw">⚠️ Tenés una tarea de Historia que vence el 30/05. ¡No te olvidés!</div>
+    <div class="g4" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn">3</div><div class="sl">Tareas pend.</div></div>
+      <div class="sb"><div class="sn" style="color:var(--green);">92%</div><div class="sl">Asistencia</div></div>
+      <div class="sb"><div class="sn" style="color:var(--gold2);">${tot}</div><div class="sl">Pts. idiomas</div></div>
+      <div class="sb"><div class="sn">7.8</div><div class="sl">Promedio</div></div>
+    </div>
+    <div class="card"><div class="ct">🏅 Mis logros</div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+      <div style="text-align:center;padding:.5rem;border-radius:var(--rs);border:1.5px solid var(--gold);background:#FFFBEF;width:68px;"><div style="font-size:1.4rem;">🔥</div><div style="font-size:.62rem;font-weight:700;color:var(--navy);margin-top:2px;">Racha 7 días</div></div>
+      <div style="text-align:center;padding:.5rem;border-radius:var(--rs);border:1.5px solid var(--gold);background:#FFFBEF;width:68px;"><div style="font-size:1.4rem;">📚</div><div style="font-size:.62rem;font-weight:700;color:var(--navy);margin-top:2px;">5 tareas</div></div>
+      <div style="text-align:center;padding:.5rem;border-radius:var(--rs);border:1.5px solid var(--gold);background:#FFFBEF;width:68px;"><div style="font-size:1.4rem;">🌍</div><div style="font-size:.62rem;font-weight:700;color:var(--navy);margin-top:2px;">3 idiomas</div></div>
+      <div style="text-align:center;padding:.5rem;border-radius:var(--rs);border:1px solid var(--border);background:var(--bg);width:68px;filter:grayscale(1);opacity:.45;"><div style="font-size:1.4rem;">⭐</div><div style="font-size:.62rem;font-weight:700;color:var(--navy);margin-top:2px;">Prom. 9+</div></div>
+    </div></div>
+	    <div class="card"><div class="ct">📅 Clases de hoy — Viernes 29/05</div>
+    <table><tr><th>Hora</th><th>Materia</th><th>Docente</th><th>Estado</th></tr>
+    <tr><td>08:00</td><td>Matemática</td><td>Prof. González</td><td><span class="badge bg">Confirmada</span></td></tr>
+    <tr><td>10:30</td><td>Historia</td><td>Prof. Méndez</td><td><span class="badge bg">Confirmada</span></td></tr>
+    <tr><td>13:00</td><td>Literatura</td><td>Prof. Castro</td><td><span class="badge bo">Llega tarde</span></td></tr>
+    </table></div>`;
+
+  else if(t==='tareas')c.innerHTML=`
+    <div class="card"><div class="ct">📚 Mis tareas</div>
+    <div class="alert ai" style="font-size:.76rem;margin-bottom:.85rem;">Tocá en cada tarea para ver el detalle, descargar el enunciado y entregar tu trabajo.</div>
+
+    <!-- TAREA 1 — Pendiente con adjunto del profesor -->
+    <div style="border:1.5px solid var(--border);border-radius:var(--rs);margin-bottom:.65rem;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:.65rem;padding:.7rem .9rem;background:var(--white);cursor:pointer;" onclick="toggleTarea('t1')">
+        <div style="flex:1;">
+          <div style="font-size:.85rem;font-weight:700;color:var(--navy);">Ejercicios pág. 45-48</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Matemática · Prof. González · Vence 28/05</div>
+        </div>
+        <span class="badge bo">Pendiente</span>
+        <span style="color:var(--muted);font-size:.8rem;" id="arr-t1">▼</span>
+      </div>
+      <div id="det-t1" style="border-top:1px solid var(--border);padding:.85rem .9rem;background:#FAFBFF;">
+        <div style="font-size:.8rem;color:var(--navy);margin-bottom:.65rem;line-height:1.55;"><strong>Descripción:</strong> Resolver los ejercicios de la página 45 a 48 del libro de Matemática. Mostrar procedimiento completo.</div>
+        <div style="display:flex;align-items:center;gap:.5rem;background:#E3EEFF;border-radius:var(--rs);padding:.5rem .75rem;margin-bottom:.75rem;">
+          <span style="font-size:1.1rem;">📕</span>
+          <div style="flex:1;"><div style="font-size:.78rem;font-weight:700;color:var(--navy);">Ejercicios_pag45-48.pdf</div><div style="font-size:.68rem;color:var(--muted);">324 KB · Subido por Prof. González</div></div>
+          <button class="btn bp bsm" onclick="demoAction('Descargando Ejercicios_pag45-48.pdf...')">⬇ Descargar</button>
+        </div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.45rem;">Entregar mi trabajo:</div>
+        <div onclick="document.getElementById('upl-t1').click()" style="border:2px dashed var(--border);border-radius:var(--rs);padding:.65rem;text-align:center;color:var(--muted);font-size:.78rem;cursor:pointer;background:var(--white);">📎 Seleccionar archivo para entregar</div>
+        <input type="file" id="upl-t1" style="display:none;" onchange="demoAction('Tarea entregada. Prof. Gonzalez recibio tu archivo y sera notificada.')">
+        <button class="btn bp bsm" style="margin-top:.5rem;width:100%;" onclick="demoAction('Tarea entregada a Prof. Gonzalez. Queda pendiente de corrección.')">📤 Entregar tarea</button>
+      </div>
+    </div>
+
+    <!-- TAREA 2 — Sin empezar, con adjunto -->
+    <div style="border:1.5px solid var(--border);border-radius:var(--rs);margin-bottom:.65rem;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:.65rem;padding:.7rem .9rem;background:var(--white);cursor:pointer;" onclick="toggleTarea('t2')">
+        <div style="flex:1;">
+          <div style="font-size:.85rem;font-weight:700;color:var(--navy);">Análisis Independencia</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Historia · Prof. Méndez · Vence 30/05</div>
+        </div>
+        <span class="badge br">Sin empezar</span>
+        <span style="color:var(--muted);font-size:.8rem;" id="arr-t2">▼</span>
+      </div>
+      <div id="det-t2" style="display:none;border-top:1px solid var(--border);padding:.85rem .9rem;background:#FAFBFF;">
+        <div style="font-size:.8rem;color:var(--navy);margin-bottom:.65rem;line-height:1.55;"><strong>Descripción:</strong> Redactar un análisis de 2 carillas sobre las causas de la independencia rioplatense. Citar al menos 3 fuentes.</div>
+        <div style="display:flex;align-items:center;gap:.5rem;background:#E3EEFF;border-radius:var(--rs);padding:.5rem .75rem;margin-bottom:.75rem;">
+          <span style="font-size:1.1rem;">📕</span>
+          <div style="flex:1;"><div style="font-size:.78rem;font-weight:700;color:var(--navy);">Consigna_Independencia.pdf</div><div style="font-size:.68rem;color:var(--muted);">156 KB · Subido por Prof. Méndez</div></div>
+          <button class="btn bp bsm" onclick="demoAction('Descargando Consigna_Independencia.pdf...')">⬇ Descargar</button>
+        </div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.45rem;">Entregar mi trabajo:</div>
+        <div onclick="document.getElementById('upl-t2').click()" style="border:2px dashed var(--border);border-radius:var(--rs);padding:.65rem;text-align:center;color:var(--muted);font-size:.78rem;cursor:pointer;background:var(--white);">📎 Seleccionar archivo para entregar</div>
+        <input type="file" id="upl-t2" style="display:none;" onchange="demoAction('Tarea entregada. Prof. Mendez recibio tu archivo.')">
+        <button class="btn bp bsm" style="margin-top:.5rem;width:100%;" onclick="demoAction('Tarea entregada a Prof. Mendez. Queda pendiente de corrección.')">📤 Entregar tarea</button>
+      </div>
+    </div>
+
+    <!-- TAREA 3 — Entregada Y CORREGIDA con nota del profesor -->
+    <div style="border:1.5px solid var(--green);border-radius:var(--rs);margin-bottom:.65rem;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:.65rem;padding:.7rem .9rem;background:#F6FFF8;cursor:pointer;" onclick="toggleTarea('t3')">
+        <div style="flex:1;">
+          <div style="font-size:.85rem;font-weight:700;color:var(--navy);">Ensayo "El Quijote"</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Literatura · Prof. Castro · Entregada 26/05</div>
+        </div>
+        <span class="badge bg">Corregida ✓</span>
+        <span style="color:var(--muted);font-size:.8rem;" id="arr-t3">▼</span>
+      </div>
+      <div id="det-t3" style="display:none;border-top:1px solid #A8DFB8;padding:.85rem .9rem;background:#F6FFF8;">
+        <div style="background:linear-gradient(135deg,#1A8C42,#2ECC71);border-radius:var(--rs);padding:.85rem 1rem;margin-bottom:.75rem;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.35rem;">
+            <div style="font-size:.8rem;font-weight:700;color:#fff;">Devolución de Prof. Castro</div>
+            <div style="background:rgba(255,255,255,.25);border-radius:20px;padding:3px 12px;font-family:'Sora',sans-serif;font-size:1rem;font-weight:800;color:#fff;">9 / 10</div>
+          </div>
+          <div style="font-size:.78rem;color:rgba(255,255,255,.9);line-height:1.55;">"Excelente análisis de los personajes principales. La estructura del ensayo es muy clara. Para mejorar: ampliar el contexto histórico del Siglo de Oro español en la introducción."</div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+          <div style="flex:1;background:#E3EEFF;border-radius:var(--rs);padding:.5rem .75rem;display:flex;align-items:center;gap:.45rem;min-width:140px;">
+            <span>📘</span>
+            <div style="flex:1;min-width:0;"><div style="font-size:.75rem;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Mi_ensayo_quijote.pdf</div><div style="font-size:.65rem;color:var(--muted);">Tu entrega</div></div>
+            <button class="btn bou bsm" onclick="demoAction('Descargando tu entrega...')">⬇</button>
+          </div>
+          <div style="flex:1;background:#E3F8EA;border-radius:var(--rs);padding:.5rem .75rem;display:flex;align-items:center;gap:.45rem;min-width:140px;">
+            <span>📗</span>
+            <div style="flex:1;min-width:0;"><div style="font-size:.75rem;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Corrección_Castro.pdf</div><div style="font-size:.65rem;color:var(--muted);">Corrección del prof.</div></div>
+            <button class="btn bp bsm" onclick="demoAction('Descargando corrección de Prof. Castro...')">⬇</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAREA 4 — En progreso -->
+    <div style="border:1.5px solid var(--border);border-radius:var(--rs);margin-bottom:.65rem;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:.65rem;padding:.7rem .9rem;background:var(--white);cursor:pointer;" onclick="toggleTarea('t4')">
+        <div style="flex:1;">
+          <div style="font-size:.85rem;font-weight:700;color:var(--navy);">Lab: Fotosíntesis</div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:2px;">Biología · Prof. Torres · Vence 02/06</div>
+        </div>
+        <span class="badge bo">En progreso</span>
+        <span style="color:var(--muted);font-size:.8rem;" id="arr-t4">▼</span>
+      </div>
+      <div id="det-t4" style="display:none;border-top:1px solid var(--border);padding:.85rem .9rem;background:#FAFBFF;">
+        <div style="font-size:.8rem;color:var(--navy);margin-bottom:.65rem;line-height:1.55;"><strong>Descripción:</strong> Realizar el informe del laboratorio de fotosíntesis. Incluir hipótesis, materiales, procedimiento, resultados y conclusiones.</div>
+        <div style="display:flex;align-items:center;gap:.5rem;background:#E3EEFF;border-radius:var(--rs);padding:.5rem .75rem;margin-bottom:.75rem;">
+          <span style="font-size:1.1rem;">📕</span>
+          <div style="flex:1;"><div style="font-size:.78rem;font-weight:700;color:var(--navy);">Guia_Lab_Fotosintesis.pdf</div><div style="font-size:.68rem;color:var(--muted);">248 KB · Subido por Prof. Torres</div></div>
+          <button class="btn bp bsm" onclick="demoAction('Descargando Guia_Lab_Fotosintesis.pdf...')">⬇ Descargar</button>
+        </div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.45rem;">Entregar mi trabajo:</div>
+        <div onclick="document.getElementById('upl-t4').click()" style="border:2px dashed var(--border);border-radius:var(--rs);padding:.65rem;text-align:center;color:var(--muted);font-size:.78rem;cursor:pointer;background:var(--white);">📎 Seleccionar archivo para entregar</div>
+        <input type="file" id="upl-t4" style="display:none;" onchange="demoAction('Informe entregado. Prof. Torres recibio tu archivo.')">
+        <button class="btn bp bsm" style="margin-top:.5rem;width:100%;" onclick="demoAction('Informe entregado a Prof. Torres. Queda pendiente de corrección.')">📤 Entregar tarea</button>
+      </div>
+    </div>
+    </div>
+
+    <div class="card"><div class="ct">📎 Justificar falta o tardanza</div>
+    <div class="g2">
+      <div class="fg"><label>Tipo</label><select><option>Falta</option><option>Llegada tarde</option></select></div>
+	      <div class="fg"><label>Fecha</label><input type="date" value="2026-05-29"></div>
+    </div>
+    <div style="border:2px dashed var(--border);border-radius:var(--rs);padding:.75rem;text-align:center;color:var(--muted);font-size:.82rem;margin-bottom:.65rem;">📎 Subir comprobante</div>
+	    <button class="btn bp bsm" onclick="demoAction('Justificación enviada a adscripción para revisión.')">Enviar justificación</button></div>`;
+
+  else if(t==='horario')c.innerHTML=`<div class="card"><div class="ct">🗓 Mi horario semanal — 1°A</div>
+    <div class="sch">
+      <div class="shh"></div>
+      <div class="shh">Lun</div><div class="shh">Mar</div><div class="shh">Mié</div><div class="shh">Jue</div><div class="shh">Vie</div>
+      <div class="sht">08:00</div>
+      <div class="shc mat">Matemática<br>González</div>
+      <div class="shc sci">Biología<br>Torres</div>
+      <div class="shc mat">Matemática<br>González</div>
+      <div class="shc hist">Historia<br>Méndez</div>
+      <div class="shc ing">Inglés<br>Vargas</div>
+      <div class="sht">10:30</div>
+      <div class="shc hist">Historia<br>Méndez</div>
+      <div class="shc ing">Inglés<br>Vargas</div>
+      <div class="shc ef">Ed. Física<br>Sosa</div>
+      <div class="shc mat">Matemática<br>González</div>
+      <div class="shc sci">Biología<br>Torres</div>
+      <div class="sht">13:00</div>
+      <div class="shc lit">Literatura<br>Castro</div>
+      <div class="shc hist">Historia<br>Méndez</div>
+      <div class="shc ing">Inglés<br>Vargas</div>
+      <div class="shc ef">Ed. Física<br>Sosa</div>
+      <div class="shc lit">Literatura<br>Castro</div>
+    </div></div>`;
+
+  else if(t==='clases')c.innerHTML=`
+    <div class="card"><div class="ct">🔴 Clase en vivo</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--bg);border-radius:var(--rs);padding:.85rem;margin-bottom:.65rem;">
+      <div>
+        <div style="display:flex;align-items:center;gap:.45rem;margin-bottom:.25rem;">
+          <span style="background:#e53e3e;color:#fff;font-size:.65rem;font-weight:700;padding:2px 8px;border-radius:20px;">EN VIVO</span>
+          <span style="font-weight:700;font-size:.88rem;">Matemática — 1°A</span>
+        </div>
+        <div style="font-size:.73rem;color:var(--muted);">Prof. González · 14 alumnos conectados</div>
+      </div>
+	      <button class="btn bp bsm" onclick="demoAction('Entrando a la clase en vivo de Matemática...')">Unirme →</button>
+    </div></div>
+    <div class="card"><div class="ct">🎬 Clases grabadas disponibles</div>
+    <div class="alert ai" style="font-size:.76rem;">Disponibles porque tenés una falta justificada. Acceso por 7 días.</div>
+    <div class="g2">
+	      <div onclick="demoAction('Reproduciendo clase grabada de Matemática.')" style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--rs);padding:.85rem;cursor:pointer;"><div style="font-size:1.5rem;margin-bottom:.35rem;">📐</div><div style="font-size:.75rem;font-weight:700;color:#fff;">Ecuaciones 2° grado</div><div style="font-size:.65rem;color:rgba(255,255,255,.6);margin-top:3px;">Mat · 27/05 · 42min</div></div>
+	      <div onclick="demoAction('Reproduciendo clase grabada de Historia.')" style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--rs);padding:.85rem;cursor:pointer;"><div style="font-size:1.5rem;margin-bottom:.35rem;">🌍</div><div style="font-size:.75rem;font-weight:700;color:#fff;">Independencia rioplatense</div><div style="font-size:.65rem;color:rgba(255,255,255,.6);margin-top:3px;">Hist · 25/05 · 38min</div></div>
+	      <div onclick="demoAction('Reproduciendo clase grabada de Literatura.')" style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--rs);padding:.85rem;cursor:pointer;"><div style="font-size:1.5rem;margin-bottom:.35rem;">📖</div><div style="font-size:.75rem;font-weight:700;color:#fff;">Análisis del Quijote</div><div style="font-size:.65rem;color:rgba(255,255,255,.6);margin-top:3px;">Lit · 22/05 · 51min</div></div>
+	      <div onclick="demoAction('Reproduciendo clase grabada de Biología.')" style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--rs);padding:.85rem;cursor:pointer;"><div style="font-size:1.5rem;margin-bottom:.35rem;">🧬</div><div style="font-size:.75rem;font-weight:700;color:#fff;">Fotosíntesis</div><div style="font-size:.65rem;color:rgba(255,255,255,.6);margin-top:3px;">Bio · 20/05 · 44min</div></div>
+    </div></div>`;
+
+  else if(t==='idiomas') renderGame(c);
+
+  else if(t==='biblioteca')c.innerHTML=`<div class="card"><div class="ct">📚 Biblioteca Digital — ANEP</div>
+    <div class="alert ai" style="font-size:.76rem;">Materiales alineados al programa ANEP. Acceso libre y gratuito.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:.75rem;cursor:pointer;"><div style="font-size:1.4rem;margin-bottom:.3rem;">📐</div><div style="font-size:.76rem;font-weight:700;color:var(--navy);">Matemática</div><div style="font-size:.65rem;color:var(--muted);">12 recursos</div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:.75rem;cursor:pointer;"><div style="font-size:1.4rem;margin-bottom:.3rem;">🌍</div><div style="font-size:.76rem;font-weight:700;color:var(--navy);">Historia</div><div style="font-size:.65rem;color:var(--muted);">9 recursos</div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:.75rem;cursor:pointer;"><div style="font-size:1.4rem;margin-bottom:.3rem;">📖</div><div style="font-size:.76rem;font-weight:700;color:var(--navy);">Literatura</div><div style="font-size:.65rem;color:var(--muted);">8 recursos</div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:.75rem;cursor:pointer;"><div style="font-size:1.4rem;margin-bottom:.3rem;">🇬🇧</div><div style="font-size:.76rem;font-weight:700;color:var(--navy);">Inglés</div><div style="font-size:.65rem;color:var(--muted);">15 recursos</div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:.75rem;cursor:pointer;"><div style="font-size:1.4rem;margin-bottom:.3rem;">🧬</div><div style="font-size:.76rem;font-weight:700;color:var(--navy);">Biología</div><div style="font-size:.65rem;color:var(--muted);">11 recursos</div></div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--rs);padding:.75rem;cursor:pointer;"><div style="font-size:1.4rem;margin-bottom:.3rem;">📚</div><div style="font-size:.76rem;font-weight:700;color:var(--navy);">Libros digitales</div><div style="font-size:.65rem;color:var(--muted);">32 libros</div></div>
+    </div></div>`;
+
+  else if(t==='orientacion'){
+    if(!G.voc) G.voc={step:0,scores:{stem:0,bio:0,social:0,arte:0,econ:0}};
+    renderVoc(c);
+  }
+
+  else if(t==='bienestar'){c.innerHTML=`
+    <div class="card"><div class="ct">💚 ¿Cómo te sentís hoy?</div>
+    <p style="font-size:.8rem;color:var(--muted);margin-bottom:.25rem;">Tu bienestar importa. Elegí cómo estás:</p>
+    <div class="mood-row" id="moods"></div>
+    <div id="mood-alert"></div>
+	    <button class="btn bp bsm" onclick="demoAction('Estado registrado. El equipo de bienestar ve alertas agregadas.')">Registrar mi estado</button></div>
+    <div class="card"><div class="ct">🔒 Reporte anónimo</div>
+    <div class="alert" style="background:#F0E8FF;color:#5B21B6;border-left:3px solid var(--purple);font-size:.76rem;">Tu reporte es 100% anónimo. Llega directo a la dirección y la adscriptura.</div>
+    <div class="fg"><label>Tipo de situación</label>
+      <select><option>Bullying / Acoso</option><option>Violencia física</option><option>Discriminación</option><option>Situación en el hogar</option><option>Otra situación</option></select>
+    </div>
+    <div class="fg"><label>Descripción (sin datos personales)</label>
+      <textarea rows="3" placeholder="Describí la situación sin incluir nombres..."></textarea>
+    </div>
+	    <button class="btn bp bsm" onclick="demoAction('Reporte anónimo enviado a dirección y adscriptura.')">Enviar reporte anónimo</button></div>
+    <div class="card"><div class="ct">📞 Recursos de apoyo</div>
+    <table><tr><th>Servicio</th><th>Contacto</th><th>Horario</th></tr>
+    <tr><td>Línea de apoyo INAU</td><td><strong>0800 5050</strong></td><td>24hs</td></tr>
+    <tr><td>Orientador del liceo</td><td>Sala B, planta baja</td><td>Lun-Vie 9-17hs</td></tr>
+    <tr><td>Línea Vida (MSP)</td><td><strong>0800 0767</strong></td><td>24hs</td></tr>
+    </table></div>`;
+    renderMoods();
+  }
+
+  else if(t==='chatbot') renderChatbot(c);
+}
+
+function renderVoc(c){
+  const PREGUNTAS=[
+    {q:'¿Qué actividad disfrutás más en el liceo?',ops:[
+      {t:'Matemáticas y lógica',s:'stem'},{t:'Leer, escribir y debatir',s:'social'},
+      {t:'Ciencias naturales y biología',s:'bio'},{t:'Arte, música o diseño',s:'arte'}]},
+    {q:'¿Cómo preferís resolver un problema?',ops:[
+      {t:'Con fórmulas, datos y cálculos',s:'stem'},{t:'Debatiendo y argumentando',s:'social'},
+      {t:'Experimentando y observando',s:'bio'},{t:'Creando algo nuevo y original',s:'arte'}]},
+    {q:'¿Qué tipo de trabajo te imaginas haciendo?',ops:[
+      {t:'Trabajar con tecnología o ingenería',s:'stem'},{t:'Ayudar a personas con su salud',s:'bio'},
+      {t:'Enseñar, comunicar o escribir',s:'social'},{t:'Diseñar, construir o crear',s:'arte'}]},
+    {q:'¿Qué materia se te da mejor o te gusta más?',ops:[
+      {t:'Matemática o Física',s:'stem'},{t:'Biología o Química',s:'bio'},
+      {t:'Historia o Literatura',s:'social'},{t:'Educación Visual o Música',s:'arte'}]},
+    {q:'¿Qué harías si tuvieras una tarde libre?',ops:[
+      {t:'Programar, jugar con tecnología o armar cosas',s:'stem'},
+      {t:'Dibujar, tocar música o actuar',s:'arte'},
+      {t:'Leer, ver documentales o escribir',s:'social'},
+      {t:'Hacer deporte o actividades al aire libre',s:'bio'}]},
+    {q:'¿Qué te importa más en tu futuro trabajo?',ops:[
+      {t:'Ganar bien y tener estabilidad económica',s:'econ'},
+      {t:'Ayudar a otros y hacer el bien',s:'social'},
+      {t:'Crear, innovar y resolver problemas difíciles',s:'stem'},
+      {t:'Expresarme y dejar una huella cultural',s:'arte'}]},
+  ];
+
+  const PERFILES={
+    stem:{
+      ico:'🔬',nombre:'Ciencias Exactas y Tecnología',
+      liceo:'Bachillerato Científico — orientación Física/Matemática',
+      carreras:['Ingeniería (Civil, Eléctrica, Industrial, Informática)','Ciencias de la Computación','Arquitectura','Matemática y Estadística','Tecnología de la Información'],
+      udelar:'Facultad de Ingeniería (FING) · Facultad de Ciencias · Centro Universitario Regional',
+      color:'#1B3A6B',bg:'#D6E4F7'
+    },
+    bio:{
+      ico:'🧬',nombre:'Ciencias de la Vida y Salud',
+      liceo:'Bachillerato Biológico — orientación Biología/Química',
+      carreras:['Medicina','Enfermería','Veterinaria','Farmacia','Odontología','Agronomía','Nutrición'],
+      udelar:'Facultad de Medicina · Facultad de Veterinaria · Facultad de Química · Facultad de Agronomía',
+      color:'#1A6B3A',bg:'#E3F8EA'
+    },
+    social:{
+      ico:'📚',nombre:'Humanidades y Ciencias Sociales',
+      liceo:'Bachillerato Humanístico — orientación Ciencias Sociales/Humanidades',
+      carreras:['Magisterio o Profesorado','Comunicación y Periodismo','Derecho','Ciencias Políticas','Sociología','Psicología','Relaciones Internacionales'],
+      udelar:'Facultad de Humanidades · Facultad de Ciencias Sociales · Facultad de Derecho · Facultad de Psicología',
+      color:'#5B21B6',bg:'#F0E8FF'
+    },
+    arte:{
+      ico:'🎨',nombre:'Arte, Diseño y Comunicación',
+      liceo:'Bachillerato Artístico o Humanístico — orientación Arte/Comunicación',
+      carreras:['Artes Plásticas','Comunicación Visual','Diseño Industrial','Arquitectura','Actuación y Teatro','Música','Cine y Audiovisual'],
+      udelar:'Facultad de Arquitectura (FADU) · EMAD · Escuela Universitaria de Música · CLAEH Comunicación',
+      color:'#C0392B',bg:'#FFE8E8'
+    },
+    econ:{
+      ico:'💼',nombre:'Economía, Derecho y Administración',
+      liceo:'Bachillerato Humanístico — orientación Sociales/Económica',
+      carreras:['Economía','Contador Público','Administración de Empresas','Relaciones Laborales','Derecho','Marketing','Comercio Internacional'],
+      udelar:'Facultad de Ciencias Económicas (FCEA) · Facultad de Derecho · Universidad ORT · UCUDAL',
+      color:'#D4790A',bg:'#FFF3E0'
+    },
+  };
+
+  const step=G.voc.step;
+  const total=PREGUNTAS.length;
+
+  if(step<total){
+    const preg=PREGUNTAS[step];
+    const pct=Math.round((step/total)*100);
+    let opsHTML='';
+    preg.ops.forEach((op,i)=>{
+      opsHTML+=`<div onclick="vocAnswer('${op.s}')" style="border:2px solid var(--border);border-radius:var(--rs);padding:.7rem 1rem;cursor:pointer;margin-bottom:.5rem;font-size:.85rem;font-weight:600;color:var(--navy);transition:all .2s;background:var(--white);"
+        onmouseover="this.style.borderColor='#2E5FA3';this.style.background='#EEF5FF';"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--white)';">
+        <span style="display:inline-block;width:22px;height:22px;border-radius:50%;background:#EEF2F8;font-size:.72rem;font-weight:700;color:var(--muted);text-align:center;line-height:22px;margin-right:.5rem;">${['A','B','C','D'][i]}</span>${op.t}
+      </div>`;
+    });
+    c.innerHTML=`<div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem;">
+        <div style="font-size:.78rem;font-weight:700;color:var(--muted);">Pregunta ${step+1} de ${total}</div>
+        <div style="font-size:.75rem;color:var(--blue);font-weight:700;">${pct}% completado</div>
+      </div>
+      <div style="background:var(--border);border-radius:20px;height:5px;margin-bottom:1rem;overflow:hidden;">
+        <div style="height:5px;border-radius:20px;background:linear-gradient(to right,var(--blue),var(--gold));width:${pct}%;transition:width .4s;"></div>
+      </div>
+      <div class="alert" style="background:#F0E8FF;color:#5B21B6;border-left:3px solid var(--purple);font-size:.76rem;margin-bottom:.85rem;">No hay respuestas incorrectas — respondé con sinceridad.</div>
+      <div style="font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.85rem;line-height:1.4;">${preg.q}</div>
+      ${opsHTML}
+      ${step>0?`<button onclick="vocBack()" style="background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;margin-top:.35rem;font-family:'Plus Jakarta Sans',sans-serif;">← Volver a la pregunta anterior</button>`:''}
+    </div>
+    <div class="card"><div class="ct">🎓 Becas disponibles</div>
+    <table><tr><th>Beca</th><th>Organismo</th><th>Vence</th><th></th></tr>
+      <tr><td>Excelencia estudiantil</td><td>MEC</td><td>30/06</td><td><button class="btn bp bsm" onclick="demoAction('Postulacion iniciada con datos precargados.')">Postular</button></td></tr>
+      <tr><td>Equidad educativa</td><td>ANEP</td><td>15/06</td><td><button class="btn bp bsm" onclick="demoAction('Postulacion iniciada con datos precargados.')">Postular</button></td></tr>
+      <tr><td>STEM para mujeres</td><td>OEI Uruguay</td><td>31/05</td><td><button class="btn bp bsm" onclick="demoAction('Postulacion iniciada con datos precargados.')">Postular</button></td></tr>
+    </table></div>`;
+  } else {
+    // RESULTADOS
+    const sc=G.voc.scores;
+    const sorted=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+    const top=sorted[0][0];
+    const second=sorted[1][0];
+    const perf=PERFILES[top];
+    const perf2=PERFILES[second];
+    const maxScore=sorted[0][1];
+
+    let barsHTML='';
+    const labels={stem:'Exactas/Tecnología',bio:'Salud/Ciencias',social:'Humanidades/Social',arte:'Arte/Diseño',econ:'Economía/Derecho'};
+    sorted.forEach(([k,v])=>{
+      const w=maxScore>0?Math.round((v/maxScore)*100):0;
+      const pr=PERFILES[k];
+      barsHTML+=`<div style="margin-bottom:.6rem;">
+        <div style="display:flex;justify-content:space-between;font-size:.75rem;font-weight:700;color:${pr.color};margin-bottom:3px;">${pr.ico} ${labels[k]}<span>${v} pts</span></div>
+        <div style="background:var(--border);border-radius:20px;height:8px;overflow:hidden;">
+          <div style="height:8px;border-radius:20px;background:${pr.color};width:${w}%;transition:width .6s;"></div>
+        </div>
+      </div>`;
+    });
+
+    let carrerasHTML='';
+    perf.carreras.forEach(c2=>{carrerasHTML+=`<div style="background:var(--bg);border-radius:var(--rs);padding:.4rem .7rem;font-size:.78rem;font-weight:600;color:var(--navy);margin-bottom:.3rem;">• ${c2}</div>`;});
+
+    let carreras2HTML='';
+    perf2.carreras.slice(0,3).forEach(c2=>{carreras2HTML+=`<div style="font-size:.76rem;color:var(--muted);margin-bottom:.2rem;">• ${c2}</div>`;});
+
+    c.innerHTML=`<div class="card" style="background:linear-gradient(135deg,${perf.bg},#fff);border-color:${perf.color}25;">
+      <div style="text-align:center;padding:.5rem 0 .85rem;">
+        <div style="font-size:2.8rem;margin-bottom:.4rem;">${perf.ico}</div>
+        <div style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:800;color:${perf.color};">Tu perfil: ${perf.nombre}</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-top:.3rem;">Basado en tus 6 respuestas</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">📊 Tu perfil vocacional</div>
+      ${barsHTML}
+    </div>
+    <div class="card" style="border-left:4px solid ${perf.color};">
+      <div class="ct" style="color:${perf.color};">🏫 Recomendación para el liceo</div>
+      <div style="background:${perf.bg};border-radius:var(--rs);padding:.75rem;margin-bottom:.85rem;">
+        <div style="font-size:.8rem;font-weight:700;color:${perf.color};">${perf.liceo}</div>
+      </div>
+      <div class="ct" style="color:${perf.color};margin-top:.5rem;">🎓 Carreras universitarias recomendadas</div>
+      ${carrerasHTML}
+      <div style="font-size:.75rem;color:var(--muted);margin-top:.65rem;font-weight:600;">Principal institución:</div>
+      <div style="font-size:.78rem;color:var(--navy);margin-top:.2rem;">${perf.udelar}</div>
+    </div>
+    <div class="card" style="border-left:4px solid ${perf2.color};">
+      <div class="ct" style="color:${perf2.color};">${perf2.ico} También podrías explorar: ${perf2.nombre}</div>
+      ${carreras2HTML}
+    </div>
+    <div style="display:flex;gap:.65rem;margin-bottom:1rem;">
+      <button class="btn bp" style="flex:1;" onclick="demoAction('Perfil guardado. Tu orientadora podra verlo en tu ficha.')">💾 Guardar mi perfil</button>
+      <button class="btn bou" style="flex:1;" onclick="vocReset()">🔄 Repetir test</button>
+    </div>
+    <div class="card"><div class="ct">🎓 Becas disponibles</div>
+    <table><tr><th>Beca</th><th>Organismo</th><th>Vence</th><th></th></tr>
+      <tr><td>Excelencia estudiantil</td><td>MEC</td><td>30/06</td><td><button class="btn bp bsm" onclick="demoAction('Postulacion iniciada.')">Postular</button></td></tr>
+      <tr><td>Equidad educativa</td><td>ANEP</td><td>15/06</td><td><button class="btn bp bsm" onclick="demoAction('Postulacion iniciada.')">Postular</button></td></tr>
+      <tr><td>STEM para mujeres</td><td>OEI Uruguay</td><td>31/05</td><td><button class="btn bp bsm" onclick="demoAction('Postulacion iniciada.')">Postular</button></td></tr>
+    </table></div>`;
+  }
+}
+
+function vocAnswer(cat){
+  if(!G.voc)return;
+  G.voc.scores[cat]=(G.voc.scores[cat]||0)+1;
+  G.voc.step++;
+  const c=document.getElementById('sc');
+  renderVoc(c);
+  c.scrollTop=0;
+  window.scrollTo(0,0);
+}
+
+function vocBack(){
+  if(!G.voc||G.voc.step<=0)return;
+  G.voc.step--;
+  const c=document.getElementById('sc');
+  renderVoc(c);
+}
+
+function vocReset(){
+  G.voc={step:0,scores:{stem:0,bio:0,social:0,arte:0,econ:0}};
+  const c=document.getElementById('sc');
+  renderVoc(c);
+}
+
+function toggleTarea(id){
+  const det=document.getElementById('det-'+id);
+  const arr=document.getElementById('arr-'+id);
+  if(!det)return;
+  const open=det.style.display!=='none';
+  det.style.display=open?'none':'block';
+  if(arr)arr.textContent=open?'▼':'▲';
+}
+
+function renderNotas(c){
+  const alumnos=[
+    {n:'Valentina R.',sem:9,parcial:8,escrito:9,oral:8,tarea:10,prom:8.8,dev:'Excelente desempeño. Muy participativa y con entrega puntual de trabajos.'},
+    {n:'Lucas M.',sem:7,parcial:6,escrito:6,oral:7,tarea:7,prom:6.6,dev:'Buen esfuerzo. Debe repasar los conceptos del capítulo 3.'},
+    {n:'Sofía P.',sem:8,parcial:9,escrito:8,oral:9,tarea:9,prom:8.6,dev:'Muy buen nivel. Podría profundizar más en los ejercicios avanzados.'},
+    {n:'Mateo G.',sem:6,parcial:7,escrito:5,oral:6,tarea:7,prom:6.2,dev:'Rendimiento regular. Se recomienda refuerzo en escritos.'},
+    {n:'Isabella L.',sem:4,parcial:5,escrito:4,oral:5,tarea:5,prom:4.6,dev:'Necesita apoyo urgente. Notifiqué a la familia. Derivar a orientadora.'},
+    {n:'Rodrigo M.',sem:5,parcial:4,escrito:5,oral:4,tarea:6,prom:4.8,dev:'Asistencia irregular afecta el rendimiento. Coordinado con adscriptura.'},
+  ];
+
+  const isReg=G.notasTab==='registro';
+  const btnReg='padding:.45rem 1rem;border-radius:var(--rs);font-size:.8rem;font-weight:700;cursor:pointer;font-family:"Plus Jakarta Sans",sans-serif;border:none;';
+
+  let alumnosHTML='';
+  if(isReg){
+    alumnos.forEach(a=>{
+      const badgeColor=a.prom>=6?'bg':a.prom>=5?'bo':'br';
+      alumnosHTML+=`<tr>
+        <td style="font-weight:600;">${a.n}</td>
+        <td style="text-align:center;"><input type="number" min="1" max="12" value="${a.sem}" style="width:46px;text-align:center;padding:3px;border:1.5px solid var(--border);border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;"></td>
+        <td style="text-align:center;"><input type="number" min="1" max="12" value="${a.parcial}" style="width:46px;text-align:center;padding:3px;border:1.5px solid var(--border);border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;"></td>
+        <td style="text-align:center;"><input type="number" min="1" max="12" value="${a.escrito}" style="width:46px;text-align:center;padding:3px;border:1.5px solid var(--border);border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;"></td>
+        <td style="text-align:center;"><input type="number" min="1" max="12" value="${a.oral}" style="width:46px;text-align:center;padding:3px;border:1.5px solid var(--border);border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;"></td>
+        <td style="text-align:center;"><input type="number" min="1" max="12" value="${a.tarea}" style="width:46px;text-align:center;padding:3px;border:1.5px solid var(--border);border-radius:6px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.85rem;"></td>
+        <td style="text-align:center;"><span class="badge ${badgeColor}" style="font-size:.82rem;min-width:28px;">${a.prom}</span></td>
+      </tr>`;
+    });
+  } else {
+    alumnos.forEach(a=>{
+      const badgeColor=a.prom>=6?'bg':a.prom>=5?'bo':'br';
+      alumnosHTML+=`<tr>
+        <td style="font-weight:600;">${a.n}</td>
+        <td style="text-align:center;"><span class="badge ${badgeColor}">${a.prom}</span></td>
+        <td style="min-width:200px;"><textarea rows="2" style="width:100%;font-size:.75rem;border:1.5px solid var(--border);border-radius:6px;padding:.3rem .5rem;font-family:'Plus Jakarta Sans',sans-serif;resize:none;">${a.dev}</textarea></td>
+        <td style="text-align:center;">
+          <select style="font-size:.72rem;border:1.5px solid var(--border);border-radius:6px;padding:3px;font-family:'Plus Jakarta Sans',sans-serif;">
+            <option ${a.prom>=6?'selected':''}>Aprobado</option>
+            <option ${a.prom<6&&a.prom>=5?'selected':''}>En proceso</option>
+            <option ${a.prom<5?'selected':''}>Necesita apoyo</option>
+          </select>
+        </td>
+      </tr>`;
+    });
+  }
+
+  c.innerHTML=`
+    <div style="display:flex;gap:.5rem;background:var(--bg);border-radius:var(--rs);padding:.4rem;margin-bottom:.85rem;">
+      <button onclick="G.notasTab='registro';renderNotas(document.getElementById('ac'))" style="${btnReg}background:${isReg?'var(--navy)':'transparent'};color:${isReg?'#fff':'var(--muted)'};">📝 Registro de notas</button>
+      <button onclick="G.notasTab='boletin';renderNotas(document.getElementById('ac'))" style="${btnReg}background:${!isReg?'var(--navy)':'transparent'};color:${!isReg?'#fff':'var(--muted)'};">📋 Armado de boletín</button>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.85rem;">
+        <div class="ct" style="margin-bottom:0;">${isReg?'📝 Registro de notas':'📋 Armado de boletín'} — 1°A · Matemática</div>
+        <div style="display:flex;gap:.45rem;align-items:center;flex-wrap:wrap;">
+          <select style="font-size:.76rem;border:1.5px solid var(--border);border-radius:var(--rs);padding:.3rem .6rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--navy);">
+            <option>1°A</option><option>1°B</option><option>2°A</option><option>2°B</option>
+          </select>
+          <select style="font-size:.76rem;border:1.5px solid var(--border);border-radius:var(--rs);padding:.3rem .6rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--navy);">
+            <option>Matemática</option><option>Historia</option><option>Literatura</option>
+          </select>
+          <select style="font-size:.76rem;border:1.5px solid var(--border);border-radius:var(--rs);padding:.3rem .6rem;font-family:'Plus Jakarta Sans',sans-serif;color:var(--navy);">
+            <option>1er Trimestre</option><option>2do Trimestre</option><option>3er Trimestre</option>
+          </select>
+        </div>
+      </div>
+
+      ${isReg?`
+      <div class="alert ai" style="font-size:.75rem;margin-bottom:.75rem;">Editá los valores directamente en la tabla. El promedio se calcula automáticamente al guardar.</div>
+      <div style="overflow-x:auto;">
+      <table style="min-width:540px;">
+        <tr>
+          <th>Alumno</th>
+          <th style="text-align:center;">Semanal</th>
+          <th style="text-align:center;">Parcial</th>
+          <th style="text-align:center;">Escrito</th>
+          <th style="text-align:center;">Oral</th>
+          <th style="text-align:center;">Tareas</th>
+          <th style="text-align:center;">Promedio</th>
+        </tr>
+        ${alumnosHTML}
+      </table>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.85rem;flex-wrap:wrap;">
+        <button class="btn bp bsm" onclick="demoAction('Notas guardadas para 1A Matematica. Datos sincronizados.')">💾 Guardar notas</button>
+        <button class="btn bou bsm" onclick="demoAction('Vista previa del boletin generada.')">👁 Vista previa boletín</button>
+      </div>`:`
+      <div class="alert" style="background:#FFF8E1;color:#7A5000;border-left:3px solid var(--gold);font-size:.75rem;margin-bottom:.75rem;">El boletín se enviará a adscriptura para revisión antes de llegar a las familias. Completá la devolución de cada alumno.</div>
+      <div style="overflow-x:auto;">
+      <table style="min-width:480px;">
+        <tr>
+          <th>Alumno</th>
+          <th style="text-align:center;">Promedio</th>
+          <th>Devolución para la familia</th>
+          <th style="text-align:center;">Situación</th>
+        </tr>
+        ${alumnosHTML}
+      </table>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--rs);padding:.85rem;margin-top:.85rem;">
+        <div style="font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;">Comentario general del grupo (opcional)</div>
+        <textarea rows="2" style="width:100%;font-size:.8rem;border:1.5px solid var(--border);border-radius:var(--rs);padding:.5rem .75rem;font-family:'Plus Jakarta Sans',sans-serif;" placeholder="Ej: El grupo tuvo un desempeño general satisfactorio en el trimestre..."></textarea>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.85rem;flex-wrap:wrap;">
+        <button class="btn bp bsm" onclick="demoAction('Boletin guardado como borrador.')">💾 Guardar borrador</button>
+        <button class="btn bp bsm" style="background:var(--green);" onclick="demoAction('Boletin enviado a adscriptura para revision. Laura Fernandez recibio la notificacion.')">📤 Enviar a adscriptura</button>
+      </div>`}
+    </div>
+
+    <div class="card"><div class="ct">📊 Resumen del grupo</div>
+    <div class="g4">
+      <div class="sb"><div class="sn" style="color:var(--green);">4</div><div class="sl">Con promedio bueno (8+)</div></div>
+      <div class="sb"><div class="sn" style="color:var(--blue);">1</div><div class="sl">Aprobados (6-7)</div></div>
+      <div class="sb"><div class="sn" style="color:var(--orange);">1</div><div class="sl">En proceso (5)</div></div>
+      <div class="sb"><div class="sn" style="color:var(--red);">2</div><div class="sl">Necesitan apoyo</div></div>
+    </div></div>`;
+}
+
+function renderMoods(){
+  const moods=[['😄','Genial'],['🙂','Bien'],['😐','Regular'],['😟','Mal'],['😔','Muy mal']];
+  const container=document.getElementById('moods');
+  if(!container) return;
+  container.innerHTML='';
+  moods.forEach(([em,lb],i)=>{
+    const wrapper=document.createElement('div');
+    wrapper.style.cssText='text-align:center;';
+    const btn=document.createElement('div');
+    btn.className='mbt'+(G.mood===i?' ms':'');
+    btn.textContent=em;
+    btn.onclick=()=>{
+      G.mood=i;
+      renderMoods();
+      const alert=document.getElementById('mood-alert');
+      if(alert){
+        alert.innerHTML=i>=3?`<div class="alert ad" style="margin-top:.65rem;">Parece que no estás bien. Recordá que podés hablar con el orientador o llamar a INAU: <strong>0800 5050</strong> (gratuita, 24hs).</div>`:'';
+      }
+    };
+    const lbl=document.createElement('div');
+    lbl.style.cssText='font-size:.65rem;color:var(--muted);margin-top:3px;';
+    lbl.textContent=lb;
+    wrapper.appendChild(btn);
+    wrapper.appendChild(lbl);
+    container.appendChild(wrapper);
+  });
+}
+
+function renderGame(c){
+  const d=VB[G.lang];
+  const w=d.w;
+  const idx=G.idx%w.length;
+  const q=w[idx];
+  const pct=Math.round((idx/w.length)*100);
+  const tot=Object.values(G.score).reduce((a,b)=>a+b,0);
+
+  let langBtns='';
+  Object.entries(VB).forEach(([k,v])=>{
+    langBtns+=`<button class="lbtn ${G.lang===k?v.cl:''}" onclick="setLang('${k}')"><span style="font-size:1rem;">${v.f}</span> ${v.n}${G.score[k]>0?` <span style="font-size:.65rem;background:rgba(0,0,0,.08);padding:1px 5px;border-radius:10px;">${G.score[k]}pts</span>`:''}</button>`;
+  });
+
+  let scoreBars='';
+  Object.entries(G.score).forEach(([k,v])=>{
+    scoreBars+=`<div style="display:flex;align-items:center;gap:.55rem;margin-bottom:.3rem;">
+      <span style="font-size:.7rem;width:95px;">${VB[k].f} ${VB[k].n}</span>
+      <div class="pbar"><div class="pfill ${VB[k].pf}" style="width:${Math.min(v,200)/2}%;"></div></div>
+      <span style="font-size:.72rem;font-weight:700;color:var(--gold2);">${v} pts</span>
+    </div>`;
+  });
+
+  let optBtns='';
+  q.o.forEach(op=>{
+    optBtns+=`<button class="obt" onclick="chk(this,'${op}','${q.a}')">${op}</button>`;
+  });
+
+  c.innerHTML=`<div class="card">
+    <div class="ct">🎮 Juegos de idiomas</div>
+    <div class="lang-sel">${langBtns}</div>
+    <div style="display:flex;align-items:center;gap:.55rem;margin-bottom:.75rem;">
+      <span class="lvbadge ${q.l==='A1'?'a1':q.l==='A2'?'a2':q.l==='B1'?'b1':'b2'}">${q.l}</span>
+      <span style="font-size:.76rem;color:var(--muted);">${d.n}</span>
+      <span class="ptsbadge" style="margin-left:auto;">🏆 ${tot} pts totales</span>
+    </div>
+    <div class="prow">
+      <span style="font-size:.74rem;color:var(--muted);">${idx+1}/${w.length}</span>
+      <div class="pbar"><div class="pfill ${d.pf}" style="width:${pct}%;"></div></div>
+      <span style="font-size:.74rem;font-weight:700;color:var(--navy);">${G.score[G.lang]} pts ${d.f}</span>
+    </div>
+    <div class="game-box">
+      <div class="ghint">¿Cómo se dice en ${d.n}?</div>
+      <div class="gword">${q.q}</div>
+      <div class="opts">${optBtns}</div>
+      <div id="gfb" style="margin-top:.65rem;min-height:22px;font-size:.82rem;font-weight:700;text-align:center;"></div>
+    </div>
+    <div class="alert ai" style="font-size:.75rem;margin-top:.75rem;margin-bottom:.85rem;">
+      🏅 Cada idioma acumula puntos por separado. El docente los valida como nota extra.
+    </div>
+    <div style="font-size:.76rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;">Mi puntaje por idioma</div>
+    ${scoreBars}
+  </div>`;
+}
+
+function setLang(l){clearTimeout(G.gameTimer);G.lang=l;G.idx=0;G.ans=false;renderS('idiomas');}
+
+function chk(btn,ch,correct){
+  if(G.ans)return;
+  G.ans=true;
+  const fb=document.getElementById('gfb');
+  document.querySelectorAll('#sc .opts .obt').forEach(b=>b.disabled=true);
+  if(ch===correct){
+    btn.classList.add('correct');
+    G.score[G.lang]+=10;
+    if(fb){fb.style.color='var(--green)';fb.textContent='¡Correcto! +10 puntos';}
+  }else{
+    btn.classList.add('wrong');
+    document.querySelectorAll('#sc .opts .obt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});
+    if(fb){fb.style.color='var(--red)';fb.textContent=`Incorrecto. La respuesta era: ${correct}`;}
+  }
+	  clearTimeout(G.gameTimer);
+	  G.gameTimer=setTimeout(()=>{G.idx++;G.ans=false;if(G.studentTab==='idiomas')renderS('idiomas');},1400);
+	}
+
+function renderChatbot(c){
+  let msgs='<div class="msg"><div class="msg-s" style="color:var(--lb);">EduBot</div><div class="msg-b">¡Hola, Valentina! Soy tu asistente de estudio. Puedo ayudarte a entender los temas de tus materias y guiarte en tus tareas. ¿En qué materia necesitás ayuda hoy?</div></div>';
+	  G.chatH.forEach(m=>{
+	    if(m.role==='user'){
+	      msgs+=`<div class="msg"><div class="msg-s">Valentina</div><div class="msg-u">${escapeHTML(m.content)}</div></div>`;
+	    }else{
+	      msgs+=`<div class="msg"><div class="msg-s" style="color:var(--lb);">EduBot</div><div class="msg-b">${nl2br(m.content)}</div></div>`;
+	    }
+	  });
+  if(G.botLoad){
+    msgs+=`<div class="msg"><div class="msg-s" style="color:var(--lb);">EduBot</div><div class="msg-b" style="color:var(--muted);font-style:italic;">Pensando...</div></div>`;
+  }
+  c.innerHTML=`<div class="card"><div class="ct">🤖 Asistente educativo EduBot</div>
+    <div class="alert ai" style="font-size:.76rem;">Este asistente solo puede ayudarte a estudiar. No realiza tareas completas. Limitado al programa ANEP.</div>
+    <div class="chat-wrap" style="height:300px;">
+      <div class="chat-msgs" id="bmsgs">${msgs}</div>
+      <div class="chat-row">
+        <input class="cinp" id="binp" placeholder="Ej: No entiendo las fracciones..." onkeydown="if(event.key==='Enter')sendBot()" ${G.botLoad?'disabled':''}>
+        <button class="sbtn" onclick="sendBot()" ${G.botLoad?'disabled':''}>${G.botLoad?'<span class="spinner"></span>':'Enviar'}</button>
+      </div>
+    </div>
+  </div>`;
+	  setTimeout(()=>{const m=document.getElementById('bmsgs');if(m)m.scrollTop=m.scrollHeight;},30);
+	}
+
+	function mockEduBot(text){
+	  const q=text.toLowerCase();
+	  if(q.includes('fracci'))return 'Las fracciones representan partes de un entero. Para compararlas, primero mirá si tienen el mismo denominador; si no lo tienen, buscá un denominador común.\n\n¿Querés probar con dos fracciones concretas y decirme cuál creés que es mayor?';
+	  if(q.includes('ecu')||q.includes('x'))return 'Para trabajar una ecuación, la idea es mantener el equilibrio: lo que hacés de un lado también lo hacés del otro. Primero conviene dejar juntos los términos con x y separar los números.\n\n¿Cuál sería el primer término que moverías para dejar más clara la ecuación?';
+	  if(q.includes('historia')||q.includes('independencia'))return 'Para Historia, te conviene ordenar causas, actores y consecuencias. En la independencia rioplatense, pensá qué intereses tenía cada grupo social y cómo cambió el poder político.\n\n¿Qué causa te parece más importante para empezar tu análisis?';
+	  return 'Buena pregunta. Te puedo guiar paso a paso sin darte la respuesta final. Primero identifiquemos el tema, qué datos tenés y qué te piden resolver.\n\n¿Cuál es la parte específica en la que estás trancada?';
+	}
+
+	async function sendBot(){
+	  const inp=document.getElementById('binp');
+  if(!inp||!inp.value.trim()||G.botLoad)return;
+  const text=inp.value.trim();
+  G.chatH.push({role:'user',content:text});
+	  G.botLoad=true;
+	  renderChatbot(document.getElementById('sc'));
+	  try{
+	    await new Promise(resolve=>setTimeout(resolve,650));
+	    G.chatH.push({role:'assistant',content:mockEduBot(text)});
+	  }catch(e){
+	    G.chatH.push({role:'assistant',content:'Hubo un error al conectar con el asistente. Intentá de nuevo.'});
+	  }
+  G.botLoad=false;
+  renderChatbot(document.getElementById('sc'));
+}
+
+
+
+
+
+function aSend(){const i=document.getElementById('ainp'),m=document.getElementById('achat');if(!i||!i.value.trim())return;m.innerHTML+=`<div class="msg"><div class="msg-s">Prof. González</div><div class="msg-u">${escapeHTML(i.value)}</div></div>`;i.value='';m.scrollTop=m.scrollHeight;}
+
+function renderX(t){
+  const c=document.getElementById('xc');
+  if(t==='dashboard')c.innerHTML=`
+    <div style="background:linear-gradient(135deg,#4A1D96,#7C3AED);border-radius:var(--r);padding:1.25rem;margin-bottom:.85rem;color:#fff;">
+      <div style="font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.25rem;">Liceo N°1 — Adscriptura</div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.7);">Laura Fernández · Viernes 29/05/2026</div>
+    </div>
+    <div class="g4" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn" style="color:var(--red);">3</div><div class="sl">Justif. pendientes</div></div>
+      <div class="sb"><div class="sn" style="color:var(--orange);">23</div><div class="sl">Alumnos en riesgo</div></div>
+      <div class="sb"><div class="sn" style="color:var(--green);">8</div><div class="sl">Inscripciones hoy</div></div>
+      <div class="sb"><div class="sn" style="color:#7C3AED;">1</div><div class="sl">Reporte anónimo</div></div>
+    </div>
+    <div class="card"><div class="ct">⚠️ Alertas del día</div>
+      <div class="alert ad" style="font-size:.78rem;">Rodrigo M. (2°B) acumula 8 faltas este mes sin justificar. Familia notificada automáticamente.</div>
+      <div class="alert" style="background:#F0E8FF;color:#5B21B6;border-left:3px solid #7C3AED;font-size:.78rem;">Nuevo reporte anónimo sin leer — requiere atención.</div>
+      <div class="alert aw" style="font-size:.78rem;">3 familias no han confirmado recepción del boletín del 1er trimestre.</div>
+    </div>
+    <div class="card"><div class="ct">📊 Asistencia hoy — resumen</div>
+    <table><tr><th>Grupo</th><th>Presentes</th><th>Ausentes</th><th>Sin justificar</th></tr>
+      <tr><td>1°A</td><td>26</td><td>2</td><td><span class="badge br">1</span></td></tr>
+      <tr><td>1°B</td><td>24</td><td>4</td><td><span class="badge br">2</span></td></tr>
+      <tr><td>2°A</td><td>27</td><td>1</td><td><span class="badge bg">0</span></td></tr>
+      <tr><td>2°B</td><td>22</td><td>6</td><td><span class="badge br">4</span></td></tr>
+      <tr><td>3°A</td><td>25</td><td>3</td><td><span class="badge bo">1</span></td></tr>
+    </table></div>`;
+
+  else if(t==='boletines')c.innerHTML=`
+    <div class="alert ai" style="font-size:.76rem;">Los docentes envían los boletines a adscriptura para revisión antes de que lleguen a las familias. Revisá cada boletín, aprobalo o devolvelo con observaciones.</div>
+    <div class="g3" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn" style="color:var(--red);">4</div><div class="sl">Pendientes de revisión</div></div>
+      <div class="sb"><div class="sn" style="color:var(--green);">18</div><div class="sl">Aprobados para enviar</div></div>
+      <div class="sb"><div class="sn" style="color:var(--orange);">2</div><div class="sl">Devueltos al docente</div></div>
+    </div>
+    <div class="card"><div class="ct">📋 Boletines pendientes de revisión</div>
+    <table><tr><th>Docente</th><th>Materia</th><th>Grupo</th><th>Enviado</th><th>Alumnos</th><th>Acción</th></tr>
+      <tr>
+        <td>Prof. González</td><td>Matemática</td><td>1°A</td><td>29/05 08:30</td><td>28</td>
+        <td style="display:flex;gap:.3rem;flex-wrap:wrap;">
+          <button class="btn bou bsm" style="color:var(--blue);border-color:var(--blue);" onclick="openBoletinModal('Matematica','1A','Gonzalez')">👁 Ver</button>
+          <button class="btn bp bsm" onclick="demoAction('Boletin de Matematica 1A aprobado. Las 28 familias seran notificadas.')">✓ Aprobar</button>
+          <button class="btn bou bsm" onclick="demoAction('Boletin devuelto a Prof. Gonzalez con observaciones.')">↩ Devolver</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Prof. Méndez</td><td>Historia</td><td>1°A</td><td>29/05 09:10</td><td>28</td>
+        <td style="display:flex;gap:.3rem;flex-wrap:wrap;">
+          <button class="btn bou bsm" style="color:var(--blue);border-color:var(--blue);" onclick="openBoletinModal('Historia','1A','Mendez')">👁 Ver</button>
+          <button class="btn bp bsm" onclick="demoAction('Boletin de Historia 1A aprobado. Las 28 familias seran notificadas.')">✓ Aprobar</button>
+          <button class="btn bou bsm" onclick="demoAction('Boletin devuelto a Prof. Mendez con observaciones.')">↩ Devolver</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Prof. Castro</td><td>Literatura</td><td>2°B</td><td>29/05 09:45</td><td>26</td>
+        <td style="display:flex;gap:.3rem;flex-wrap:wrap;">
+          <button class="btn bou bsm" style="color:var(--blue);border-color:var(--blue);" onclick="openBoletinModal('Literatura','2B','Castro')">👁 Ver</button>
+          <button class="btn bp bsm" onclick="demoAction('Boletin de Literatura 2B aprobado. Las 26 familias seran notificadas.')">✓ Aprobar</button>
+          <button class="btn bou bsm" onclick="demoAction('Boletin devuelto a Prof. Castro con observaciones.')">↩ Devolver</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Prof. Varela</td><td>Química</td><td>3°A</td><td>29/05 10:15</td><td>24</td>
+        <td style="display:flex;gap:.3rem;flex-wrap:wrap;">
+          <button class="btn bou bsm" style="color:var(--blue);border-color:var(--blue);" onclick="openBoletinModal('Quimica','3A','Varela')">👁 Ver</button>
+          <button class="btn bp bsm" onclick="demoAction('Boletin de Quimica 3A aprobado. Las 24 familias seran notificadas.')">✓ Aprobar</button>
+          <button class="btn bou bsm" onclick="demoAction('Boletin devuelto a Prof. Varela con observaciones.')">↩ Devolver</button>
+        </td>
+      </tr>
+    </table></div>
+    <div class="card"><div class="ct">📤 Envío masivo a familias</div>
+    <div class="alert as" style="font-size:.76rem;margin-bottom:.85rem;">18 boletines aprobados listos para enviar. Una vez confirmado, todas las familias recibirán notificación instantánea por EduUY.</div>
+    <div class="fg"><label>Mensaje para las familias (opcional)</label>
+      <textarea rows="2" placeholder="Ej: Se adjunta el boletin del 1er trimestre. Ante consultas comunicarse con adscriptura..."></textarea>
+    </div>
+    <button class="btn bp bfull" onclick="demoAction('Boletines enviados. 486 familias notificadas. Confirmacion de lectura activa.')">📨 Enviar todos los boletines aprobados a las familias</button></div>
+    <div class="card"><div class="ct">✅ Historial de envíos</div>
+    <table><tr><th>Período</th><th>Enviados</th><th>Familias notificadas</th><th>% Confirmaron lectura</th></tr>
+      <tr><td>1er Trimestre 2026</td><td>24</td><td>486</td><td><span class="badge bg">94%</span></td></tr>
+      <tr><td>3er Trimestre 2025</td><td>22</td><td>471</td><td><span class="badge bg">91%</span></td></tr>
+      <tr><td>2do Trimestre 2025</td><td>23</td><td>468</td><td><span class="badge bo">78%</span></td></tr>
+    </table></div>
+    <div id="boletin-modal" class="hidden" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,.45);z-index:2000;display:flex;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto;">
+      <div style="background:var(--white);border-radius:var(--r);width:100%;max-width:600px;box-shadow:0 20px 60px rgba(0,0,0,.25);margin:auto;">
+        <div style="background:var(--navy);border-radius:var(--r) var(--r) 0 0;padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-family:'Sora',sans-serif;font-size:.95rem;font-weight:700;color:#fff;" id="modal-title">Boletín — Matemática 1°A</div>
+            <div style="font-size:.72rem;color:rgba(255,255,255,.6);" id="modal-sub">Prof. González · 1er Trimestre 2026</div>
+          </div>
+          <button onclick="closeBoletinModal()" style="background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:6px;padding:4px 12px;cursor:pointer;font-size:.8rem;font-family:'Plus Jakarta Sans',sans-serif;">✕ Cerrar</button>
+        </div>
+        <div style="padding:1rem 1.25rem;">
+          <div class="alert ai" style="font-size:.75rem;margin-bottom:.85rem;" id="modal-alert">Revisando 28 boletines de Matemática — Grupo 1°A</div>
+          <table id="modal-table"><tr><th>#</th><th>Alumno</th><th>Nota T1</th><th>Nota T2</th><th>Nota T3</th><th>Promedio</th><th>Estado</th></tr></table>
+          <div style="display:flex;gap:.65rem;margin-top:1rem;flex-wrap:wrap;">
+            <div class="fg" style="flex:1;min-width:180px;margin-bottom:0;">
+              <label>Observaciones para el docente</label>
+              <textarea rows="2" placeholder="Si devolvés el boletin, indicá qué corregir..." style="font-size:.8rem;"></textarea>
+            </div>
+          </div>
+          <div style="display:flex;gap:.65rem;margin-top:.75rem;flex-wrap:wrap;">
+            <button class="btn bp" style="flex:1;" id="modal-approve-btn" onclick="demoAction('Boletin aprobado. Familias seran notificadas al hacer el envio masivo.')">✓ Aprobar este boletín</button>
+            <button class="btn bou" style="flex:1;" onclick="demoAction('Boletin devuelto al docente con observaciones.');closeBoletinModal()">↩ Devolver al docente</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  else if(t==='chat'){
+    const familias=[
+      ['Carlos R.','Padre de Valentina','C','●','#C0392B'],
+      ['Ana M.','Madre de Lucas','A','●','#C0392B'],
+      ['Jorge P.','Padre de Rodrigo','J','●','#E67E22'],
+      ['María L.','Madre de Fernanda','M','','#D1DCF0'],
+      ['Roberto S.','Padre de Tomás','R','','#D1DCF0'],
+      ['Claudia V.','Madre de Camila','C','','#D1DCF0'],
+    ];
+    let contactsHTML='';
+    familias.forEach(([n,s,ini,dot,dc],i)=>{
+      const bg=i===0?'background:#E3EEFF;':'';
+      contactsHTML+=`<div onclick="xSelectChat(this,'${n}')" style="padding:.5rem;border-radius:var(--rs);cursor:pointer;margin-bottom:.2rem;${bg}">
+        <div style="display:flex;align-items:center;gap:.35rem;">
+          <div style="width:28px;height:28px;border-radius:50%;background:#1B3A6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;">${ini}</div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:.74rem;font-weight:700;color:#1B3A6B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${n}</div>
+            <div style="font-size:.62rem;color:#6B7A99;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s}</div>
+          </div>
+          <span style="color:${dc};font-size:.65rem;">${dot}</span>
+        </div>
+      </div>`;
+    });
+    c.innerHTML=`<div class="alert ai" style="font-size:.76rem;">Canal de comunicación directo con padres y tutores. Los mensajes quedan registrados para seguimiento.</div>
+    <div style="display:flex;gap:.85rem;height:400px;">
+      <div style="width:165px;flex-shrink:0;background:var(--bg);border-radius:var(--r);border:1px solid var(--border);overflow-y:auto;padding:.5rem;">
+        <div style="font-size:.7rem;font-weight:700;color:var(--muted);padding:.3rem .5rem;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.3px;">Familias</div>
+        ${contactsHTML}
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+        <div style="background:var(--navy);border-radius:var(--r) var(--r) 0 0;padding:.6rem .85rem;display:flex;align-items:center;gap:.5rem;">
+          <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;">C</div>
+          <div>
+            <div style="font-size:.82rem;font-weight:700;color:#fff;" id="xchat-name">Carlos R.</div>
+            <div style="font-size:.66rem;color:rgba(255,255,255,.55);">Padre de Valentina R. · 1°A</div>
+          </div>
+        </div>
+        <div class="chat-msgs" id="xchat-msgs" style="flex:1;border-radius:0;border:1px solid var(--border);border-top:none;border-bottom:none;">
+          <div class="msg"><div class="msg-s">Carlos R.</div><div class="msg-b">Buenas, queria consultar sobre el boletin de Valentina. Cuando lo recibimos?</div></div>
+          <div class="msg"><div class="msg-s" style="text-align:right;">Adscripta Laura</div><div class="msg-u">Buenos dias Carlos. Los boletines del 1er trimestre se envian hoy antes del mediodia. Valentina tuvo muy buen desempeno.</div></div>
+          <div class="msg"><div class="msg-s">Carlos R.</div><div class="msg-b">Muchas gracias. Hay algo que deba saber antes de recibirlo?</div></div>
+        </div>
+        <div class="chat-row" style="padding:.5rem;background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r) var(--r);">
+          <input class="cinp" id="xfinp" placeholder="Escribir mensaje a la familia..." onkeydown="if(event.key==='Enter')xfSend()">
+          <button class="sbtn" onclick="xfSend()">Enviar</button>
+        </div>
+      </div>
+    </div>`;}
+
+  else if(t==='justificaciones')c.innerHTML=`
+    <div class="alert ai" style="font-size:.76rem;">Las familias envian justificaciones digitalmente. Vos las revisas y aprobas desde aca. Las aprobadas se sincronizan automaticamente con el registro de asistencia.</div>
+    <div class="card"><div class="ct">Justificaciones pendientes de revision</div>
+    <table><tr><th>Alumno</th><th>Grupo</th><th>Fecha falta</th><th>Motivo</th><th>Comprobante</th><th>Accion</th></tr>
+      <tr><td>Valentina R.</td><td>1A</td><td>27/05</td><td>Medico</td><td><span class="badge bb">PDF adjunto</span></td>
+        <td style="display:flex;gap:.3rem;"><button class="btn bp bsm" onclick="demoAction('Justificacion de Valentina aprobada. Asistencia actualizada.')">Aprobar</button><button class="btn bou bsm" onclick="demoAction('Justificacion rechazada. Familia notificada.')">X</button></td></tr>
+      <tr><td>Lucas M.</td><td>1A</td><td>28/05</td><td>Familiar</td><td><span class="badge bb">Foto adjunta</span></td>
+        <td style="display:flex;gap:.3rem;"><button class="btn bp bsm" onclick="demoAction('Justificacion de Lucas aprobada. Asistencia actualizada.')">Aprobar</button><button class="btn bou bsm" onclick="demoAction('Justificacion rechazada. Familia notificada.')">X</button></td></tr>
+      <tr><td>Camila F.</td><td>3A</td><td>28/05</td><td>Lluvia / transporte</td><td><span class="badge bo">Sin comprobante</span></td>
+        <td style="display:flex;gap:.3rem;"><button class="btn bp bsm" onclick="demoAction('Justificacion de Camila aprobada.')">Aprobar</button><button class="btn bou bsm" onclick="demoAction('Justificacion rechazada. Familia notificada.')">X</button></td></tr>
+    </table></div>
+    <div class="card"><div class="ct">Ultimas aprobadas</div>
+    <table><tr><th>Alumno</th><th>Fecha</th><th>Motivo</th><th>Estado</th></tr>
+      <tr><td>Martina S.</td><td>26/05</td><td>Medico</td><td><span class="badge bg">Aprobada</span></td></tr>
+      <tr><td>Diego P.</td><td>25/05</td><td>Tramite ANEP</td><td><span class="badge bg">Aprobada</span></td></tr>
+      <tr><td>Florencia T.</td><td>24/05</td><td>Familiar</td><td><span class="badge br">Rechazada</span></td></tr>
+    </table></div>`;
+
+  else if(t==='seguimiento')c.innerHTML=`
+    <div class="alert ad" style="font-size:.78rem;">⚠️ 23 estudiantes con indicadores de riesgo activos. EduUY alerta automáticamente cuando un alumno supera el 20% de inasistencias o baja del promedio 5.</div>
+    <div class="card"><div class="ct">🚨 Alumnos en seguimiento activo</div>
+    <table><tr><th>Alumno</th><th>Grupo</th><th>Faltas mes</th><th>Promedio</th><th>Último contacto familia</th><th>Acción</th></tr>
+      <tr><td>Rodrigo M.</td><td>2°B</td><td style="color:var(--red);font-weight:700;">8 sin justif.</td><td>4.2</td><td>29/05 — Auto</td>
+        <td><button class="btn bp bsm" onclick="demoAction('Registro de contacto con familia de Rodrigo guardado.')">Registrar contacto</button></td></tr>
+      <tr><td>Fernanda L.</td><td>3°B</td><td style="color:var(--orange);font-weight:700;">5 sin justif.</td><td>4.8</td><td>28/05 — Manual</td>
+        <td><button class="btn bp bsm" onclick="demoAction('Registro de contacto con familia de Fernanda guardado.')">Registrar contacto</button></td></tr>
+      <tr><td>Camila R.</td><td>1°B</td><td>2</td><td style="color:var(--red);font-weight:700;">3.9</td><td>27/05 — Auto</td>
+        <td><button class="btn bp bsm" onclick="demoAction('Registro de contacto con familia de Camila guardado.')">Registrar contacto</button></td></tr>
+    </table></div>
+    <div class="card"><div class="ct">📞 Registrar nuevo contacto con familia</div>
+    <div class="g2">
+      <div class="fg"><label>Alumno</label><input type="text" placeholder="Nombre del alumno..."></div>
+      <div class="fg"><label>Tipo de contacto</label><select><option>Llamada telefónica</option><option>Mensaje EduUY</option><option>Entrevista presencial</option><option>Correo electrónico</option></select></div>
+    </div>
+    <div class="fg"><label>Observaciones</label><textarea rows="2" placeholder="Detalle del contacto realizado..."></textarea></div>
+    <button class="btn bp bsm" onclick="demoAction('Contacto registrado. Historial actualizado.')">Guardar registro</button></div>`;
+
+  else if(t==='inscripciones')c.innerHTML=`
+    <div class="alert ai" style="font-size:.76rem;">Las familias completan la inscripción digital desde casa. Vos revisás y validás los documentos desde acá. Cero papel, cero filas.</div>
+    <div class="g3" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn" style="color:var(--green);">142</div><div class="sl">Inscriptos confirmados</div></div>
+      <div class="sb"><div class="sn" style="color:var(--orange);">18</div><div class="sl">Documentación pendiente</div></div>
+      <div class="sb"><div class="sn" style="color:var(--blue);">34</div><div class="sl">Pre-inscriptos</div></div>
+    </div>
+    <div class="card"><div class="ct">📋 Inscripciones con documentación pendiente</div>
+    <table><tr><th>Estudiante</th><th>Turno</th><th>Faltante</th><th>Acción</th></tr>
+      <tr><td>Ignacio Pereira</td><td>Matutino</td><td><span class="badge br">Boletín anterior</span></td>
+        <td><button class="btn bp bsm" onclick="demoAction('Recordatorio enviado a la familia de Ignacio.')">Notificar familia</button></td></tr>
+      <tr><td>Sofía Da Silva</td><td>Vespertino</td><td><span class="badge bo">Cédula estudiante</span></td>
+        <td><button class="btn bp bsm" onclick="demoAction('Recordatorio enviado a la familia de Sofía.')">Notificar familia</button></td></tr>
+      <tr><td>Mateo Suárez</td><td>Matutino</td><td><span class="badge br">Comprobante domicilio</span></td>
+        <td><button class="btn bp bsm" onclick="demoAction('Recordatorio enviado a la familia de Mateo.')">Notificar familia</button></td></tr>
+    </table></div>
+    <div class="card"><div class="ct">✅ Confirmar inscripción</div>
+    <div class="g2">
+      <div class="fg"><label>Estudiante</label><input type="text" placeholder="Nombre completo..."></div>
+      <div class="fg"><label>Turno asignado</label><select><option>Matutino</option><option>Vespertino</option></select></div>
+    </div>
+    <button class="btn bp bsm" onclick="demoAction('Inscripción confirmada. Familia notificada con datos del grupo y turno.')">Confirmar y notificar</button></div>`;
+
+  else if(t==='comunicaciones')c.innerHTML=`
+    <div class="card"><div class="ct">📢 Enviar comunicado masivo</div>
+    <div class="fg"><label>Destinatarios</label>
+      <select><option>Todos los grupos</option><option>1°A</option><option>1°B</option><option>2°A</option><option>2°B</option><option>3°A</option><option>3°B</option><option>Familias con alumnos en riesgo</option></select>
+    </div>
+    <div class="fg"><label>Asunto</label><input type="text" placeholder="Ej: Recordatorio entrega boletín..."></div>
+    <div class="fg"><label>Mensaje</label><textarea rows="3" placeholder="Escribí el comunicado..."></textarea></div>
+    <button class="btn bp bsm" onclick="demoAction('Comunicado enviado. 842 familias notificadas por EduUY.')">Enviar a familias</button></div>
+    <div class="card"><div class="ct">💬 Mensajes recientes de familias</div>
+    <div class="chat-wrap" style="height:260px;"><div class="chat-msgs" id="xchat">
+      <div class="msg"><div class="msg-s">Carlos R. (padre de Valentina)</div><div class="msg-b">¿A qué hora es la entrega de boletines el viernes?</div></div>
+      <div class="msg"><div class="msg-s">Ana M. (madre de Lucas)</div><div class="msg-b">Lucas no va a poder ir el lunes, tiene turno médico a las 9.</div></div>
+      <div class="msg"><div class="msg-s">Jorge P. (padre de Rodrigo)</div><div class="msg-b">Recibí la notificación de faltas. ¿Puedo hablar con la adscripta?</div></div>
+    </div>
+    <div class="chat-row">
+      <input class="cinp" id="xinp" placeholder="Responder..." onkeydown="if(event.key==='Enter')xSend()">
+      <button class="sbtn" onclick="xSend()">Enviar</button>
+    </div></div></div>`;
+
+  else if(t==='reportes')c.innerHTML=`
+    <div class="alert" style="background:#F0E8FF;color:#5B21B6;border-left:3px solid #7C3AED;font-size:.76rem;">Los reportes son 100% anónimos para el estudiante. Solo vos, la dirección y la orientadora pueden verlos.</div>
+    <div class="card"><div class="ct">🔒 Reportes anónimos sin atender</div>
+    <table><tr><th>Tipo</th><th>Grupo estimado</th><th>Recibido</th><th>Estado</th><th>Acción</th></tr>
+      <tr>
+        <td><span class="badge bpu">Bullying / Acoso</span></td>
+        <td>2°B (estimado)</td>
+        <td>29/05 09:14</td>
+        <td><span class="badge br">Sin atender</span></td>
+        <td><button class="btn bp bsm" onclick="demoAction('Reporte marcado como en gestión. Orientadora notificada.')">Gestionar</button></td>
+      </tr>
+    </table></div>
+    <div class="card"><div class="ct">✅ Reportes atendidos este mes</div>
+    <table><tr><th>Tipo</th><th>Fecha</th><th>Derivado a</th><th>Resolución</th></tr>
+      <tr><td>Discriminación</td><td>15/05</td><td>Orientadora</td><td><span class="badge bg">Resuelto</span></td></tr>
+      <tr><td>Situación en el hogar</td><td>08/05</td><td>Dir. + INAU</td><td><span class="badge bg">En seguimiento</span></td></tr>
+      <tr><td>Bullying</td><td>02/05</td><td>Orientadora</td><td><span class="badge bg">Resuelto</span></td></tr>
+    </table></div>
+    <div class="card"><div class="ct">📊 Resumen del mes</div>
+    <div class="g3">
+      <div class="sb"><div class="sn">4</div><div class="sl">Reportes recibidos</div></div>
+      <div class="sb"><div class="sn" style="color:var(--green);">3</div><div class="sl">Resueltos</div></div>
+      <div class="sb"><div class="sn" style="color:var(--red);">1</div><div class="sl">Pendiente</div></div>
+    </div></div>`;
+}
+
+function xSend(){const i=document.getElementById('xinp'),m=document.getElementById('xchat');if(!i||!i.value.trim())return;m.innerHTML+=`<div class="msg"><div class="msg-s">Adscripta Laura</div><div class="msg-u">${escapeHTML(i.value)}</div></div>`;i.value='';m.scrollTop=m.scrollHeight;}
+
+function xfSend(){const i=document.getElementById('xfinp'),m=document.getElementById('xchat-msgs');if(!i||!i.value.trim())return;m.innerHTML+=`<div class="msg"><div class="msg-s" style="text-align:right;">Adscripta Laura</div><div class="msg-u">${escapeHTML(i.value)}</div></div>`;i.value='';m.scrollTop=m.scrollHeight;}
+
+function xSelectChat(el,name){document.getElementById('xchat-name').textContent=name;}
+
+function closeBoletinModal(){const m=document.getElementById('boletin-modal');if(m)m.classList.add('hidden');}
+
+function openBoletinModal(materia,grupo,docente){
+  const modal=document.getElementById('boletin-modal');
+  if(!modal)return;
+  const title=document.getElementById('modal-title');
+  const sub=document.getElementById('modal-sub');
+  const alertEl=document.getElementById('modal-alert');
+  const table=document.getElementById('modal-table');
+  if(title)title.textContent='Boletin — '+materia+' '+grupo;
+  if(sub)sub.textContent='Prof. '+docente+' · 1er Trimestre 2026';
+  const alumnos=[
+    ['Valentina R.',8,9,8],['Lucas M.',6,7,6],['Camila F.',9,9,10],
+    ['Rodrigo M.',3,4,4],['Martina S.',7,8,8],['Diego P.',8,7,9],
+    ['Florencia T.',5,6,5],['Tomas P.',4,5,4],['Sofia L.',9,10,9],
+    ['Ignacio V.',6,6,7],['Ana B.',7,8,7],['Martin R.',5,5,6],
+  ];
+  let rows='<tr><th>#</th><th>Alumno</th><th>T1</th><th>T2</th><th>T3</th><th>Promedio</th><th>Estado</th></tr>';
+  alumnos.forEach(([n,t1,t2,t3],i)=>{
+    const prom=((t1+t2+t3)/3).toFixed(1);
+    const ok=parseFloat(prom)>=5;
+    const badge=ok?'<span class="badge bg">Aprobado</span>':'<span class="badge br">En riesgo</span>';
+    const rbg=!ok?'background:#FFF5F5;':'';
+    const rc=!ok?'color:var(--red);font-weight:700;':'';
+    rows+=`<tr style="${rbg}"><td style="color:var(--muted);font-size:.72rem;">${i+1}</td><td style="font-weight:600;">${n}</td>
+      <td style="text-align:center;${t1<5?'color:var(--red);font-weight:700;':''}">${t1}</td>
+      <td style="text-align:center;${t2<5?'color:var(--red);font-weight:700;':''}">${t2}</td>
+      <td style="text-align:center;${t3<5?'color:var(--red);font-weight:700;':''}">${t3}</td>
+      <td style="text-align:center;font-weight:700;${parseFloat(prom)<5?'color:var(--red);':parseFloat(prom)>=8?'color:var(--green);':''}">${prom}</td>
+      <td>${badge}</td></tr>`;
+  });
+  if(table)table.innerHTML=rows;
+  const enRiesgo=alumnos.filter(([n,t1,t2,t3])=>((t1+t2+t3)/3)<5).length;
+  if(alertEl)alertEl.innerHTML='Revisando '+alumnos.length+' boletines de '+materia+' — Grupo '+grupo+'. <strong style="color:var(--red);">'+enRiesgo+' alumnos con promedio menor a 5.</strong>';
+  modal.classList.remove('hidden');
+  modal.scrollTop=0;
+}
+
+function pSend(){const i=document.getElementById('pinp'),m=document.getElementById('pchat');if(!i||!i.value.trim())return;m.innerHTML+=`<div class="msg"><div class="msg-s">Yo</div><div class="msg-u">${escapeHTML(i.value)}</div></div>`;i.value='';m.scrollTop=m.scrollHeight;}
+
+function handleFileSelect(input){
+  if(!input.files||!input.files[0])return;
+  showFilePreview(input.files[0]);
+}
+
+function handleFileDrop(e){
+  e.preventDefault();
+  const dz=document.getElementById('drop-zone');
+  if(dz){dz.style.borderColor='var(--border)';dz.style.background='var(--bg)';}
+  const file=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];
+  if(file)showFilePreview(file);
+}
+
+function showFilePreview(file){
+  const preview=document.getElementById('file-preview');
+  const name=document.getElementById('file-name');
+  const size=document.getElementById('file-size');
+  const ico=document.getElementById('file-ico');
+  const dz=document.getElementById('drop-zone');
+  if(!preview||!name||!size||!ico)return;
+  const ext=file.name.split('.').pop().toLowerCase();
+  const icons={pdf:'📕',doc:'📘',docx:'📘',jpg:'🖼',jpeg:'🖼',png:'🖼'};
+  ico.textContent=icons[ext]||'📄';
+  name.textContent=file.name;
+  const kb=Math.round(file.size/1024);
+  size.textContent=kb>1024?(kb/1024).toFixed(1)+' MB':kb+' KB';
+  preview.classList.remove('hidden');
+  if(dz)dz.style.display='none';
+}
+
+function clearFile(){
+  const preview=document.getElementById('file-preview');
+  const dz=document.getElementById('drop-zone');
+  const inp=document.getElementById('file-input');
+  if(preview)preview.classList.add('hidden');
+  if(dz)dz.style.display='';
+  if(inp)inp.value='';
+}
+
+function publishTarea(){
+  const preview=document.getElementById('file-preview');
+  const fname=document.getElementById('file-name');
+  const hasFile=preview&&!preview.classList.contains('hidden')&&fname&&fname.textContent;
+  if(hasFile){
+    demoAction('Tarea publicada con adjunto "'+fname.textContent+'". Estudiantes y tutores fueron notificados.');
+  } else {
+    demoAction('Tarea publicada. Aparece automaticamente para estudiantes y tutores.');
+  }
+  clearFile();
+}
+function dSend(){const i=document.getElementById('dinp'),m=document.getElementById('dchat');if(!i||!i.value.trim())return;m.innerHTML+=`<div class="msg"><div class="msg-s">Prof. González</div><div class="msg-u">${escapeHTML(i.value)}</div></div>`;i.value='';m.scrollTop=m.scrollHeight;}
+
+
+// NOTIFICATION DATA
+const NOTIFS = {
+  adscripto: [
+    {ico:'⚠️',bg:'#FFE8E8',title:'3 justificaciones pendientes de revisar',sub:'Valentina R., Lucas M. y Camila F. enviaron comprobantes hoy.',time:'Hace 5 min',unread:true},
+    {ico:'🔒',bg:'#F0E8FF',title:'Nuevo reporte anónimo recibido',sub:'Situación de bullying reportada en 2°B.',time:'Hace 20 min',unread:true},
+    {ico:'👨‍👩‍👧',bg:'#E3EEFF',title:'Familia de Rodrigo M. solicitó entrevista',sub:'Solicitud de reunión por situación académica.',time:'Hace 1 hora',unread:true},
+    {ico:'📋',bg:'#E3F8EA',title:'Inscripción completada',sub:'Tomás Pérez completó su inscripción digital para 2026.',time:'Hace 2 horas',unread:true},
+    {ico:'✅',bg:'#E3F8EA',title:'Asistencia del día procesada',sub:'842 registros procesados sin errores.',time:'Ayer',unread:false},
+  ],
+  admin: [
+    {ico:'⚠️',bg:'#FFF3D0',title:'3 alumnos en riesgo académico',sub:'Isabella L., Rodrigo M. y Fernanda L. tienen promedio menor a 5.',time:'Hace 10 min',unread:true},
+    {ico:'📋',bg:'#E3EEFF',title:'Boletín pendiente de publicar',sub:'El boletín del 1er trimestre de 1°A aún no fue publicado.',time:'Hace 1 hora',unread:true},
+    {ico:'👨‍👩‍👧',bg:'#E3F8EA',title:'Carlos R. te envió un mensaje',sub:'¿Cómo va Valentina en matemática?',time:'Hace 2 horas',unread:true},
+	    {ico:'✅',bg:'#E3F8EA',title:'Asistencia guardada',sub:'Registraste asistencia de 1°A · Viernes 29/05.',time:'Ayer',unread:false},
+  ],
+  parent: [
+    {ico:'🚨',bg:'#FFE8E8',title:'Valentina faltó hoy',sub:'Tu hija no registró asistencia en Matemática (08:00hs).',time:'Hace 5 min',unread:true},
+    {ico:'📋',bg:'#E3EEFF',title:'Nuevo boletín disponible',sub:'El boletín del 1er trimestre de Valentina ya está listo.',time:'Hace 30 min',unread:true},
+	    {ico:'⚠️',bg:'#FFF3D0',title:'Tarea sin entregar',sub:'Valentina no entregó "Análisis Independencia" de Historia. Vence el 30/05.',time:'Hace 2 horas',unread:true},
+	    {ico:'📉',bg:'#FFF3D0',title:'Bajó el promedio de Martín',sub:'El promedio de Martín bajó de 7.2 a 6.5 este mes.',time:'Hace 1 día',unread:true},
+	    {ico:'📢',bg:'#E3EEFF',title:'Aviso del liceo',sub:'Prof. Méndez llega tarde el viernes 29/05.',time:'Ayer',unread:false},
+  ],
+  student: [
+	    {ico:'📌',bg:'#FFF3D0',title:'Nueva tarea publicada',sub:'Prof. Méndez publicó "Análisis Independencia". Vence el 30/05.',time:'Hace 1 hora',unread:true},
+    {ico:'🎮',bg:'#E3EEFF',title:'¡Nuevo récord en inglés!',sub:'Superaste tu puntaje anterior. Ahora tenés 80 pts en Inglés.',time:'Hace 3 horas',unread:true},
+    {ico:'📋',bg:'#E3F8EA',title:'Boletín publicado',sub:'Tu boletín del 1er trimestre ya está disponible.',time:'Ayer',unread:false},
+  ],
+  director: [
+    {ico:'🚨',bg:'#FFE8E8',title:'Alerta de asistencia — 2°B',sub:'El grupo 2°B tiene 65% de asistencia esta semana. Mínimo recomendado: 75%.',time:'Hace 15 min',unread:true},
+    {ico:'👩‍🏫',bg:'#FFF3D0',title:'Prof. Varela falta hoy',sub:'Química 2°A y 3°A sin docente. Grupos notificados automáticamente.',time:'Hace 1 hora',unread:true},
+	    {ico:'📊',bg:'#E3EEFF',title:'Informe semanal disponible',sub:'El informe de rendimiento de la semana del 29/05 ya está listo.',time:'Hace 2 horas',unread:true},
+    {ico:'✅',bg:'#E3F8EA',title:'94% de padres vieron el boletín',sub:'Solo 48 familias aún no abrieron el boletín del 1er trimestre.',time:'Ayer',unread:false},
+  ]
+};
+
+function toggleNotif(rol){
+  const panel=document.getElementById('notif-panel');
+  const overlay=document.getElementById('notif-overlay');
+  const isHidden=panel.classList.contains('hidden');
+  if(isHidden && rol){
+    const notifs=NOTIFS[rol]||[];
+    document.getElementById('notif-list').innerHTML=notifs.map(n=>`
+      <div class="notif-item ${n.unread?'unread':''}">
+        <div class="notif-ico" style="background:${n.bg};">${n.ico}</div>
+        <div style="flex:1;">
+          <div class="notif-title">${n.title}</div>
+          <div class="notif-sub">${n.sub}</div>
+          <div class="notif-time">${n.time}</div>
+        </div>
+        ${n.unread?'<div style="width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:4px;"></div>':''}
+      </div>`).join('');
+    panel.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+  } else {
+    panel.classList.add('hidden');
+    overlay.classList.add('hidden');
+  }
+}
+
+setMode('login',document.querySelector('.mode-tab'));
+
+// Offline simulation
+let isOffline = false;
+function updateOfflineUI(){
+  const bar=document.getElementById('offline-bar');
+  if(bar)bar.classList.toggle('hidden',!isOffline);
+  const badge=document.getElementById('offline-badge');
+  if(badge)badge.style.display=isOffline?'inline-flex':'none';
+}
+function simulateOffline(){
+  isOffline=true;
+  updateOfflineUI();
+  demoAction('Modo offline activado. Los cambios se sincronizarán al reconectar.');
+}
+function simulateOnline(){
+  isOffline=false;
+  updateOfflineUI();
+  demoAction('Conexión restablecida. Datos sincronizados correctamente.');
+}
+
+// Director dashboard
+function renderD(t){
+  const c=document.getElementById('dc');
+  if(t==='dashboard'){
+    c.innerHTML=`
+    <div style="background:linear-gradient(135deg,#1B3A6B,#2E5FA3);border-radius:var(--r);padding:1.25rem;margin-bottom:.85rem;color:#fff;">
+      <div style="font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.25rem;">Liceo N°1 de Montevideo</div>
+	      <div style="font-size:.78rem;color:rgba(255,255,255,.7);">Dashboard del Director · Mayo 2026</div>
+      <div id="offline-badge" style="display:${isOffline?'inline-flex':'none'};align-items:center;gap:.3rem;margin-top:.5rem;background:rgba(232,184,75,.2);border:1px solid rgba(232,184,75,.4);padding:3px 9px;border-radius:20px;font-size:.72rem;color:#E8B84B;">
+        <span style="width:6px;height:6px;background:#E8B84B;border-radius:50%;"></span> Modo offline activo
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.65rem;margin-bottom:.85rem;">
+      <div class="sb"><div class="sn">842</div><div class="sl">Alumnos matriculados</div></div>
+      <div class="sb"><div class="sn">87%</div><div class="sl">Asistencia media</div></div>
+      <div class="sb"><div class="sn" style="color:var(--green);">7.1</div><div class="sl">Promedio general</div></div>
+      <div class="sb"><div class="sn" style="color:var(--red);">23</div><div class="sl">Alumnos en riesgo</div></div>
+    </div>
+    <div class="card"><div class="ct">📊 Asistencia por grupo — semana actual</div>
+    <div style="display:flex;flex-direction:column;gap:.4rem;">
+      ${[['1°A',94,'bg'],['1°B',88,'bg'],['2°A',91,'bg'],['2°B',76,'bo'],['3°A',82,'bg'],['3°B',65,'br']].map(([g,v,b])=>`
+      <div style="display:flex;align-items:center;gap:.65rem;">
+        <span style="font-size:.78rem;font-weight:700;width:30px;">${g}</span>
+        <div class="pbar" style="flex:1;"><div class="pfill pf-en" style="width:${v}%;"></div></div>
+        <span class="badge ${b}" style="min-width:40px;text-align:center;">${v}%</span>
+      </div>`).join('')}
+    </div></div>
+    <div class="card"><div class="ct">⚠️ Alertas del día</div>
+    <div class="alert ad" style="font-size:.78rem;">3 alumnos de 2°B con más de 20% de faltas este mes. Padres notificados automáticamente.</div>
+	    <div class="alert aw" style="font-size:.78rem;">Prof. Méndez avisó tardanza para hoy viernes. Grupo 1°A y 3°B notificados.</div>
+    <div class="alert ai" style="font-size:.78rem;">Boletín del 1er trimestre publicado. 94% de padres ya lo vieron.</div>
+    </div>
+    <button onclick="simulateOffline()" style="width:100%;padding:.55rem;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rs);font-size:.8rem;font-weight:700;color:var(--muted);cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">📴 Simular modo sin conexión</button>`;
+  }
+
+  else if(t==='liceo'){
+    c.innerHTML=`<div class="card"><div class="ct">🏫 Liceo N°1 de Montevideo</div>
+    <table><tr><th>Dato</th><th>Valor</th></tr>
+    <tr><td>Total alumnos</td><td>842</td></tr>
+    <tr><td>Total docentes</td><td>67</td></tr>
+    <tr><td>Grupos</td><td>24</td></tr>
+    <tr><td>Turno matutino</td><td>420 alumnos</td></tr>
+    <tr><td>Turno vespertino</td><td>422 alumnos</td></tr>
+    <tr><td>Código ANEP</td><td>MVD-001</td></tr>
+    </table></div>
+    <div class="card"><div class="ct">📅 Calendario institucional</div>
+    <table><tr><th>Evento</th><th>Fecha</th><th>Estado</th></tr>
+	    <tr><td>Entrega boletines 1er trim.</td><td>29/05</td><td><span class="badge bg">Completado</span></td></tr>
+	    <tr><td>Jornada institucional Ceibal</td><td>29/05</td><td><span class="badge bo">Próximo</span></td></tr>
+	    <tr><td>Inicio 2do trimestre</td><td>01/06</td><td><span class="badge bo">Próximo</span></td></tr>
+	    <tr><td>Reunión de coordinación</td><td>03/06</td><td><span class="badge bb">Programado</span></td></tr>
+    </table></div>`;
+  }
+
+  else if(t==='riesgo'){
+    c.innerHTML=`<div class="alert ad">⚠️ 23 alumnos identificados con indicadores de riesgo académico o de asistencia. Padres y orientadores notificados automáticamente.</div>
+    <div class="card"><div class="ct">🚨 Alumnos en riesgo — criterios</div>
+    <table><tr><th>Alumno</th><th>Grupo</th><th>Asistencia</th><th>Promedio</th><th>Estado</th></tr>
+    <tr><td>Rodrigo M.</td><td>2°B</td><td style="color:var(--red);font-weight:700;">58%</td><td>4.2</td><td><span class="badge br">Crítico</span></td></tr>
+    <tr><td>Fernanda L.</td><td>3°B</td><td style="color:var(--orange);font-weight:700;">67%</td><td>4.8</td><td><span class="badge br">Crítico</span></td></tr>
+    <tr><td>Tomás P.</td><td>2°B</td><td style="color:var(--orange);font-weight:700;">71%</td><td>5.1</td><td><span class="badge bo">Atención</span></td></tr>
+    <tr><td>Camila R.</td><td>1°B</td><td>85%</td><td style="color:var(--red);font-weight:700;">3.9</td><td><span class="badge br">Crítico</span></td></tr>
+    <tr><td>Ignacio F.</td><td>3°A</td><td style="color:var(--orange);font-weight:700;">73%</td><td>5.4</td><td><span class="badge bo">Atención</span></td></tr>
+    </table></div>
+    <div class="card"><div class="ct">📞 Acciones tomadas</div>
+    <table><tr><th>Alumno</th><th>Acción</th><th>Fecha</th></tr>
+	    <tr><td>Rodrigo M.</td><td>Notificación EduUY enviada al tutor</td><td>29/05</td></tr>
+	    <tr><td>Fernanda L.</td><td>Citación a entrevista</td><td>28/05</td></tr>
+	    <tr><td>Camila R.</td><td>Derivada a orientadora</td><td>27/05</td></tr>
+    </table></div>`;
+  }
+
+  else if(t==='docentes'){
+    c.innerHTML=`<div class="card"><div class="ct">👩‍🏫 Estado docente — hoy</div>
+    <div class="g3" style="margin-bottom:.85rem;">
+      <div class="sb"><div class="sn">67</div><div class="sl">Total docentes</div></div>
+      <div class="sb"><div class="sn" style="color:var(--green);">63</div><div class="sl">Presentes</div></div>
+      <div class="sb"><div class="sn" style="color:var(--orange);">4</div><div class="sl">Con aviso</div></div>
+    </div>
+    <table><tr><th>Docente</th><th>Materia</th><th>Estado</th><th>Grupos afectados</th></tr>
+    <tr><td>Prof. Méndez</td><td>Historia</td><td><span class="badge bo">Llega tarde</span></td><td>1°A, 3°B</td></tr>
+    <tr><td>Prof. Varela</td><td>Química</td><td><span class="badge br">Falta</span></td><td>2°A, 3°A</td></tr>
+    <tr><td>Prof. Da Silva</td><td>Ed. Física</td><td><span class="badge bo">Llega tarde</span></td><td>1°B</td></tr>
+    </table></div>
+    <div class="alert ai" style="font-size:.78rem;">Los alumnos y padres de los grupos afectados ya fueron notificados automáticamente.</div>`;
+  }
+
+}
+</script>
+</body>
+</html>
