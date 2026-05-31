@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="light">
 <title>EduUY — Demo Completa</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  color-scheme:only light;
-  /* Core institutional palette (Uruguay) — deepened & refined */
+  /* Core institutional palette (Uruguay / ANEP) — deepened & refined */
   --navy:#15315B;--navy-2:#1E4178;--blue:#2E5FA3;--lb:#4A90D9;
   --gold:#E2A92F;--gold2:#F2A41C;
   --page:#E4EAF4;--bg:#EFF3FA;--white:#fff;--text:#0F2140;--muted:#637493;--border:#DBE3F2;--border-2:#E8EEF8;
@@ -425,13 +423,13 @@ function renderLogin(){
       <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:1.25rem;">
         <div class="fg">
           <label style="color:rgba(255,255,255,.65);">Correo electrónico</label>
-          <input type="email" placeholder="tucorreo@mail.com" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;">
+          <input id="real-email" type="email" placeholder="tucorreo@mail.com" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;">
         </div>
         <div class="fg">
           <label style="color:rgba(255,255,255,.65);">Contraseña</label>
-          <input type="password" placeholder="••••••••" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;">
+          <input id="real-pass" type="password" placeholder="••••••••" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff;">
         </div>
-	        <button class="btn bfull" style="background:#E8B84B;color:#1B3A6B;font-size:.88rem;" onclick="quickLogin('student')">Ingresar →</button>
+	        <button class="btn bfull" style="background:#E8B84B;color:#1B3A6B;font-size:.88rem;" onclick="loginReal()">Ingresar →</button>
 	        <div style="display:flex;justify-content:space-between;margin-top:.85rem;">
 	          <span onclick="demoAction('Te enviaríamos un enlace de recuperación por correo.')" style="font-size:.75rem;color:rgba(255,255,255,.45);cursor:pointer;">¿Olvidaste tu contraseña?</span>
 	          <span onclick="demoAction('En la versión final, el registro se valida con ANEP/Ceibal.')" style="font-size:.75rem;color:#4A90D9;cursor:pointer;font-weight:700;">Registrarse</span>
@@ -2026,6 +2024,174 @@ function renderD(t){
     <div class="alert ai" style="font-size:.78rem;">Los alumnos y padres de los grupos afectados ya fueron notificados automáticamente.</div>`;
   }
 
+}
+</script>
+<!-- ===== Integración real EduUy (Supabase) — añadido sobre el demo ===== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* === CONFIG: pegá las MISMAS dos claves que ya usaste === */
+const SUPABASE_URL_REAL  = 'https://rfzqdqwcfxfzjzybmqvz.supabase.co';
+const SUPABASE_ANON_KEY_REAL = 'sb_publishable_YhPfjCUogubUHg0bOu1_fg_omU6839I';
+/* ======================================================== */
+
+const SB = (SUPABASE_URL_REAL.indexOf('http')===0 && window.supabase)
+  ? supabase.createClient(SUPABASE_URL_REAL, SUPABASE_ANON_KEY_REAL) : null;
+
+window.RG = { activo:false, me:null, liceoId:null, rol:null, asignaciones:[], grupoSel:0, estados:{} };
+const _hoy = () => { const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const _fmt = (iso) => { const p=iso.split('-'); return p[2]+'/'+p[1]; };
+
+async function loginReal(){
+  if(!SB){ demoAction('Falta configurar las claves de Supabase arriba del bloque de integración.'); return; }
+  const email=(document.getElementById('real-email').value||'').trim();
+  const password=document.getElementById('real-pass').value||'';
+  if(!email||!password){ demoAction('Ingresá correo y contraseña, o usá las tarjetas de arriba para el modo demo.'); return; }
+  const { error } = await SB.auth.signInWithPassword({ email, password });
+  if(error){ demoAction('No se pudo entrar: '+error.message); return; }
+  await contextoReal();
+}
+
+async function contextoReal(){
+  const { data:{ user } } = await SB.auth.getUser();
+  RG.me = user.id;
+  const { data: roles } = await SB.from('membresia').select('rol, liceo_id').eq('usuario_id', RG.me).eq('activo', true);
+  RG.liceoId = (roles && roles[0]) ? roles[0].liceo_id : null;
+  const esDoc = (roles||[]).some(r=>r.rol==='docente');
+  const esTutor = (roles||[]).some(r=>r.rol==='tutor');
+  RG.activo = true;
+  if(esDoc){
+    RG.rol='docente';
+    const { data: asig } = await SB.from('docente_asignacion')
+      .select('grupo_id, anio_lectivo, materia_id, grupo:grupo_id(nombre), materia:materia_id(nombre)')
+      .eq('docente_usuario_id', RG.me);
+    RG.asignaciones = (asig||[]).map(a=>({grupo_id:a.grupo_id,anio:a.anio_lectivo,materia_id:a.materia_id,grupo:a.grupo&&a.grupo.nombre,materia:a.materia&&a.materia.nombre}));
+    RG.grupoSel=0;
+    setMode('admin', document.querySelectorAll('.mode-tab')[2]||null);
+    renderA('asistencia');
+  } else if(esTutor){
+    RG.rol='tutor';
+    setMode('parent', document.querySelectorAll('.mode-tab')[4]||null);
+    renderP('inicio');
+  } else {
+    RG.activo=false;
+    demoAction('Tu cuenta no tiene rol docente ni tutor en el piloto.');
+  }
+}
+
+/* Envolver renderA/renderP/setMode sin tocar el demo */
+const _renderA_demo = window.renderA;
+window.renderA = function(t){
+  if(RG.activo && RG.rol==='docente' && t==='asistencia'){ return renderAsistenciaReal(); }
+  return _renderA_demo(t);
+};
+const _renderP_demo = window.renderP;
+window.renderP = function(t){
+  if(RG.activo && RG.rol==='tutor' && t==='inicio'){ return renderFamiliaReal(); }
+  return _renderP_demo(t);
+};
+const _setMode_demo = window.setMode;
+window.setMode = function(m,el){ if(m==='login'){ RG.activo=false; if(SB) SB.auth.signOut(); } return _setMode_demo(m,el); };
+
+/* ---------- DOCENTE: tomar lista (datos reales) ---------- */
+function renderAsistenciaReal(){
+  const c=document.getElementById('ac');
+  if(!RG.asignaciones.length){ c.innerHTML='<div class="card"><div class="ct">✅ Registrar asistencia</div><p style="color:var(--muted);font-size:.85rem;">La dirección todavía no te asignó grupos.</p></div>'; return; }
+  const opts=RG.asignaciones.map((a,i)=>'<option value="'+i+'">'+a.grupo+' — '+a.materia+'</option>').join('');
+  c.innerHTML=''
+    +'<div class="card"><div class="ct">✅ Registrar asistencia <span class="badge bg" style="margin-left:.4rem;">DATOS REALES</span></div>'
+    +'<div class="g2"><div class="fg"><label>Grupo</label><select id="real-grupo" onchange="RG.grupoSel=this.value;cargarAlumnosReal()">'+opts+'</select></div>'
+    +'<div class="fg"><label>Fecha</label><input id="real-fecha" type="date" value="'+_hoy()+'"></div></div>'
+    +'<div id="real-lista">Cargando…</div>'
+    +'<div style="margin-top:.75rem;"><button class="btn bp bsm" onclick="guardarReal()">Guardar asistencia</button></div>'
+    +'<div id="real-msg" style="margin-top:.6rem;font-size:.82rem;color:var(--green);font-weight:700;"></div></div>';
+  cargarAlumnosReal();
+}
+
+async function cargarAlumnosReal(){
+  const a=RG.asignaciones[RG.grupoSel];
+  const { data, error } = await SB.from('inscripcion')
+    .select('alumno:alumno_id(id, nombre, apellido)')
+    .eq('grupo_id', a.grupo_id).eq('anio_lectivo', a.anio).eq('estado','activa');
+  const cont=document.getElementById('real-lista');
+  if(error){ cont.innerHTML='<p style="color:var(--red);">'+error.message+'</p>'; return; }
+  const alumnos=(data||[]).map(r=>r.alumno).filter(Boolean).sort((x,y)=>(x.apellido+x.nombre).localeCompare(y.apellido+y.nombre));
+  RG.estados={};
+  if(!alumnos.length){ cont.innerHTML='<p style="color:var(--muted);font-size:.85rem;">Este grupo no tiene alumnos inscriptos.</p>'; return; }
+  let rows='<table><tr><th>Alumno</th><th>Presente</th><th>Tarde</th><th>Ausente</th></tr>';
+  alumnos.forEach(function(al){
+    RG.estados[al.id]='presente';
+    var n='r_'+al.id;
+    rows+='<tr><td>'+al.apellido+', '+al.nombre+'</td>'
+      +'<td><input type="radio" name="'+n+'" checked onclick="RG.estados[\''+al.id+'\']=\'presente\'"></td>'
+      +'<td><input type="radio" name="'+n+'" onclick="RG.estados[\''+al.id+'\']=\'tarde\'"></td>'
+      +'<td><input type="radio" name="'+n+'" onclick="RG.estados[\''+al.id+'\']=\'ausente\'"></td></tr>';
+  });
+  rows+='</table>';
+  cont.innerHTML=rows;
+}
+
+async function guardarReal(){
+  const a=RG.asignaciones[RG.grupoSel];
+  const fecha=document.getElementById('real-fecha').value;
+  const msg=document.getElementById('real-msg');
+  msg.style.color='var(--muted)'; msg.textContent='Guardando…';
+  let sesionId;
+  const { data: ses } = await SB.from('sesion_clase').select('id')
+    .eq('grupo_id',a.grupo_id).eq('materia_id',a.materia_id).eq('fecha',fecha).eq('docente_usuario_id',RG.me).maybeSingle();
+  if(ses){ sesionId=ses.id; }
+  else{
+    const { data: nueva, error:e1 } = await SB.from('sesion_clase')
+      .insert({liceo_id:RG.liceoId,grupo_id:a.grupo_id,materia_id:a.materia_id,docente_usuario_id:RG.me,fecha:fecha})
+      .select('id').single();
+    if(e1){ msg.style.color='var(--red)'; msg.textContent='Error: '+e1.message; return; }
+    sesionId=nueva.id;
+  }
+  const filas=Object.keys(RG.estados).map(function(id){ return {liceo_id:RG.liceoId,sesion_clase_id:sesionId,alumno_id:id,estado:RG.estados[id],registrado_por:RG.me}; });
+  const { error:e2 } = await SB.from('asistencia').upsert(filas,{onConflict:'sesion_clase_id,alumno_id'});
+  if(e2){ msg.style.color='var(--red)'; msg.textContent='Error: '+e2.message; return; }
+  const n={presente:0,tarde:0,ausente:0}; Object.keys(RG.estados).forEach(function(k){ n[RG.estados[k]]++; });
+  msg.style.color='var(--green)';
+  msg.textContent='Guardado ✓ '+n.presente+' presentes · '+n.tarde+' tarde · '+n.ausente+' ausentes. La familia ya puede verlo.';
+}
+
+/* ---------- FAMILIA: feed del día (datos reales) ---------- */
+async function renderFamiliaReal(){
+  const c=document.getElementById('pc');
+  c.innerHTML='<p style="color:var(--muted);">Cargando…</p>';
+  const { data: vinc } = await SB.from('tutor_alumno').select('alumno:alumno_id(id,nombre,apellido)');
+  const hijos=(vinc||[]).map(v=>v.alumno).filter(Boolean);
+  if(!hijos.length){ c.innerHTML='<div class="card"><p style="color:var(--muted);">No hay alumnos vinculados a tu cuenta.</p></div>'; return; }
+  let html='';
+  for(const h of hijos){ html += await bloqueHijoReal(h); }
+  c.innerHTML=html;
+}
+
+async function bloqueHijoReal(hijo){
+  const { data: insc } = await SB.from('inscripcion').select('grupo:grupo_id(nombre)').eq('alumno_id',hijo.id).eq('estado','activa').maybeSingle();
+  const grupo=(insc&&insc.grupo)?insc.grupo.nombre:'';
+  const { data: asis } = await SB.from('asistencia')
+    .select('estado, sesion:sesion_clase_id(fecha, materia:materia_id(nombre))').eq('alumno_id',hijo.id);
+  const filas=(asis||[]).map(r=>({estado:r.estado,fecha:r.sesion&&r.sesion.fecha,materia:(r.sesion&&r.sesion.materia)?r.sesion.materia.nombre:''})).filter(f=>f.fecha).sort((x,y)=>y.fecha.localeCompare(x.fecha));
+  const hoy=_hoy(), mes=hoy.slice(0,7);
+  const deHoy=filas.filter(f=>f.fecha===hoy);
+  const inMes=filas.filter(f=>f.fecha.slice(0,7)===mes && (f.estado==='ausente'||f.estado==='tarde')).length;
+  const UMBRAL=3;
+  const pill=function(e){ return '<span class="badge '+(e==='ausente'?'br':e==='tarde'?'bo':'bg')+'">'+e+'</span>'; };
+  const hoyHtml = deHoy.length
+    ? deHoy.map(f=>'<div class="card"><strong>'+f.materia+'</strong> · '+pill(f.estado)+'</div>').join('')
+    : '<div class="card" style="color:var(--muted);">Sin novedades de hoy.</div>';
+  const alerta = inMes>=UMBRAL
+    ? '<div class="alert aw">⚠️ Atención: '+hijo.nombre+' acumula '+inMes+' inasistencias este mes.</div>'
+    : '<div class="alert as">Inasistencias en el mes: '+inMes+'. Sin alerta.</div>';
+  const hist = filas.length
+    ? '<table><tr><th>Fecha</th><th>Materia</th><th>Estado</th></tr>'+filas.slice(0,10).map(f=>'<tr><td>'+_fmt(f.fecha)+'</td><td>'+f.materia+'</td><td>'+pill(f.estado)+'</td></tr>').join('')+'</table>'
+    : '<p style="color:var(--muted);font-size:.85rem;">Sin registros aún.</p>';
+  return ''
+    +'<div style="font-family:\'Sora\',sans-serif;font-weight:800;font-size:1.05rem;color:var(--navy);margin:.4rem 0 .1rem;">'+hijo.nombre+' '+hijo.apellido+' <span class="badge bg" style="font-family:\'Plus Jakarta Sans\',sans-serif;">DATOS REALES</span></div>'
+    +'<div style="color:var(--muted);font-size:.8rem;margin-bottom:.6rem;">'+grupo+'</div>'
+    +alerta
+    +'<div class="ct" style="margin:.5rem 0 .3rem;">Hoy · '+_fmt(hoy)+'</div>'+hoyHtml
+    +'<div class="card" style="margin-top:.6rem;"><div class="ct">📅 Historial reciente</div>'+hist+'</div>';
 }
 </script>
 </body>
