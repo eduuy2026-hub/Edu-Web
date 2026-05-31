@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduUy — Comunicación centro educativo–familia en tiempo real</title>
+<meta name="description" content="EduUy conecta al centro educativo con las familias en tiempo real: asistencia, notas y boletín al instante, y alerta temprana de desvinculación para la dirección. Para liceos y colegios públicos y privados.">
+
+<!-- Open Graph / vista previa al compartir (WhatsApp, redes) -->
+<!-- IMPORTANTE: cambiá las URLs de abajo por tu dominio real una vez desplegada (deben ser absolutas) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="EduUy — El centro educativo y las familias, conectados en tiempo real">
+<meta property="og:description" content="Asistencia, notas y comunicaciones al instante, con alerta temprana de desvinculación. Para liceos y colegios públicos y privados. Probá la demo.">
+<meta property="og:image" content="https://www.eduuy.com.uy/og-image.png">
+<meta property="og:url" content="https://www.eduuy.com.uy/">
+<meta property="og:locale" content="es_UY">
+<meta property="og:site_name" content="EduUy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="EduUy — Centro educativo y familias en tiempo real">
+<meta name="twitter:description" content="Asistencia, notas y comunicaciones al instante, con alerta temprana de desvinculación. Probá la demo.">
+<meta name="twitter:image" content="https://www.eduuy.com.uy/og-image.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#1B3A6B;--blue:#2E5FA3;--lb:#4A90D9;
+  --gold:#E8B84B;--gold2:#F5A623;
+  --bg:#F0F4FA;--white:#fff;--text:#0D1F3C;--muted:#6B7A99;
+  --green:#1A8C42;--red:#C0392B;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(27,58,107,.97);backdrop-filter:blur(12px);padding:.85rem 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08);}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:#fff;text-decoration:none;letter-spacing:-1px;}
+.nav-brand span{color:var(--gold);}
+.nav-links{display:flex;align-items:center;gap:2rem;}
+.nav-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:#fff;}
+.nav-cta{background:var(--gold);color:var(--navy)!important;padding:.45rem 1.1rem;border-radius:6px;font-weight:600!important;transition:all .2s!important;}
+.nav-cta:hover{background:var(--gold2)!important;transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{min-height:100vh;background:linear-gradient(160deg,#0D1F3C 0%,#1B3A6B 50%,#2E5FA3 100%);position:relative;display:flex;align-items:center;overflow:hidden;padding-top:70px;}
+.hero-bg{position:absolute;inset:0;overflow:hidden;}
+.hero-bg .circle{position:absolute;border-radius:50%;opacity:.08;}
+.hero-bg .c1{width:700px;height:700px;background:var(--lb);top:-200px;right:-150px;animation:float 8s ease-in-out infinite;}
+.hero-bg .c2{width:400px;height:400px;background:var(--gold);bottom:-100px;left:-100px;animation:float 10s ease-in-out infinite reverse;}
+.hero-bg .c3{width:250px;height:250px;background:var(--lb);top:40%;left:30%;animation:float 12s ease-in-out infinite 2s;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-30px);}}
+.hero-bg .stripe{position:absolute;bottom:-2px;left:0;right:0;height:120px;background:var(--bg);clip-path:polygon(0 100%,100% 0,100% 100%);}
+
+.hero-inner{position:relative;z-index:1;padding:0 5vw;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.hero-text .eyebrow{display:inline-block;background:rgba(232,184,75,.15);border:1px solid rgba(232,184,75,.35);color:var(--gold);font-size:.78rem;font-weight:600;letter-spacing:.12em;padding:.35rem .9rem;border-radius:20px;text-transform:uppercase;margin-bottom:1.5rem;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,5vw,4rem);font-weight:900;color:#fff;line-height:1.08;letter-spacing:-1.5px;margin-bottom:1.25rem;}
+.hero-title span{color:var(--gold);}
+.hero-sub{color:rgba(255,255,255,.7);font-size:1.05rem;line-height:1.7;margin-bottom:2.5rem;max-width:480px;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{background:var(--gold);color:var(--navy);padding:.8rem 1.8rem;border-radius:8px;font-weight:700;font-size:.95rem;text-decoration:none;transition:all .2s;display:inline-block;}
+.btn-primary:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(232,184,75,.35);}
+.btn-ghost{border:1.5px solid rgba(255,255,255,.35);color:#fff;padding:.8rem 1.8rem;border-radius:8px;font-weight:600;font-size:.95rem;text-decoration:none;transition:all .2s;display:inline-block;}
+.btn-ghost:hover{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);}
+
+.hero-stats{display:flex;gap:1.5rem;margin-top:3rem;flex-wrap:wrap;}
+.hstat{text-align:center;}
+.hstat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);line-height:1;}
+.hstat-lbl{color:rgba(255,255,255,.55);font-size:.75rem;margin-top:.35rem;max-width:130px;}
+.hstat-div{width:1px;background:rgba(255,255,255,.15);align-self:stretch;}
+
+.hero-visual{position:relative;}
+.phone-mockup{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:1.5rem;backdrop-filter:blur(8px);transform:perspective(1000px) rotateY(-6deg) rotateX(2deg);transition:transform .4s;}
+.phone-mockup:hover{transform:perspective(1000px) rotateY(-2deg) rotateX(1deg);}
+.mockup-bar{background:rgba(255,255,255,.1);border-radius:8px;padding:.6rem .9rem;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem;}
+.mockup-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);}
+.mockup-title{color:rgba(255,255,255,.7);font-size:.78rem;font-weight:600;}
+.role-pills{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+.role-pill{padding:.4rem .85rem;border-radius:20px;font-size:.75rem;font-weight:600;}
+.rp-blue{background:rgba(74,144,217,.25);color:#90c4f0;border:1px solid rgba(74,144,217,.3);}
+.rp-gold{background:rgba(232,184,75,.2);color:var(--gold);border:1px solid rgba(232,184,75,.25);}
+.rp-green{background:rgba(26,140,66,.2);color:#5fcf85;border:1px solid rgba(26,140,66,.25);}
+.mockup-cards{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+.mcard{background:rgba(255,255,255,.07);border-radius:10px;padding:.75rem;border:1px solid rgba(255,255,255,.08);}
+.mcard-n{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--gold);}
+.mcard-l{color:rgba(255,255,255,.5);font-size:.68rem;margin-top:2px;}
+.mcard-full{grid-column:1/-1;background:rgba(192,57,43,.16);border-color:rgba(192,57,43,.3);}
+.mcard-alert{display:flex;align-items:center;gap:.5rem;color:#f3a59c;font-size:.74rem;font-weight:600;}
+
+/* ── SECTION COMMONS ── */
+section{padding:6rem 5vw;}
+.section-label{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--lb);margin-bottom:.75rem;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:800;color:var(--navy);line-height:1.15;letter-spacing:-1px;margin-bottom:1rem;}
+.section-sub{color:var(--muted);font-size:1rem;line-height:1.7;max-width:560px;}
+.container{max-width:1200px;margin:0 auto;}
+
+/* ── HOW (loop) ── */
+.how-section{background:var(--white);}
+.how-header{text-align:center;margin-bottom:3.5rem;}
+.how-header .section-sub{margin:0 auto;}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:980px;margin:0 auto;}
+.how-card{background:var(--bg);border:1px solid #E2EAF6;border-radius:18px;padding:2rem 1.75rem;position:relative;}
+.how-step{font-family:'Playfair Display',serif;font-size:1rem;font-weight:900;color:var(--white);background:var(--navy);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.1rem;}
+.how-card:nth-child(2) .how-step{background:var(--blue);}
+.how-card:nth-child(3) .how-step{background:var(--gold2);}
+.how-title{font-weight:700;font-size:1.05rem;color:var(--navy);margin-bottom:.5rem;}
+.how-desc{color:var(--muted);font-size:.88rem;line-height:1.6;}
+
+/* ── ROLES ── */
+.roles-section{background:var(--bg);}
+.roles-header{text-align:center;margin-bottom:4rem;}
+.roles-header .section-sub{margin:0 auto;}
+.roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+.role-card{border-radius:20px;padding:2.5rem 2rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+.role-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(27,58,107,.15);}
+.role-card.admin{background:linear-gradient(135deg,#1B3A6B 0%,#2E5FA3 100%);}
+.role-card.parent{background:linear-gradient(135deg,#7C3AED 0%,#A855F7 100%);}
+.role-card.dir{background:linear-gradient(135deg,#1A8C42 0%,#16A34A 100%);}
+.role-card::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.06);}
+.role-icon{font-size:2.5rem;margin-bottom:1.25rem;}
+.role-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:.4rem;}
+.role-tag{color:rgba(255,255,255,.6);font-size:.74rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.85rem;}
+.role-desc{color:rgba(255,255,255,.72);font-size:.88rem;line-height:1.65;margin-bottom:1.5rem;}
+.role-features{list-style:none;display:flex;flex-direction:column;gap:.45rem;}
+.role-features li{color:rgba(255,255,255,.85);font-size:.82rem;padding-left:1.2rem;position:relative;}
+.role-features li::before{content:'›';position:absolute;left:0;color:rgba(255,255,255,.5);}
+.roles-note{text-align:center;margin-top:2.5rem;color:var(--muted);font-size:.86rem;}
+.roles-note b{color:var(--navy);}
+
+/* ── FEATURES ── */
+.features-section{background:var(--white);}
+.features-header{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:3.5rem;}
+.features-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;}
+.feat-card{background:var(--white);border-radius:16px;padding:1.75rem 1.5rem;border:1px solid #E2EAF6;transition:all .3s;position:relative;overflow:hidden;}
+.feat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--blue),var(--gold));transform:scaleX(0);transition:transform .3s;transform-origin:left;}
+.feat-card:hover{border-color:var(--lb);box-shadow:0 8px 28px rgba(27,58,107,.1);transform:translateY(-3px);}
+.feat-card:hover::after{transform:scaleX(1);}
+.feat-icon{font-size:1.8rem;margin-bottom:1rem;}
+.feat-title{font-weight:700;font-size:.95rem;color:var(--navy);margin-bottom:.5rem;}
+.feat-desc{color:var(--muted);font-size:.82rem;line-height:1.6;}
+.feat-badge{display:inline-block;margin-top:.75rem;font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:4px;}
+.badge-now{background:#E3F8EA;color:var(--green);}
+.badge-next{background:#EEF5FF;color:var(--blue);}
+
+/* ── VISION (later) ── */
+.vision-section{background:var(--bg);}
+.vision-inner{text-align:center;max-width:760px;margin:0 auto;}
+.vision-inner .section-sub{margin:0 auto 2.25rem;}
+.vision-chips{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;}
+.vchip{background:var(--white);border:1px solid #E2EAF6;color:var(--muted);font-size:.82rem;font-weight:500;padding:.55rem 1rem;border-radius:30px;}
+.vchip b{color:var(--navy);font-weight:700;}
+
+/* ── VALUE BAND ── */
+.value-band{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);padding:3.5rem 5vw;}
+.value-band-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;}
+.vband-item{text-align:center;}
+.vband-num{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:900;color:var(--navy);line-height:1;}
+.vband-lbl{color:rgba(27,58,107,.78);font-size:.82rem;margin-top:.5rem;font-weight:500;}
+
+/* ── PRICING ── */
+.pricing-section{background:var(--white);}
+.pricing-header{text-align:center;margin-bottom:3.5rem;}
+.pricing-header .section-sub{margin:0 auto;}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1080px;margin:0 auto;align-items:stretch;}
+.price-card{background:var(--white);border:1.5px solid #E2EAF6;border-radius:20px;padding:2.25rem 2rem;display:flex;flex-direction:column;position:relative;transition:transform .3s,box-shadow .3s;}
+.price-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(27,58,107,.12);}
+.price-card.feature{border-color:var(--gold);box-shadow:0 18px 40px rgba(232,184,75,.18);}
+.price-flag{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy);font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.3rem .85rem;border-radius:20px;}
+.price-kind{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lb);margin-bottom:.65rem;}
+.price-amount{font-family:'Playfair Display',serif;font-weight:900;color:var(--navy);line-height:1;}
+.price-amount .cur{font-size:1.2rem;vertical-align:super;margin-right:2px;}
+.price-amount .num{font-size:3.4rem;}
+.price-unit{color:var(--muted);font-size:.88rem;margin-top:.5rem;margin-bottom:1.5rem;}
+.price-list{list-style:none;display:flex;flex-direction:column;gap:.65rem;margin-bottom:1.75rem;flex:1;}
+.price-list li{color:var(--text);font-size:.86rem;line-height:1.45;padding-left:1.5rem;position:relative;}
+.price-list li::before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:800;}
+.price-card .btn-primary{text-align:center;}
+.price-amount.tbd .num{font-size:2.2rem;}
+
+/* Calculator */
+.calc{max-width:760px;margin:3.5rem auto 0;background:linear-gradient(135deg,#1B3A6B,#2E5FA3);border-radius:22px;padding:2.5rem 2.25rem;color:#fff;}
+.calc h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:800;margin-bottom:.4rem;}
+.calc p.calc-sub{color:rgba(255,255,255,.65);font-size:.88rem;margin-bottom:1.75rem;}
+.calc-row{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:flex-end;margin-bottom:1.75rem;}
+.calc-field{flex:1;min-width:200px;}
+.calc-field label{display:block;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:.5rem;}
+.calc-field input[type=number]{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:.7rem .9rem;color:#fff;font-size:1.05rem;font-family:'DM Sans',sans-serif;font-weight:600;}
+.calc-field input[type=number]:focus{outline:none;border-color:var(--gold);}
+.calc-toggle{display:flex;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:4px;}
+.calc-toggle button{flex:1;background:transparent;border:none;color:rgba(255,255,255,.7);font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;padding:.6rem .5rem;border-radius:7px;cursor:pointer;transition:all .2s;}
+.calc-toggle button.active{background:var(--gold);color:var(--navy);}
+.calc-out{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.calc-out-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.25rem 1.4rem;}
+.calc-out-lbl{font-size:.74rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem;}
+.calc-out-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);}
+.calc-note{font-size:.74rem;color:rgba(255,255,255,.5);margin-top:1.25rem;line-height:1.5;}
+
+/* ── SECURITY ── */
+.security-section{background:var(--bg);}
+.security-inner{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.sec-card{background:var(--white);border-radius:14px;padding:1.25rem;border:1px solid #E2EAF6;}
+.sec-icon{font-size:1.5rem;margin-bottom:.6rem;}
+.sec-title{font-weight:700;font-size:.88rem;color:var(--navy);margin-bottom:.35rem;}
+.sec-desc{color:var(--muted);font-size:.78rem;line-height:1.55;}
+.perm-demo{background:var(--white);border-radius:14px;padding:1.25rem;border:1px solid #E2EAF6;margin-top:1.5rem;}
+.perm-row{display:flex;align-items:center;gap:.5rem;background:var(--bg);border-radius:8px;padding:.6rem .85rem;font-size:.8rem;color:var(--muted);margin-top:.6rem;}
+.perm-row b{color:var(--navy);}
+
+/* ── TIMELINE ── */
+.timeline-section{background:var(--white);}
+.timeline-header{text-align:center;margin-bottom:4rem;}
+.timeline{position:relative;max-width:900px;margin:0 auto;}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--blue),var(--gold));transform:translateX(-50%);}
+.tl-item{display:grid;grid-template-columns:1fr 60px 1fr;gap:0;margin-bottom:3rem;align-items:center;}
+.tl-item:nth-child(odd) .tl-content{grid-column:1;text-align:right;padding-right:2rem;}
+.tl-item:nth-child(odd) .tl-dot{grid-column:2;}
+.tl-item:nth-child(odd) .tl-empty{grid-column:3;}
+.tl-item:nth-child(even) .tl-empty{grid-column:1;}
+.tl-item:nth-child(even) .tl-dot{grid-column:2;}
+.tl-item:nth-child(even) .tl-content{grid-column:3;padding-left:2rem;}
+.tl-dot{width:44px;height:44px;border-radius:50%;background:var(--navy);border:3px solid var(--gold);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem;margin:0 auto;z-index:1;position:relative;}
+.tl-phase{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:4px;margin-bottom:.5rem;}
+.ph1{background:#E3F8EA;color:var(--green);}
+.ph2{background:#E3EEFF;color:var(--blue);}
+.ph3{background:#F0E8FF;color:#7C3AED;}
+.tl-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--navy);margin-bottom:.35rem;}
+.tl-desc{color:var(--muted);font-size:.83rem;line-height:1.6;}
+.tl-period{font-size:.75rem;font-weight:600;color:var(--gold);margin-top:.4rem;}
+
+/* ── CTA ── */
+.cta-section{background:linear-gradient(135deg,#0D1F3C 0%,#1B3A6B 60%,#2E5FA3 100%);padding:6rem 5vw;text-align:center;position:relative;overflow:hidden;}
+.cta-section::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;border-radius:50%;background:rgba(74,144,217,.06);}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:1rem;position:relative;}
+.cta-title span{color:var(--gold);}
+.cta-sub{color:rgba(255,255,255,.65);font-size:1rem;margin-bottom:2.5rem;max-width:520px;margin-left:auto;margin-right:auto;}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.flag-bar{height:5px;background:linear-gradient(to right,#fff 33%,#1B3A6B 33% 66%,var(--gold) 66%);margin-top:4rem;opacity:.35;}
+
+/* ── FOOTER ── */
+footer{background:#0D1F3C;padding:3rem 5vw 2rem;color:rgba(255,255,255,.5);}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;}
+.footer-brand{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:.75rem;}
+.footer-brand span{color:var(--gold);}
+.footer-tagline{font-size:.83rem;line-height:1.6;margin-bottom:0;}
+.footer-col h4{color:rgba(255,255,255,.85);font-size:.82rem;font-weight:700;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.08em;}
+.footer-col a{display:block;color:rgba(255,255,255,.45);text-decoration:none;font-size:.82rem;margin-bottom:.5rem;transition:color .2s;}
+.footer-col a:hover{color:rgba(255,255,255,.85);}
+.footer-bottom{max-width:1200px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.07);display:flex;justify-content:space-between;align-items:center;font-size:.78rem;gap:1rem;flex-wrap:wrap;}
+.footer-made{color:rgba(255,255,255,.3);font-size:.75rem;}
+
+/* ── ANIMATIONS ── */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero-inner,.features-header,.security-inner,.footer-inner{grid-template-columns:1fr;}
+  .roles-grid,.features-grid,.how-grid,.pricing-grid{grid-template-columns:1fr;}
+  .value-band-inner{grid-template-columns:1fr 1fr;}
+  .calc-out{grid-template-columns:1fr;}
+  .timeline::before{left:22px;}
+  .tl-item{grid-template-columns:44px 1fr;gap:0 1rem;}
+  .tl-item:nth-child(odd) .tl-content,.tl-item:nth-child(even) .tl-content{grid-column:2;text-align:left;padding:0;}
+  .tl-item:nth-child(odd) .tl-dot,.tl-item:nth-child(even) .tl-dot{grid-column:1;grid-row:1;}
+  .tl-item:nth-child(odd) .tl-empty,.tl-item:nth-child(even) .tl-empty{display:none;}
+  .hero-visual{display:none;}
+  .nav-links a:not(.nav-cta){display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">Edu<span>Uy</span></a>
+  <div class="nav-links">
+    <a href="#como">Cómo funciona</a>
+    <a href="#roles">¿Para quién?</a>
+    <a href="#funcionalidades">Funcionalidades</a>
+    <a href="#precios">Precios</a>
+    <a href="#seguridad">Seguridad</a>
+    <a href="eduuy-demo.html" target="_blank" rel="noopener">Probar demo</a>
+    <a href="#contacto" class="nav-cta">Solicitar demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="circle c1"></div>
+    <div class="circle c2"></div>
+    <div class="circle c3"></div>
+    <div class="stripe"></div>
+  </div>
+  <div class="hero-inner container">
+    <div class="hero-text">
+      <div class="eyebrow">Centros educativos · Uruguay</div>
+      <h1 class="hero-title">El centro educativo y las familias, conectados en <span>tiempo real</span></h1>
+      <p class="hero-sub">El docente o adscripto registra asistencia y notas en segundos; la familia se entera al instante; y la dirección detecta a tiempo al estudiante en riesgo de desvincularse. Para liceos y colegios, públicos y privados.</p>
+      <div class="hero-btns">
+        <a href="eduuy-demo.html" target="_blank" rel="noopener" class="btn-primary">Probar la demo →</a>
+        <a href="#contacto" class="btn-ghost">Solicitar una reunión</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-num">&lt; 5 min</div><div class="hstat-lbl">De la falta a la familia notificada</div></div>
+        <div class="hstat-div"></div>
+        <div class="hstat"><div class="hstat-num">5</div><div class="hstat-lbl">Perfiles en un solo lugar</div></div>
+        <div class="hstat-div"></div>
+        <div class="hstat"><div class="hstat-num">100%</div><div class="hstat-lbl">En el celular, instalable (PWA)</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <div class="mockup-bar">
+          <div class="mockup-dot"></div>
+          <div class="mockup-title">EduUy — Panel de dirección</div>
+        </div>
+        <div class="role-pills">
+          <span class="role-pill rp-blue">🏫 Docente · Adscripto</span>
+          <span class="role-pill rp-gold">👨‍👩‍👧 Familia</span>
+          <span class="role-pill rp-green">🧭 Dirección</span>
+        </div>
+        <div class="mockup-cards">
+          <div class="mcard"><div class="mcard-n">92%</div><div class="mcard-l">Asistencia media del grupo</div></div>
+          <div class="mcard"><div class="mcard-n">28</div><div class="mcard-l">Estudiantes en 1°A</div></div>
+          <div class="mcard"><div class="mcard-n">3</div><div class="mcard-l">Faltas hoy · notificadas</div></div>
+          <div class="mcard"><div class="mcard-n">7.8</div><div class="mcard-l">Promedio del grupo</div></div>
+          <div class="mcard mcard-full">
+            <div class="mcard-l" style="margin-bottom:.4rem;">Alerta temprana</div>
+            <div class="mcard-alert">🚨 2 estudiantes superan el umbral de faltas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="como">
+  <div class="container">
+    <div class="how-header fade-up">
+      <div class="section-label">Cómo funciona</div>
+      <h2 class="section-title">Registrar → Notificar → Actuar</h2>
+      <p class="section-sub">Un solo loop, simple y veloz. Es todo lo que hace falta para que la información deje de llegar tarde.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card fade-up">
+        <div class="how-step">1</div>
+        <div class="how-title">Registrar</div>
+        <p class="how-desc">El docente o adscripto marca asistencia y carga notas desde el celular, en segundos, en cualquiera de los grupos del centro.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-step">2</div>
+        <div class="how-title">Notificar</div>
+        <p class="how-desc">La familia ve el dato al instante y recibe una notificación push. De la falta registrada al aviso, menos de 5 minutos.</p>
+      </div>
+      <div class="how-card fade-up">
+        <div class="how-step">3</div>
+        <div class="how-title">Actuar</div>
+        <p class="how-desc">La dirección visualiza en un tablero qué grupos y estudiantes están en riesgo, para intervenir antes de que se desvinculen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section class="roles-section" id="roles">
+  <div class="container">
+    <div class="roles-header fade-up">
+      <div class="section-label">Para toda la comunidad</div>
+      <h2 class="section-title">Cada actor del centro, con su propio acceso</h2>
+      <p class="section-sub">Cada rol ve solo lo que le corresponde y tiene las herramientas exactas para lo que necesita hacer.</p>
+    </div>
+    <div class="roles-grid">
+      <div class="role-card admin fade-up">
+        <div class="role-icon">🏫</div>
+        <div class="role-name">Docentes y adscriptos</div>
+        <div class="role-tag">Producen el dato</div>
+        <p class="role-desc">Las herramientas diarias del equipo del centro, pensadas para el profesor itinerante y el adscripto que vive el papeleo.</p>
+        <ul class="role-features">
+          <li>Asistencia digital en segundos</li>
+          <li>Carga de notas y boletín</li>
+          <li>Comunicaciones a las familias</li>
+          <li>Gestión de justificaciones</li>
+          <li>Publicación de tareas</li>
+        </ul>
+      </div>
+      <div class="role-card parent fade-up">
+        <div class="role-icon">👨‍👩‍👧</div>
+        <div class="role-name">Familias y tutores</div>
+        <div class="role-tag">Generan el "wow"</div>
+        <p class="role-desc">Seguimiento de la educación de sus hijos desde cualquier dispositivo, en tiempo real y sin ir al centro.</p>
+        <ul class="role-features">
+          <li>Asistencia con avisos al instante</li>
+          <li>Boletín y notas en tiempo real</li>
+          <li>Avisos y citaciones con lectura</li>
+          <li>Justificar faltas desde el celular</li>
+          <li>Notificaciones push automáticas</li>
+        </ul>
+      </div>
+      <div class="role-card dir fade-up">
+        <div class="role-icon">🧭</div>
+        <div class="role-name">Dirección</div>
+        <div class="role-tag">Decide y actúa</div>
+        <p class="role-desc">El tablero de control para ver la salud del centro de un vistazo y actuar a tiempo sobre el riesgo.</p>
+        <ul class="role-features">
+          <li>Asistencia por grupo</li>
+          <li>Alerta temprana de desvinculación</li>
+          <li>Estudiantes en riesgo priorizados</li>
+          <li>Vista de solo lectura, sin ruido</li>
+          <li>Evidencia para la gestión</li>
+        </ul>
+      </div>
+    </div>
+    <p class="roles-note fade-up">El módulo de <b>Estudiante</b> (sus tareas, horarios y notas en un solo lugar) se suma una vez que el núcleo está sólido en el centro.</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="funcionalidades">
+  <div class="container">
+    <div class="features-header fade-up">
+      <div>
+        <div class="section-label">Funcionalidades</div>
+        <h2 class="section-title">El núcleo que resuelve el dolor diario</h2>
+      </div>
+      <p class="section-sub">No es "una app de notas": es comunicación centro–familia en tiempo real, con alerta temprana de desvinculación. Complemento de los sistemas que ya usa el centro, no reemplazo.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feat-card fade-up"><div class="feat-icon">📋</div><div class="feat-title">Asistencia en tiempo real</div><p class="feat-desc">El docente marca la falta y la familia recibe el aviso en menos de 5 minutos.</p><span class="feat-badge badge-now">Disponible</span></div>
+      <div class="feat-card fade-up"><div class="feat-icon">📊</div><div class="feat-title">Notas y boletín digital</div><p class="feat-desc">El docente carga notas; familia y estudiante ven el boletín al instante.</p><span class="feat-badge badge-now">Disponible</span></div>
+      <div class="feat-card fade-up"><div class="feat-icon">📣</div><div class="feat-title">Comunicaciones con lectura</div><p class="feat-desc">Avisos y citaciones del centro a las familias, con confirmación de lectura.</p><span class="feat-badge badge-now">Disponible</span></div>
+      <div class="feat-card fade-up"><div class="feat-icon">🚨</div><div class="feat-title">Alerta temprana</div><p class="feat-desc">Panel de dirección que marca a los estudiantes en riesgo de desvinculación.</p><span class="feat-badge badge-now">Disponible</span></div>
+      <div class="feat-card fade-up"><div class="feat-icon">🔔</div><div class="feat-title">Notificaciones push</div><p class="feat-desc">Cada dato relevante llega al celular de la familia, sin que tenga que entrar a buscar.</p><span class="feat-badge badge-now">Disponible</span></div>
+      <div class="feat-card fade-up"><div class="feat-icon">✅</div><div class="feat-title">Justificación de faltas</div><p class="feat-desc">La familia adjunta el justificativo y el adscripto lo aprueba, todo digital.</p><span class="feat-badge badge-next">Próximo</span></div>
+      <div class="feat-card fade-up"><div class="feat-icon">📝</div><div class="feat-title">Tareas y horarios</div><p class="feat-desc">El docente publica tareas y horarios; estudiante y familia los ven organizados.</p><span class="feat-badge badge-next">Próximo</span></div>
+      <div class="feat-card fade-up"><div class="feat-icon">🎨</div><div class="feat-title">Identidad por centro</div><p class="feat-desc">Logo, colores y modo claro/oscuro para que cada centro se sienta en casa.</p><span class="feat-badge badge-next">Próximo</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION (later) -->
+<section class="vision-section">
+  <div class="container">
+    <div class="vision-inner fade-up">
+      <div class="section-label" style="text-align:center;">Visión a futuro</div>
+      <h2 class="section-title">Hasta dónde puede crecer</h2>
+      <p class="section-sub">Una vez consolidado el núcleo, EduUy puede ampliarse según lo que cada centro u organización necesite. Estas piezas son parte de la hoja de ruta, no del producto actual:</p>
+      <div class="vision-chips">
+        <span class="vchip"><b>📚</b> Biblioteca digital de materiales</span>
+        <span class="vchip"><b>🎥</b> Clases grabadas y en vivo</span>
+        <span class="vchip"><b>🤖</b> Asistente de estudio con IA</span>
+        <span class="vchip"><b>🇬🇧</b> Idiomas gamificados</span>
+        <span class="vchip"><b>💚</b> Bienestar estudiantil</span>
+        <span class="vchip"><b>🧭</b> Orientación vocacional</span>
+        <span class="vchip"><b>🔗</b> Integraciones institucionales</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE BAND -->
+<div class="value-band">
+  <div class="value-band-inner">
+    <div class="vband-item fade-up"><div class="vband-num">5</div><div class="vband-lbl">Perfiles: docente, adscripto, familia, dirección y estudiante</div></div>
+    <div class="vband-item fade-up"><div class="vband-num">&lt;5′</div><div class="vband-lbl">De la falta registrada al aviso a la familia</div></div>
+    <div class="vband-item fade-up"><div class="vband-num">PWA</div><div class="vband-lbl">Se instala desde el celular, sin App Store</div></div>
+    <div class="vband-item fade-up"><div class="vband-num">100%</div><div class="vband-lbl">Permisos por rol, datos separados por centro</div></div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing-section" id="precios">
+  <div class="container">
+    <div class="pricing-header fade-up">
+      <div class="section-label">Planes</div>
+      <h2 class="section-title">Un plan para cada tipo de centro</h2>
+      <p class="section-sub">Modelo simple por estudiante, sin licencias fijas ni costos de instalación. El centro arranca con un piloto sin costo para ver el valor con datos reales; la propuesta a medida la armamos en la reunión.</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Público -->
+      <div class="price-card fade-up">
+        <div class="price-kind">Centros públicos</div>
+        <div class="price-amount tbd"><span class="num">Piloto sin costo</span></div>
+        <div class="price-unit">luego, tarifa por estudiante</div>
+        <ul class="price-list">
+          <li>Asistencia en tiempo real + push</li>
+          <li>Notas y boletín digital</li>
+          <li>Comunicaciones con confirmación de lectura</li>
+          <li>Panel de dirección con alerta temprana</li>
+          <li>Justificación de faltas y tareas</li>
+          <li>Soporte y actualizaciones incluidas</li>
+        </ul>
+        <a href="#contacto" class="btn-primary">Solicitar propuesta</a>
+      </div>
+      <!-- Privado (destacado) -->
+      <div class="price-card feature fade-up">
+        <div class="price-flag">Más elegido</div>
+        <div class="price-kind">Centros privados</div>
+        <div class="price-amount tbd"><span class="num">A medida</span></div>
+        <div class="price-unit">tarifa por estudiante / mes</div>
+        <ul class="price-list">
+          <li>Todo lo del plan público, y además:</li>
+          <li>Identidad visual del colegio (logo y colores)</li>
+          <li>Comunicaciones institucionales a medida</li>
+          <li>Onboarding guiado del equipo</li>
+          <li>Soporte prioritario</li>
+          <li>Tarifa preferencial por volumen</li>
+        </ul>
+        <a href="#contacto" class="btn-primary">Solicitar propuesta</a>
+      </div>
+      <!-- Organizaciones -->
+      <div class="price-card fade-up">
+        <div class="price-kind">Organizaciones e instituciones</div>
+        <div class="price-amount tbd"><span class="num">A medida</span></div>
+        <div class="price-unit">redes, fundaciones y entes públicos</div>
+        <ul class="price-list">
+          <li>Despliegue en varios centros a la vez</li>
+          <li>Tablero consolidado multi-centro</li>
+          <li>Precio por volumen y condiciones especiales</li>
+          <li>Acuerdo de tratamiento de datos (URCDP)</li>
+          <li>Opción de residencia de datos</li>
+          <li>Implementación acompañada</li>
+        </ul>
+        <a href="#contacto" class="btn-primary">Hablemos</a>
+      </div>
+    </div>
+    <p class="roles-note fade-up" style="margin-top:2.5rem;">Te preparamos un presupuesto según la cantidad de estudiantes y el tipo de centro. <b>Sin compromiso.</b></p>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="security-section" id="seguridad">
+  <div class="container">
+    <div class="security-inner">
+      <div class="fade-up">
+        <div class="section-label">Seguridad y privacidad</div>
+        <h2 class="section-title">Datos de menores, protegidos por diseño</h2>
+        <p class="section-sub" style="margin-bottom:1rem;">EduUy se diseña cumpliendo la Ley N° 18.331 de Protección de Datos Personales (regulador URCDP). Los permisos no viven solo en la pantalla: están en la base de datos.</p>
+        <div class="perm-demo">
+          <div style="font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.4rem;">Cada familia ve únicamente a sus estudiantes</div>
+          <div class="perm-row">🔒 <span>Tutor de <b>1°A</b> → ve solo a <b>sus hijos</b>. Nunca a otro grupo ni a otro centro.</span></div>
+          <div class="perm-row">🏫 <span>Cada dato pertenece a un centro. <b>Nunca</b> se cruzan datos entre centros.</span></div>
+        </div>
+      </div>
+      <div class="sec-grid fade-up">
+        <div class="sec-card"><div class="sec-icon">🔐</div><div class="sec-title">Permisos en la base de datos</div><p class="sec-desc">Reglas a nivel de base (RLS): el tutor ve solo a sus alumnos y el docente escribe solo en sus grupos.</p></div>
+        <div class="sec-card"><div class="sec-icon">🏫</div><div class="sec-title">Aislamiento por centro</div><p class="sec-desc">Arquitectura multi-centro: la información de un centro nunca es visible para otro.</p></div>
+        <div class="sec-card"><div class="sec-icon">📋</div><div class="sec-title">Auditoría de accesos</div><p class="sec-desc">Registro de quién accede y modifica cada dato. Trazabilidad para la gestión.</p></div>
+        <div class="sec-card"><div class="sec-icon">✋</div><div class="sec-title">Mínimos datos, con consentimiento</div><p class="sec-desc">Se recoge solo lo necesario y con autorización del tutor. Datos cifrados en tránsito y en reposo.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="fases">
+  <div class="container">
+    <div class="timeline-header fade-up">
+      <div class="section-label">Hoja de ruta</div>
+      <h2 class="section-title">De un grupo piloto al centro completo</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-content">
+          <span class="tl-phase ph1">Fase 1 · Ahora</span>
+          <div class="tl-title">El núcleo en producción</div>
+          <p class="tl-desc">Login por rol y por centro, asistencia en tiempo real, notas y boletín, comunicaciones con lectura, panel de dirección con alerta temprana y notificaciones push.</p>
+          <div class="tl-period">Lo que se construye primero, end-to-end</div>
+        </div>
+        <div class="tl-dot">1</div>
+        <div class="tl-empty"></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-empty"></div>
+        <div class="tl-dot">2</div>
+        <div class="tl-content">
+          <span class="tl-phase ph2">Fase 2 · Próximo</span>
+          <div class="tl-title">Refuerzo del seguimiento</div>
+          <p class="tl-desc">Justificación de faltas digital, tareas y horarios, riesgo de desvinculación con criterios automáticos (% de faltas y promedio) e identidad visual por centro.</p>
+          <div class="tl-period">Consolida el hábito y el seguimiento</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-content">
+          <span class="tl-phase ph3">Fase 3 · A futuro</span>
+          <div class="tl-title">Expansión y escala</div>
+          <p class="tl-desc">App nativa iOS/Android, integraciones institucionales, y los módulos de visión (biblioteca, video, IA, idiomas, bienestar, orientación) según la demanda de cada organización.</p>
+          <div class="tl-period">Escalable a otros centros y a la región</div>
+        </div>
+        <div class="tl-dot">3</div>
+        <div class="tl-empty"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contacto">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="section-label" style="color:var(--gold);text-align:center;justify-content:center;display:flex;">¿Listo para verlo?</div>
+    <h2 class="cta-title">Probá <span>EduUy</span> en tu centro, sin costo</h2>
+    <p class="cta-sub">Tenemos un prototipo navegable con los cinco perfiles listo para mostrarte. Coordinamos una demo y, si te convence, arrancamos con un grupo piloto.</p>
+    <div class="cta-btns">
+      <a href="eduuy-demo.html" target="_blank" rel="noopener" class="btn-primary">Probar la demo →</a>
+      <a href="https://wa.me/59896017472?text=Hola%20Santiago%2C%20vi%20la%20p%C3%A1gina%20de%20EduUy%20y%20quiero%20coordinar%20una%20demo%20para%20mi%20centro." target="_blank" rel="noopener" class="btn-ghost">💬 Escribir por WhatsApp</a>
+    </div>
+    <div style="margin-top:3rem;display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;">
+      <span style="color:rgba(255,255,255,.55);font-size:.82rem;">👤 Santiago Varela · Fundador</span>
+      <span style="color:rgba(255,255,255,.55);font-size:.82rem;">✉️ contacto@eduuy.com.uy</span>
+      <span style="color:rgba(255,255,255,.55);font-size:.82rem;">📍 Montevideo – Canelones, Uruguay</span>
+    </div>
+  </div>
+  <div class="flag-bar"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Edu<span>Uy</span></div>
+      <p class="footer-tagline">Comunicación y gestión para centros educativos. Conecta al centro con las familias en tiempo real, con foco en la permanencia del estudiante. Para liceos y colegios —públicos y privados— y organizaciones educativas.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Plataforma</h4>
+      <a href="#como">Cómo funciona</a>
+      <a href="#funcionalidades">Funcionalidades</a>
+      <a href="#precios">Precios</a>
+      <a href="#seguridad">Seguridad</a>
+    </div>
+    <div class="footer-col">
+      <h4>Perfiles</h4>
+      <a href="#roles">Docentes y adscriptos</a>
+      <a href="#roles">Familias y tutores</a>
+      <a href="#roles">Dirección</a>
+      <a href="#roles">Estudiantes</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <a href="#contacto">Solicitar demo</a>
+      <a href="https://wa.me/59896017472?text=Hola%20Santiago%2C%20quiero%20conocer%20EduUy%20para%20mi%20centro." target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:contacto@eduuy.com.uy">contacto@eduuy.com.uy</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 EduUy · Comunicación y gestión para centros educativos</span>
+    <span class="footer-made">Hecho en Uruguay 🇺🇾</span>
+  </div>
+</footer>
+
+<script>
+// Fade-up on scroll
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t){ e.preventDefault(); t.scrollIntoView({ behavior:'smooth', block:'start' }); }
+  });
+});
+
+// Nav shadow on scroll
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.boxShadow = window.scrollY > 50 ? '0 2px 20px rgba(0,0,0,.3)' : 'none';
+});
+</script>
+</body>
+</html>
