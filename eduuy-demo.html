@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EduUY — Demo Completa</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#15315B">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -2194,5 +2197,6 @@ async function bloqueHijoReal(hijo){
     +'<div class="card" style="margin-top:.6rem;"><div class="ct">📅 Historial reciente</div>'+hist+'</div>';
 }
 </script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js').catch(function(){});});}</script>
 </body>
 </html>
