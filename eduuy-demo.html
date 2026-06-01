@@ -2035,6 +2035,7 @@ function renderD(t){
 /* === CONFIG: pegá las MISMAS dos claves que ya usaste === */
 const SUPABASE_URL_REAL  = 'https://rfzqdqwcfxfzjzybmqvz.supabase.co';
 const SUPABASE_ANON_KEY_REAL = 'sb_publishable_YhPfjCUogubUHg0bOu1_fg_omU6839I';
+const VAPID_PUBLIC = 'BKeQ3vQzb-wZbXku9f1Pr8ATK8QctUfydaTZjjbRbvD9YVESEalwXQN9rrMQKMvl_ECmDSVgJOOqoqKjq9dshYM';
 /* ======================================================== */
 
 const SB = (SUPABASE_URL_REAL.indexOf('http')===0 && window.supabase)
@@ -2157,6 +2158,36 @@ async function guardarReal(){
   msg.textContent='Guardado ✓ '+n.presente+' presentes · '+n.tarde+' tarde · '+n.ausente+' ausentes. La familia ya puede verlo.';
 }
 
+/* ---------- PUSH: activar avisos (sub-paso 1: registrar el dispositivo) ---------- */
+function urlBase64ToUint8Array(base64String){
+  const padding='='.repeat((4 - base64String.length % 4) % 4);
+  const base64=(base64String+padding).replace(/-/g,'+').replace(/_/g,'/');
+  const raw=atob(base64); const arr=new Uint8Array(raw.length);
+  for(let i=0;i<raw.length;i++){ arr[i]=raw.charCodeAt(i); }
+  return arr;
+}
+
+async function activarPush(){
+  const msg=document.getElementById('avisos-msg');
+  const set=(t,ok)=>{ if(msg){ msg.style.color=ok?'var(--green)':'var(--muted)'; msg.textContent=t; } };
+  try{
+    if(!('serviceWorker' in navigator) || !('PushManager' in window)){ set('Este navegador no admite avisos.'); return; }
+    if(VAPID_PUBLIC.indexOf('PEGAR')===0){ set('Falta configurar la clave VAPID en el archivo.'); return; }
+    const perm=await Notification.requestPermission();
+    if(perm!=='granted'){ set('No diste permiso de notificaciones.'); return; }
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC) });
+    const j=sub.toJSON();
+    const { error }=await SB.from('push_suscripcion').upsert({
+      usuario_id:RG.me, liceo_id:RG.liceoId,
+      endpoint:j.endpoint, p256dh:j.keys.p256dh, auth:j.keys.auth,
+      user_agent:navigator.userAgent
+    }, { onConflict:'usuario_id,endpoint' });
+    if(error){ set('Error guardando: '+error.message); return; }
+    set('✓ Avisos activados en este dispositivo.', true);
+  }catch(e){ set('Error: '+e.message); }
+}
+
 /* ---------- FAMILIA: feed del día (datos reales) ---------- */
 async function renderFamiliaReal(){
   const c=document.getElementById('pc');
@@ -2164,7 +2195,7 @@ async function renderFamiliaReal(){
   const { data: vinc } = await SB.from('tutor_alumno').select('alumno:alumno_id(id,nombre,apellido)');
   const hijos=(vinc||[]).map(v=>v.alumno).filter(Boolean);
   if(!hijos.length){ c.innerHTML='<div class="card"><p style="color:var(--muted);">No hay alumnos vinculados a tu cuenta.</p></div>'; return; }
-  let html='';
+  let html='<div style="margin-bottom:1rem;"><button class="btn bp bsm" onclick="activarPush()">🔔 Activar avisos de faltas</button> <span id="avisos-msg" style="font-size:.8rem;color:var(--muted);margin-left:.5rem;"></span></div>';
   for(const h of hijos){ html += await bloqueHijoReal(h); }
   c.innerHTML=html;
 }
