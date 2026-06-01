@@ -488,6 +488,26 @@ footer{background:#061326;color:rgba(255,255,255,.65);padding:4rem 5vw 2.5rem;}
   .dashboard{transform:scale(.9);transform-origin:center top;width:111%;margin-left:-5.5%;min-height:330px}.hero-visual{min-height:360px}.laptop-wrap{width:100vw}.float-att{display:none}.float-live{bottom:34px;right:2px}.how-bubble{font-size:.72rem}.how-mini-dashboard{width:138px}.vision-panel h3{font-size:1.32rem}.vision-device{width:200px}.vband-item{padding:1.45rem 1.25rem}.timeline-rich .tl-visual .risk-card{width:112px}.timeline-rich .tl-visual .mock-card{padding:.85rem}
 }
 
+
+/* ===== Correcciones responsive mobile (aditivas — no alteran el diseño de escritorio) ===== */
+@media (max-width:760px){
+  /* Contención: que nada quede más ancho que la pantalla */
+  .container,.hero,section,.footer-inner,.hero-inner,.hero-visual,.laptop-wrap,.dashboard{max-width:100%;}
+  img,svg{max-width:100%;height:auto;}
+  /* Títulos largos: que la palabra parta en dos líneas en vez de cortarse en el borde */
+  .hero-title{overflow-wrap:break-word;hyphens:auto;}
+  h1,h2,h3,.feat-title,.section-sub,.hero-sub,.role-card,.price-card{overflow-wrap:break-word;}
+  /* Tarjetas flotantes del hero: dentro del viewport y con texto que envuelve */
+  .float-card h4,.float-card p{white-space:normal;}
+  .float-att{left:6px;right:auto;}
+  .float-live,.float-grade{right:6px;left:auto;}
+  /* Cualquier grilla que pudiera quedar a varias columnas: una sola en celular */
+  .value-band-inner,.how-grid,.roles-grid,.pricing-grid,.sec-grid,.features-grid{grid-template-columns:1fr;}
+}
+/* Pantallas muy chicas: un respiro extra de tamaño en el título */
+@media (max-width:430px){
+  .hero-title{font-size:clamp(2.6rem,13vw,3.4rem);}
+}
 </style>
 </head>
 <body>
