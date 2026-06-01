@@ -2153,6 +2153,11 @@ async function guardarReal(){
   const filas=Object.keys(RG.estados).map(function(id){ return {liceo_id:RG.liceoId,sesion_clase_id:sesionId,alumno_id:id,estado:RG.estados[id],registrado_por:RG.me}; });
   const { error:e2 } = await SB.from('asistencia').upsert(filas,{onConflict:'sesion_clase_id,alumno_id'});
   if(e2){ msg.style.color='var(--red)'; msg.textContent='Error: '+e2.message; return; }
+  // Disparar el aviso push a las familias de los que tienen falta (ausente o tarde)
+  const conFalta=Object.keys(RG.estados).filter(function(id){ return RG.estados[id]!=='presente'; });
+  if(conFalta.length){
+    SB.functions.invoke('notificar-falta',{ body:{ alumno_ids:conFalta, materia:a.materia, fecha:fecha } }).catch(function(){});
+  }
   const n={presente:0,tarde:0,ausente:0}; Object.keys(RG.estados).forEach(function(k){ n[RG.estados[k]]++; });
   msg.style.color='var(--green)';
   msg.textContent='Guardado ✓ '+n.presente+' presentes · '+n.tarde+' tarde · '+n.ausente+' ausentes. La familia ya puede verlo.';
